@@ -12,8 +12,9 @@
 ```docker compose up -d --build```
 
 
-
 ```docker compose exec php bash```
+
+```composer update```
 
 ```php init```
 
