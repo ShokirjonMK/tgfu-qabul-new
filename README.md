@@ -7,7 +7,7 @@
 
 ```git clone https://github.com/ShokirjonMK/repo.git```
 
-```cd sarbon-qabul-new```
+```cd repo```
 
 ```docker compose up -d --build```
 
