@@ -571,21 +571,11 @@ class StudentController extends Controller
     {
         $errors = [];
         $student = Student::findOne(['id' => $id]);
-        if ($type == 2) {
-            $eduDirection = $student->eduDirection;
-            if ($eduDirection->edu_type_id == 4) {
-                $action = 'master';
-            } elseif ($eduDirection->edu_form_id == 2) {
-                $action = 'sirtqi';
-            } elseif ($eduDirection->edu_form_id == 1) {
-                $action = 'kunduzgi';
-            } else {
-                $errors[] = ['Shartnoma mavjud emas!'];
-                \Yii::$app->session->setFlash('error' , $errors);
-                return $this->redirect(\Yii::$app->request->referrer);
-            }
+        $eduDirection = $student->eduDirection;
+        if ($eduDirection->edu_type_id != 4) {
+            $action = 'contract';
         } else {
-            $errors[] = ['Type not\'g\'ri tanlandi!'];
+            $errors[] = ['Shartnoma mavjud emas!'];
             \Yii::$app->session->setFlash('error' , $errors);
             return $this->redirect(\Yii::$app->request->referrer);
         }

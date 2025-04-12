@@ -64,7 +64,7 @@ if ($student->edu_type_id == 1) {
     $contract->save(false);
 }
 
-$qr = (new QrCode('https://qabul.ZARMED.university/site/contract?key=' . $link . '&type=3'))->setSize(120, 120)
+$qr = (new QrCode('https://qabul.TGFU.university/site/contract?key=' . $link . '&type=3'))->setSize(120, 120)
     ->setMargin(10);
 $img = $qr->writeDataUri();
 
@@ -102,7 +102,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            От имени организации высшего образования «ZARMED UNIVERSITETI» (далее – «Университет»)
+            От имени организации высшего образования «TGFU UNIVERSITETI» (далее – «Университет»)
             директор ШАРИПОВ МУЗАФФАР ТАЛИБЖАНОВИЧ, действуя на основании Устава, с одной стороны,
             <table width="100%">
                 <tr>
@@ -1128,7 +1128,7 @@ $limg = $lqr->writeDataUri();
 
                     <tr>
                         <td colspan="2" style="vertical-align: top">
-                            <b>"ZARMED UNIVERSITETI" высшая образовательная организация</b> <br>
+                            <b>"TGFU UNIVERSITETI" высшая образовательная организация</b> <br>
                             <b>Адрес:</b> город Ташкент, Юнусабадский район,
                             МФУ Посира, улица Богишамол, 220 <br>
                             <b>Сч/Н:</b> <?= $cons->h_r ?> <br>
