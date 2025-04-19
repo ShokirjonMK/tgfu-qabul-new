@@ -1,5 +1,4 @@
 <?php
-
 use common\models\Student;
 use common\models\Direction;
 use common\models\Exam;
@@ -10,6 +9,8 @@ use Da\QrCode\QrCode;
 use frontend\models\Contract;
 use common\models\User;
 use common\models\Constalting;
+use common\models\StudentMagistr;
+use common\models\Filial;
 
 /** @var Student $student */
 /** @var Direction $direction */
@@ -17,12 +18,14 @@ use common\models\Constalting;
 
 $cons = Constalting::findOne($user->cons_id);
 $direction = $student->direction;
-$full_name = $student->last_name . ' ' . $student->first_name . ' ' . $student->middle_name;
+$full_name = $student->last_name.' '.$student->first_name.' '.$student->middle_name;
 $code = '';
 $joy = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 $date = '';
 $link = '';
 $con2 = '';
+$startDate = strtotime('2024-09-20 00:00:00');
+$lastDate = strtotime('2024-09-30 00:00:00');
 if ($student->edu_type_id == 1) {
     $contract = Exam::findOne([
         'direction_id' => $direction->id,
@@ -30,8 +33,11 @@ if ($student->edu_type_id == 1) {
         'status' => 3,
         'is_deleted' => 0
     ]);
-    $code = $cons->code . '-Q2UZ';
-    $date = date("Y-m-d H:i:s", $contract->confirm_date);
+    $code = $cons->code.'-Q3UZ';
+    if ($contract->confirm_date > $lastDate) {
+        $contract->confirm_date = rand($startDate, $lastDate);
+    }
+    $date = date("Y-m-d H:i:s" , $contract->confirm_date);
     $link = $contract->contract_link;
     $con2 = $contract->contract_third;
     $contract->down_time = time();
@@ -43,8 +49,11 @@ if ($student->edu_type_id == 1) {
         'file_status' => 2,
         'is_deleted' => 0
     ]);
-    $code = $cons->code . '-P3UZ';
-    $date = date("Y-m-d H:i:s", $contract->confirm_date);
+    $code = $cons->code.'-P3UZ';
+    if ($contract->confirm_date > $lastDate) {
+        $contract->confirm_date = rand($startDate, $lastDate);
+    }
+    $date = date("Y-m-d H:i:s" , $contract->confirm_date);
     $link = $contract->contract_link;
     $con2 = $contract->contract_third;
     $contract->down_time = time();
@@ -56,24 +65,47 @@ if ($student->edu_type_id == 1) {
         'file_status' => 2,
         'is_deleted' => 0
     ]);
-    $code = $cons->code . '-D3UZ';
-    $date = date("Y-m-d H:i:s", $contract->confirm_date);
+    $code = $cons->code.'-D3UZ';
+    if ($contract->confirm_date > $lastDate) {
+        $contract->confirm_date = rand($startDate, $lastDate);
+    }
+    $date = date("Y-m-d H:i:s" , $contract->confirm_date);
     $link = $contract->contract_link;
     $con2 = $contract->contract_third;
     $contract->down_time = time();
     $contract->save(false);
+} elseif ($student->edu_type_id == 4) {
+    $contract = StudentMagistr::findOne([
+        'direction_id' => $direction->id,
+        'student_id' => $student->id,
+        'file_status' => 2,
+        'is_deleted' => 0
+    ]);
+    $code = $cons->code.'-M3UZ';
+    if ($contract->confirm_date > $lastDate) {
+        $contract->confirm_date = rand($startDate, $lastDate);
+    }
+    $date = date("Y-m-d H:i:s" , $contract->confirm_date);
+    $link = $contract->contract_link;
+    $con2 = $contract->contract_second;
+    $contract->down_time = time();
+    $contract->save(false);
 }
 
-$qr = (new QrCode('https://qabul.ZARMED.university/site/contract?key=' . $link . '&type=3'))->setSize(120, 120)
+$filial = Filial::findOne($student->filial_id);
+if (!$filial) {
+    $filial = Filial::find()->orderBy('id asc')->one();
+}
+
+$qr = (new QrCode('https://qabul.tgfu.uz/site/contract?key=' . $link.'&type=3'))->setSize(120, 120)
     ->setMargin(10);
 $img = $qr->writeDataUri();
 
-$lqr = (new QrCode('https://license.gov.uz/registry/da127cfb-12a8-4dd6-b3f8-7516c1e9dd82'))->setSize(100, 100)
+$lqr = (new QrCode('https://license.gov.uz/registry/48a00e41-6370-49d6-baf7-ea67247beeb6'))->setSize(100, 100)
     ->setMargin(10);
 $limg = $lqr->writeDataUri();
 
 ?>
-
 
 <table width="100%" style="font-family: 'Times New Roman'; font-size: 12px; border-collapse: collapse;">
 
@@ -81,27 +113,23 @@ $limg = $lqr->writeDataUri();
         <td colspan="4" style="text-align: center">
             <b>
                 2024-2025 o‘quv yilida to‘lov asosida ta’lim xizmatlarini ko‘rsatish bo‘yicha <br>
-                <?= $code ?> &nbsp; <?= $direction->code ?> &nbsp; | &nbsp; <?= $contract->id ?> – sonli SHARTNOMA
+                <?= $code ?>  &nbsp;  <?= $direction->code ?> &nbsp; | &nbsp; <?= $contract->id ?> – sonli SHARTNOMA
             </b>
         </td>
     </tr>
 
-    <tr>
-        <td>&nbsp;</td>
-    </tr>
+    <tr><td>&nbsp;</td></tr>
 
     <tr>
         <td colspan="2"><?= $date ?></td>
         <td colspan="2" style="text-align: right">Toshkent shahri</td>
     </tr>
 
-    <tr>
-        <td>&nbsp;</td>
-    </tr>
+    <tr><td>&nbsp;</td></tr>
 
     <tr>
         <td colspan="4">
-            <b>ZARMED UNIVERSITY”</b> oliy ta’lim tashkiloti (keyingi o‘rinlarda “Universitet”) nomidan Ustav asosida ish yurituvchi direktor <b>SHARIPOV MUZAFFAR TOLIBJONOVICH</b> birinchi tomondan,
+            <b style="text-transform: uppercase;"><?= $filial->univer_name_uz ?></b>  oliy ta’lim tashkiloti (keyingi o‘rinlarda “Universitet”) nomidan Ustav asosida ish yurituvchi rektor <b style="text-transform: uppercase;"><?= $filial->prorektor_uz ?></b> birinchi tomondan,
             <table width="100%">
                 <tr>
                     <td colspan="4">__________________________________________________________________________________ _____________________</td>
@@ -162,7 +190,7 @@ $limg = $lqr->writeDataUri();
             <table width="100%">
                 <tr>
                     <td>Ta’lim yo‘nalishi:</td>
-                    <td><b><?= $direction->code . ' ' . $direction->name_uz ?></b></td>
+                    <td><b><?= $direction->code.' '.$direction->name_uz ?></b></td>
                 </tr>
                 <tr>
                     <td>Ta’lim shakli:</td>
@@ -170,19 +198,19 @@ $limg = $lqr->writeDataUri();
                 </tr>
                 <tr>
                     <td>Ta’lim yo‘nalishi bo‘yicha o‘qish muddati:</td>
-                    <td><b><?= $direction->edu_duration . ' yil' ?></b></td>
+                    <td><b><?= $direction->edu_duration .' yil' ?></b></td>
                 </tr>
                 <tr>
                     <td>O‘quv kursi:</td>
                     <?php if ($student->edu_type_id == 2) : ?>
                         <td><b><?= Course::findOne(['id' => ($student->course_id + 1)])->name_uz ?></b></td>
-                    <?php else : ?>
+                    <?php else: ?>
                         <td><b>1 kurs</b></td>
                     <?php endif; ?>
                 </tr>
                 <tr>
                     <td>Shartnomaning umumiy narxi (bir o‘quv yili uchun):</td>
-                    <td><b><?= number_format((int)$contract->contract_price, 0, '', ' ') . ' so‘m' ?></b></td>
+                    <td><b><?= number_format((int)$contract->contract_price, 0, '', ' ') .' so‘m'?></b></td>
                 </tr>
             </table>
         </td>
@@ -335,19 +363,19 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 2.1.9. Shartnoma to‘lovi muddatlarini uzaytirish.
+            <?= $joy ?>  2.1.9. Shartnoma to‘lovi muddatlarini uzaytirish.
         </td>
     </tr>
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 2.1.10. O‘zbekiston Respublikasining amaldagi qonunchiligiga muvofiq va fors-major holatlariga qarab, ushbu shartnoma shartlarida belgilangan ta’lim xizmatlari xarajatlarini kamaytirmasdan o‘qitish rejimini masofaviy shaklga o‘tkazish to‘g‘risida qaror qabul qilish.
+            <?= $joy ?>  2.1.10. O‘zbekiston Respublikasining amaldagi qonunchiligiga muvofiq va fors-major holatlariga qarab, ushbu shartnoma shartlarida belgilangan ta’lim xizmatlari xarajatlarini kamaytirmasdan o‘qitish rejimini masofaviy shaklga o‘tkazish to‘g‘risida qaror qabul qilish.
         </td>
     </tr>
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 2.2. Universitetning majburiyatlari:
+            <?= $joy ?>  2.2. Universitetning majburiyatlari:
         </td>
     </tr>
 
@@ -378,7 +406,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 2.2.5. Universitet quyidagilarni o‘z zimmasiga olmaydi:
+            <?= $joy ?>  2.2.5. Universitet quyidagilarni o‘z zimmasiga olmaydi:
         </td>
     </tr>
 
@@ -457,7 +485,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 2.4.3. Mehnatga haq to‘lashning eng kam miqdori yoki bazaviy hisoblash miqdori o‘zgarganda, mos ravishda shartnoma to‘lovi miqdoriga mutanosib ravishda to‘lovni o‘z vaqtida amalga oshirish.
+            <?= $joy ?>  2.4.3. Mehnatga haq to‘lashning eng kam miqdori yoki bazaviy hisoblash miqdori o‘zgarganda, mos ravishda shartnoma to‘lovi miqdoriga mutanosib ravishda to‘lovni o‘z vaqtida amalga oshirish.
         </td>
     </tr>
 
@@ -487,7 +515,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 2.5.4. Universitetning o‘quv jarayonlarini takomillashtirish bo‘yicha takliflar kiritish.
+            <?= $joy ?>  2.5.4. Universitetning o‘quv jarayonlarini takomillashtirish bo‘yicha takliflar kiritish.
         </td>
     </tr>
 
@@ -506,7 +534,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 2.5.7. Quyidagi hollarda Universitet ruxsati bilan 1 (bir) yilgacha akademik ta’til olish:
+            <?= $joy ?>  2.5.7. Quyidagi hollarda Universitet ruxsati bilan 1 (bir) yilgacha akademik ta’til olish:
         </td>
     </tr>
 
@@ -524,13 +552,13 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> v) yaqin qarindoshining vafoti munosabati bilan bu holda akademik ta’til berish Universitet rahbariyati tomonidan har bir holat alohida ko‘rib chiqiladi va qaror qabul qilinadi;
+            <?= $joy ?>  v) yaqin qarindoshining vafoti munosabati bilan bu holda akademik ta’til berish Universitet rahbariyati tomonidan har bir holat alohida ko‘rib chiqiladi va qaror qabul qilinadi;
         </td>
     </tr>
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> g) harbiy xizmatni o‘tash uchun safarbar etilishi munosabati bilan;
+            <?= $joy ?>  g) harbiy xizmatni o‘tash uchun safarbar etilishi munosabati bilan;
         </td>
     </tr>
 
@@ -548,7 +576,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 2.6. Talabaning majburiyatlari:
+            <?= $joy ?>  2.6. Talabaning majburiyatlari:
         </td>
     </tr>
 
@@ -566,7 +594,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 2.6.3. Univesitet ichki hujjatlariga muvofiq talab etiladigan barcha hujjatni taqdim etish.
+            <?= $joy ?>  2.6.3. Univesitet ichki hujjatlariga muvofiq talab etiladigan barcha hujjatni taqdim etish.
         </td>
     </tr>
 
@@ -578,7 +606,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 2.6.5. O‘zbekiston Respublikasi qonunchiligiga zid harakatlar va qilmishlarni sodir etmaslik.
+            <?= $joy ?>  2.6.5. O‘zbekiston Respublikasi qonunchiligiga zid harakatlar va qilmishlarni sodir etmaslik.
         </td>
     </tr>
 
@@ -596,7 +624,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 2.6.8. O‘zbekiston Respublikasi hududini Universitetning yozma ruxsati asosida tark etish.
+            <?= $joy ?>  2.6.8. O‘zbekiston Respublikasi hududini Universitetning yozma ruxsati asosida tark etish.
         </td>
     </tr>
 
@@ -631,7 +659,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 3.1. 2024-2025 o‘quv yili uchun shartnoma to‘lovi <?= number_format((int)$contract->contract_price, 0, '', ' ') . ' so‘m' ?> so‘mni tashkil etadi
+            <?= $joy ?> 3.1. 2024-2025 o‘quv yili uchun shartnoma to‘lovi <?= number_format((int)$contract->contract_price, 0, '', ' ') .' so‘m'?> so‘mni tashkil etadi
         </td>
     </tr>
 
@@ -654,7 +682,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 3.3.1. 2024-yil 1-oktabrga qadar – 25 foizidan kam bo‘lmagan miqdorda.
+            <?= $joy ?> 3.3.1. 2024-yil 15-sentabrga qadar – 25 foizidan kam bo‘lmagan miqdorda.
         </td>
     </tr>
 
@@ -673,7 +701,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 3.3.4. 2025-yil 15-aprelga qadar – 3.1-bandda nazarda tutilgan ta’lim to‘lovining amalga oshirilmagan qismi
+            <?= $joy ?>  3.3.4. 2025-yil 15-aprelga qadar – 3.1-bandda nazarda tutilgan ta’lim to‘lovining amalga oshirilmagan qismi
             miqdorda.
         </td>
     </tr>
@@ -729,7 +757,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 4.2. Ushbu Shartnoma quyidagi hollarda bekor qilinishi mumkin:
+            <?= $joy ?>  4.2. Ushbu Shartnoma quyidagi hollarda bekor qilinishi mumkin:
         </td>
     </tr>
 
@@ -755,7 +783,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 4.2.4. shartnoma muddati tugashi munosabati bilan;
+            <?= $joy ?>  4.2.4. shartnoma muddati tugashi munosabati bilan;
         </td>
     </tr>
 
@@ -767,7 +795,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 4.2.6. Universitet faoliyati tugatilgan taqdirda.
+            <?= $joy ?>  4.2.6. Universitet faoliyati tugatilgan taqdirda.
         </td>
     </tr>
 
@@ -879,19 +907,19 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 6.3. Universitet shartnoma to‘lovi manbalari uchun javobgarlikni o‘z zimmasiga olmaydi.
+            <?= $joy ?>  6.3. Universitet shartnoma to‘lovi manbalari uchun javobgarlikni o‘z zimmasiga olmaydi.
         </td>
     </tr>
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 6.4. Universitet shartnoma to‘lovini amalga oshirishda yo‘l qo‘yilgan xatolar uchun javobgar bo‘lmaydi.
+            <?= $joy ?>  6.4. Universitet shartnoma to‘lovini amalga oshirishda yo‘l qo‘yilgan xatolar uchun javobgar bo‘lmaydi.
         </td>
     </tr>
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 6.5. Talabaning o‘qishdan chetlashtirilishi yoki talabalar safidan chiqarilishi Buyurtmachi va Talabani ushbu shartnoma bo‘yicha Talabaga ko‘rsatilgan ta’lim xizmatlari uchun haq to‘lash hamda boshqa majburiyatlardan ozod etmaydi.
+            <?= $joy ?>  6.5. Talabaning o‘qishdan chetlashtirilishi yoki talabalar safidan chiqarilishi Buyurtmachi va Talabani ushbu shartnoma bo‘yicha Talabaga ko‘rsatilgan ta’lim xizmatlari uchun haq to‘lash hamda boshqa majburiyatlardan ozod etmaydi.
         </td>
     </tr>
 
@@ -930,7 +958,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 7.3. Mazkur Shartnomaning 1-bandida nazarda tutilgan majburiyatlar O‘zbekiston Respublikasining amaldagi qonunchiligi talablariga muvofiq, bevosita yoki onlayn tarzda taqdim etilishi mumkin. Akademik ta’lim xizmatlari onlayn tarzda taqdim etilgan taqdirda, Talaba texnik va telekommunikatsiya aloqalari holatining sifati uchun shaxsan javobgardir.
+            <?= $joy ?>  7.3. Mazkur Shartnomaning 1-bandida nazarda tutilgan majburiyatlar O‘zbekiston Respublikasining amaldagi qonunchiligi talablariga muvofiq, bevosita yoki onlayn tarzda taqdim etilishi mumkin. Akademik ta’lim xizmatlari onlayn tarzda taqdim etilgan taqdirda, Talaba texnik va telekommunikatsiya aloqalari holatining sifati uchun shaxsan javobgardir.
         </td>
     </tr>
 
@@ -1012,7 +1040,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 8.3. O‘zbekiston Respublikasi Prezidentining tegishli farmoniga muvofiq mehnatga haq to‘lashning eng kam miqdori yoki bazaviy hisoblash miqdori o‘zgarganda, shartnoma to‘lovi miqdori navbatdagi semestr boshidan oshiriladi.
+            <?= $joy ?>  8.3. O‘zbekiston Respublikasi Prezidentining tegishli farmoniga muvofiq mehnatga haq to‘lashning eng kam miqdori yoki bazaviy hisoblash miqdori o‘zgarganda, shartnoma to‘lovi miqdori navbatdagi semestr boshidan oshiriladi.
         </td>
     </tr>
 
@@ -1024,7 +1052,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 8.4. Ushbu Shartnoma o‘zbek tilida, uch asl nusxada, teng yuridik kuchga ega, har bir tomon uchun bir nusxadan tuzildi.
+            <?= $joy ?>  8.4. Ushbu Shartnoma o‘zbek tilida, uch asl nusxada, teng yuridik kuchga ega, har bir tomon uchun bir nusxadan tuzildi.
         </td>
     </tr>
 
@@ -1066,19 +1094,18 @@ $limg = $lqr->writeDataUri();
 
                     <tr>
                         <td colspan="2" style="vertical-align: top">
-                            <b>“ZARMED UNIVERSITETI” oliy ta’lim tashkiloti</b> <br>
-                            <b>Manzil:</b> Toshkent shahri, Yunusobod tumani, Posira MFY, Bog'ishamol ko'chasi, 220-uy <br>
-                            <b>H/R:</b> <?= $cons->h_r ?> <br>
-                            <b>Bank:</b> “KAPITALBANK” ATB Sirg’ali filiali <br>
-                            <b>Bank kodi (MFO):</b> 01042 <br>
-                            <b>IFUT (OKED):</b> 85420 <br>
-                            <b>STIR (INN):</b> 309477784 <br>
-                            <b>Tel:</b> +998 77 129-29-29 <br>
-                            <b>Tel:</b> +998 55 500-02-50 <br>
+                            <b><?= $filial->univer_name_uz ?></b> <br>
+                            <b>Manzil:</b> <?= $filial->address_uz ?> <br>
+                            <b>H/R:</b> <?= $filial->h_r ?> <br>
+                            <b>Bank:</b> <?= $filial->bank_uz ?>  <br>
+                            <b>Bank kodi (MFO):</b> <?= $filial->mfo ?>  <br>
+                            <b>IFUT (OKED):</b> <?= $filial->oked ?>  <br>
+                            <b>STIR (INN):</b> <?= $filial->stir ?> <br>
+                            <b>Tel:</b> <?= $filial->phone ?> <br>
                         </td>
                         <td colspan="2" style="vertical-align: top">
                             <b>F.I.Sh.:</b> <?= $full_name ?> <br>
-                            <b>Pasport ma’lumotlari:</b> <?= $student->passport_serial . ' ' . $student->passport_number ?> <br>
+                            <b>Pasport ma’lumotlari:</b> <?= $student->passport_serial.' '.$student->passport_number ?> <br>
                             <b>JShShIR:</b> <?= $student->passport_pin ?> <br>
                             <b>Ro‘yxatdan o‘tgan tеlefon raqami: </b> <?= $student->user->username ?> <br>
                         </td>
@@ -1103,7 +1130,7 @@ $limg = $lqr->writeDataUri();
 
                     <tr>
                         <td colspan="2">
-                            Direktor _________________________ SHARIPOV M.T.
+                            Rektor __________ <?= $filial->prorektor_uz ?>
                         </td>
                         <td colspan="2">
                             Imzo: _________________________________________
@@ -1121,7 +1148,7 @@ $limg = $lqr->writeDataUri();
                         <td colspan="2" style="vertical-align: top">
                             <img src="<?= $limg ?>" width="120px"> <br>
                             <b>Litsenziya berilgan sana va raqami</b> <br>
-                            19.10.2022 <b>№ 043951</b>
+                            30.12.2022 <b>№ 222840</b>
                         </td>
                     </tr>
 
@@ -1143,8 +1170,8 @@ $limg = $lqr->writeDataUri();
                             <b>Manzil: </b> _________________ ________________ <br><br>
                             _____________ _________________ _____________________ <br><br>
                             <b>H/r:</b> _________________ ________________ <br><br>
-                            <b>Bank:</b> _________________ ________________ <br><br>
-                            <b>MFO:</b> _________________ ________________ <br><br>
+                            <b>Bank:</b> _________________ ________________  <br><br>
+                            <b>MFO:</b> _________________ ________________  <br><br>
                             <b>STIR:</b> _________________ ________________ <br><br>
                             <b>Tel:</b> _________________ ________________ <br><br>
                             <b>E-mail:</b> _________________ ________________ <br><br>
@@ -1226,32 +1253,32 @@ $limg = $lqr->writeDataUri();
                         <table width="100%" style="border-collapse: collapse; border: 1px solid;">
                             <tr>
                                 <td colspan="2" style="padding: 5px; border: 1px solid;"><b>Qabul qiluvchi tashkilot nomi:</b></td>
-                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b>ZARMED UNIVERSITY” MCHJ</b></td>
+                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b><?= $filial->univer_name_uz ?></b></td>
                             </tr>
 
                             <tr>
                                 <td colspan="2" style="padding: 5px; border: 1px solid;"><b>Hisob raqami:</b></td>
-                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b><?= $cons->h_r ?></b></td>
+                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b><?= $filial->h_r ?></b></td>
                             </tr>
 
                             <tr>
                                 <td colspan="2" style="padding: 5px; border: 1px solid;"><b>Bank kodi (MFO):</b></td>
-                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b>01042</b></td>
+                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b><?= $filial->mfo ?></b></td>
                             </tr>
 
                             <tr>
                                 <td colspan="2" style="padding: 5px; border: 1px solid;"><b>Bank nomi:</b></td>
-                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b>“KAPITALBANK” ATB Sirg’ali filiali</b></td>
+                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b><?= $filial->bank_uz ?></b></td>
                             </tr>
 
                             <tr>
                                 <td colspan="2" style="padding: 5px; border: 1px solid;"><b>STIR (INN):</b></td>
-                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b>309477784</b></td>
+                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b><?= $filial->stir ?></b></td>
                             </tr>
 
                             <tr>
                                 <td colspan="2" style="padding: 5px; border: 1px solid;"><b>IFUT (OKED):</b></td>
-                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b>85420</b></td>
+                                <td colspan="2" style="padding: 5px; border: 1px solid;"><b><?= $filial->oked ?></b></td>
                             </tr>
                         </table>
 
