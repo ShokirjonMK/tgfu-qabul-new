@@ -4,12 +4,18 @@ namespace frontend\controllers;
 
 use common\components\AmoCrmClient;
 use common\components\AmoCrmSettings;
+use common\models\Contract;
+use common\models\Exam;
 use common\models\Languages;
 use common\models\Student;
+use common\models\StudentDtm;
+use common\models\StudentMaster;
+use common\models\StudentPerevot;
 use common\models\User;
 use common\models\Verify;
 use frontend\models\ContractSearch;
 use frontend\models\ResetPassword;
+use kartik\mpdf\Pdf;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
@@ -243,6 +249,71 @@ class SiteController extends Controller
         Yii::$app->language = $lang;
         return $this->redirect(Yii::$app->request->referrer);
     }
+
+
+    public function actionContract($key, $id, $type)
+    {
+        $errors = [];
+        $contract = false;
+        if ($type == 2) {
+            if ($key == 4) {
+                $action = 'master';
+                $contract = StudentMaster::findOne($id);
+            } elseif ($key == 3) {
+                $action = 'contract2';
+                $contract = StudentDtm::findOne($id);
+            } elseif ($key == 2) {
+                $action = 'contract2';
+                $contract = StudentPerevot::findOne($id);
+            } elseif ($key == 1) {
+                $action = 'contract2';
+                $contract = Exam::findOne($id);
+            } else {
+                $errors[] = ['Shartnoma mavjud emas!'];
+                \Yii::$app->session->setFlash('error' , $errors);
+                return $this->redirect(\Yii::$app->request->referrer);
+            }
+        } else {
+            $errors[] = ['Type not\'g\'ri tanlandi!'];
+            \Yii::$app->session->setFlash('error' , $errors);
+            return $this->redirect(\Yii::$app->request->referrer);
+        }
+
+        if ($contract) {
+            $student = $contract->student;
+        }
+
+        $result = Contract::crmPush($student);
+        if (!$result['is_ok']) {
+            \Yii::$app->session->setFlash('error' , $result['errors']);
+            return $this->redirect(\Yii::$app->request->referrer);
+        }
+
+        $pdf = \Yii::$app->ikPdf;
+        $content = $pdf->contract($student , $action);
+
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8,
+            'format' => Pdf::FORMAT_A4,
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'destination' => Pdf::DEST_DOWNLOAD,
+            'content' => $content,
+            'cssInline' => '
+                body {
+                    color: #000000;
+                }
+            ',
+            'filename' => date('YmdHis') . ".pdf",
+            'options' => [
+                'title' => 'Contract',
+                'subject' => 'Student Contract',
+                'keywords' => 'pdf, contract, student',
+            ],
+        ]);
+
+        return $pdf->render();
+    }
+
 
     protected function findLang($id)
     {

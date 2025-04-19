@@ -206,7 +206,7 @@ class Exam extends \yii\db\ActiveRecord
            'student_id' => $student->id,
            'edu_direction_id' => $student->edu_direction_id,
            'is_deleted' => 0,
-           'status' => 4
+           'status' => 1
         ]);
         if (!$model) {
             $errors[] = ['Imtixonga qayta ruxsat berish mumkin emas.'];

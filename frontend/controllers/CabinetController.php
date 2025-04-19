@@ -95,9 +95,10 @@ class CabinetController extends Controller
     public function actionIndex()
     {
         $user = Yii::$app->user->identity;
-        $student = Student::findOne(['user_id' => $user->id]);
+        $student = Student::find()->with(['direction'])->where(['user_id' => $user->id])->one();
+        // $student = Student::findOne(['user_id' => $user->id]);
 
-        return $this->render('index' , [
+        return $this->render('index', [
             'student' => $student
         ]);
     }
@@ -117,7 +118,7 @@ class CabinetController extends Controller
         $user = Yii::$app->user->identity;
         $student = Student::findOne(['user_id' => $user->id]);
 
-        return $this->render('send-file' , [
+        return $this->render('send-file', [
             'student' => $student
         ]);
     }
@@ -127,7 +128,7 @@ class CabinetController extends Controller
         $user = Yii::$app->user->identity;
         $student = Student::findOne(['user_id' => $user->id]);
 
-        return $this->render('download-file' , [
+        return $this->render('download-file', [
             'student' => $student
         ]);
     }
@@ -135,10 +136,12 @@ class CabinetController extends Controller
     public function actionExam()
     {
         $user = Yii::$app->user->identity;
-        $student = Student::findOne(['user_id' => $user->id]);
+        $student = Student::find()->with(['direction', 'eduDirection.eduForm', 'eduDirection.lang'])->where(['user_id' => $user->id])->one();
+
+        // $student = Student::findOne(['user_id' => $user->id]);
 
 
-        return $this->render('exam' , [
+        return $this->render('exam', [
             'student' => $student
         ]);
     }
@@ -149,16 +152,16 @@ class CabinetController extends Controller
         $user = Yii::$app->user->identity;
         $student = Student::findOne(['user_id' => $user->id]);
 
-        $result = Test::isCheck($student , $user);
+        $result = Test::isCheck($student, $user);
         if (!$result['is_ok']) {
-            \Yii::$app->session->setFlash('error' , $result['errors']);
+            \Yii::$app->session->setFlash('error', $result['errors']);
             return $this->redirect(['exam']);
         }
 
         $exam = $result['data'];
 
         $searchModel = new ExamStudentQuestionsSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams , $exam);
+        $dataProvider = $searchModel->search($this->request->queryParams, $exam);
 
         return $this->render('test', [
             'exam' => $exam,
@@ -173,7 +176,7 @@ class CabinetController extends Controller
         if ($examStudent->status == 2) {
             $result = Test::finishExam($examStudent);
             if (!$result['is_ok']) {
-                \Yii::$app->session->setFlash('error' , $result['errors']);
+                \Yii::$app->session->setFlash('error', $result['errors']);
             }
         }
         return $this->redirect(['exam']);
@@ -190,7 +193,7 @@ class CabinetController extends Controller
 
         if ($user->step > 4) {
             $errors[] = ['Ma\'lumotlaringizni tasdiqladingiz.'];
-            Yii::$app->session->setFlash('error' , $errors);
+            Yii::$app->session->setFlash('error', $errors);
             return $this->redirect(['cabinet/index']);
         }
 
@@ -215,12 +218,12 @@ class CabinetController extends Controller
                 $model = new StepThreeTwo();
             } elseif ($student->edu_type_id == 3) {
                 $model = new StepThreeThree();
-            }  elseif ($student->edu_type_id == 4) {
+            } elseif ($student->edu_type_id == 4) {
                 $model = new StepThreeFour();
             } else {
                 $errors[] = ['XATOLIK!!!'];
-                Yii::$app->session->setFlash('error' , $errors);
-                return $this->redirect(['step' , 'id' => 1]);
+                Yii::$app->session->setFlash('error', $errors);
+                return $this->redirect(['step', 'id' => 1]);
             }
             $model->edu_type_id = $student->edu_type_id;
         } elseif ($id == 4) {
@@ -229,17 +232,17 @@ class CabinetController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                $result = $model->ikStep($user , $student);
+                $result = $model->ikStep($user, $student);
                 if ($result['is_ok']) {
                     Yii::$app->session->setFlash('success');
                 } else {
-                    Yii::$app->session->setFlash('error' , $result['errors']);
+                    Yii::$app->session->setFlash('error', $result['errors']);
                 }
                 return $this->redirect(['step']);
             }
         }
 
-        return $this->render('step' , [
+        return $this->render('step', [
             'id' => $id,
             'model' => $model,
             'student' => $student,
@@ -253,23 +256,38 @@ class CabinetController extends Controller
         $errors = [];
         $user = Yii::$app->user->identity;
         $student = $user->student;
-        $eduDirection = $student->eduDirection;
-        if ($eduDirection->edu_type_id != 4) {
-            $action = 'contract';
+        if ($student->exam_type == 1) {
+            $errors[] = ['Shartnomani yuklab olish uchun universitetga murojat qiling!'];
+            \Yii::$app->session->setFlash('error', $errors);
+            return $this->redirect(\Yii::$app->request->referrer);
+        }
+        if ($type == 2) {
+            $eduDirection = $student->eduDirection;
+            if ($eduDirection->edu_type_id == 4) {
+                $action = 'master';
+            } elseif ($eduDirection->edu_form_id == 2) {
+                $action = 'contract2';
+            } elseif ($eduDirection->edu_form_id == 1) {
+                $action = 'contract2';
+            } else {
+                $errors[] = ['Shartnoma mavjud emas!'];
+                \Yii::$app->session->setFlash('error', $errors);
+                return $this->redirect(\Yii::$app->request->referrer);
+            }
         } else {
-            $errors[] = ['Shartnoma mavjud emas!'];
-            \Yii::$app->session->setFlash('error' , $errors);
+            $errors[] = ['Type not\'g\'ri tanlandi!'];
+            \Yii::$app->session->setFlash('error', $errors);
             return $this->redirect(\Yii::$app->request->referrer);
         }
 
         $result = Contract::crmPush($student);
         if (!$result['is_ok']) {
-            \Yii::$app->session->setFlash('error' , $result['errors']);
+            \Yii::$app->session->setFlash('error', $result['errors']);
             return $this->redirect(\Yii::$app->request->referrer);
         }
 
         $pdf = \Yii::$app->ikPdf;
-        $content = $pdf->contract($student , $action);
+        $content = $pdf->contract($student, $action);
 
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
@@ -297,7 +315,7 @@ class CabinetController extends Controller
     protected function findExamStudentModel($id)
     {
         $user = \Yii::$app->user->identity;
-        if (($model = Exam::findOne(['id' => $id , 'user_id' => $user->id])) !== null) {
+        if (($model = Exam::findOne(['id' => $id, 'user_id' => $user->id])) !== null) {
             return $model;
         }
         throw new NotFoundHttpException();

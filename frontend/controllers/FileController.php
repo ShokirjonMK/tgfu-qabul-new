@@ -79,7 +79,7 @@ class FileController extends Controller
         if (count($eduDirections) > 0) {
             foreach ($eduDirections as $eduDirection) {
                 $direction = $eduDirection->direction;
-                $options .= "<option value='$eduDirection->id'>". $direction->code ." - ". $direction['name_uz']. "</option>";
+                $options .= "<option value='$eduDirection->id'>". $direction->code ." - ". $direction['name_'.$lang]. "</option>";
             }
         }
         return $options;
@@ -146,31 +146,18 @@ class FileController extends Controller
         $user = Yii::$app->user->identity;
         $student = Student::findOne(['user_id' => $user->id]);
 
-        $query = ExamDate::find()
-            ->where([
-                'is_deleted' => 0,
-                'status' => 1,
-                'branch_id' => $branch_id
-            ])
-            ->orderBy(['date' => SORT_ASC]);
+        $examDates = ExamDate::find()
+            ->where(['is_deleted' => 0, 'status' => 1, 'branch_id' => $branch_id])
+            ->orderBy(['date' => SORT_ASC])->all();
 
-        if ($student && $student->exam_date_id) {
-            $query->orWhere([
-                'id' => $student->exam_date_id,
-                'branch_id' => $branch_id
-            ]);
-        }
-
-        $examDates = $query->all();
-
-        $html = "<div class='row top30'>";
+        $html = "<div class='row'>";
         foreach ($examDates as $examDate) {
             $checked = '';
-            if ($student->exam_date_id == $examDate) {
+            if ($student->exam_date_id == $examDate->id) {
                 $checked = 'checked';
             }
             $html .= "<div class='col-md-6 col-sm-12 col-12'>
-                    <div class='exam-date-item'>
+                    <div class='exam-date-item top20'>
                         <label for='check_{$examDate->id}' class='permission_label'>
                             <div class='d-flex gap-2 align-items-center'>
                                 <input type='radio' class='bu-check' name='StepThreeOne[exam_date_id]' id='check_{$examDate->id}' value='{$examDate->id}' {$checked}>

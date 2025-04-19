@@ -1,23 +1,17 @@
 <?php
 use yii\helpers\Url;
-use common\models\EduYearType;
 use common\models\User;
 use common\models\Student;
 use yii\db\Expression;
-use common\models\Flayer;
 use Da\QrCode\QrCode;
-use common\models\Target;
+use common\models\ExamDate;
 
 /** @var yii\web\View $this */
-/** @var EduYearType $eduYearTypes */
 /** @var User $currentUser */
 
-$this->title = 'TGFU';
-$baseQuery = Student::find()
-    ->alias('s')
-    ->innerJoin('user u', 's.user_id = u.id')
-//    ->where(['u.cons_id' => $currentUser->cons_id, 'u.user_role' => 'student'])
-    ->andWhere(['in' , 'u.status' , [9, 10]]);
+
+
+$this->title = 'ZARMED UNIVERSITETI';
 ?>
 
 <div class="ik_title_h5 mt-2 mb-4">

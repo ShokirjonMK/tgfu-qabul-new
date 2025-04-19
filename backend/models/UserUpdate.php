@@ -54,7 +54,7 @@ class UserUpdate extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         $user->generatePasswordResetToken();
-        $user->get_token = null;
+        $user->new_key = null;
         $user->sms_number = 0;
         $user->sms_time = 0;
         $user->new_password = null;

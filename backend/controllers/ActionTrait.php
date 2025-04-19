@@ -51,6 +51,8 @@ trait ActionTrait
             return $this->redirect(['site/login'])->send();
         }
 
+
+
         $controllerCheck = Yii::$app->controller->id;
         $actionCheck = Yii::$app->controller->action->id;
 
@@ -96,5 +98,4 @@ trait ActionTrait
         \Yii::$app->session->setFlash('error' , $errors);
         return false;
     }
-
 }

@@ -111,7 +111,7 @@ $limg = $lqr->writeDataUri();
     <tr><td>&nbsp;</td></tr>
 
     <tr>
-        <td colspan="2" style="text-align: left;">Toshkent shahri</td>
+        <td colspan="2" style="text-align: left;"><?= $filial->name_uz ?></td>
         <td colspan="2" style="text-align: right;"><?= $date ?></td>
     </tr>
 

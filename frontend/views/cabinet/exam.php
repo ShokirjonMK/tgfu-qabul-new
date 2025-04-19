@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Url;
 use common\models\Student;
 use common\models\StudentPerevot;
@@ -61,14 +62,17 @@ if ($eduDirection->is_oferta == 1) {
             </div>
 
             <?php if ($exam->status == 3) : ?>
-                <?= $this->render('_contract') ; ?>
+                <?= $this->render('_contract'); ?>
             <?php endif; ?>
 
             <div class="row top30">
                 <div class="col-md-4 col-12 mb-4">
                     <div class="ika_column">
                         <p>Yo'nalish nomi</p>
-                        <h6><?= $direction->code . " - " . $direction['name_' . $lang] ?></h6>
+                        <h6>
+                            <?= $direction ? ($direction->code . " - " . ($direction['name_' . $lang] ?? '---')) : 'Yo‘nalish ma’lumotlari mavjud emas' ?>
+                        </h6>
+
                     </div>
                 </div>
 
@@ -180,9 +184,9 @@ if ($eduDirection->is_oferta == 1) {
                                                         <?php
                                                         $statuses = [
                                                             0 => "Yuklanmagan",
-                                                            1 => '<a href="/frontend/web/uploads/'.$student->id.'/'.$subject->file.'">Tekshirilmoqda <i class="bi bi-arrow-up-right-circle"></i></a>',
-                                                            2 => '<a href="/frontend/web/uploads/'.$student->id.'/'.$subject->file.'">Tasdiqlandi <i class="bi bi-arrow-up-right-circle"></i></a>',
-                                                            3 => '<a href="/frontend/web/uploads/'.$student->id.'/'.$subject->file.'">Bekor qilindi <i class="bi bi-arrow-up-right-circle"></i></a>',
+                                                            1 => '<a href="/frontend/web/uploads/' . $student->id . '/' . $subject->file . '">Tekshirilmoqda <i class="bi bi-arrow-up-right-circle"></i></a>',
+                                                            2 => '<a href="/frontend/web/uploads/' . $student->id . '/' . $subject->file . '">Tasdiqlandi <i class="bi bi-arrow-up-right-circle"></i></a>',
+                                                            3 => '<a href="/frontend/web/uploads/' . $student->id . '/' . $subject->file . '">Bekor qilindi <i class="bi bi-arrow-up-right-circle"></i></a>',
                                                         ];
                                                         echo $statuses[$subject->file_status] ?? "Noma'lum holat";
                                                         ?>
@@ -194,7 +198,7 @@ if ($eduDirection->is_oferta == 1) {
                                                 <div class="ika_user_page_button">
                                                     <?php
                                                     $url = Url::to(['file/create-sertificate', 'id' => $subject->id]);
-                                                    echo Html::a('<span>'.Yii::t("app" , "a101").'</span><i class="bi bi-arrow-up-circle"></i>', $url, [
+                                                    echo Html::a('<span>' . Yii::t("app", "a101") . '</span><i class="bi bi-arrow-up-circle"></i>', $url, [
                                                         "data-bs-toggle" => "modal",
                                                         "data-bs-target" => "#studentModalUpload",
                                                     ]);
@@ -214,13 +218,13 @@ if ($eduDirection->is_oferta == 1) {
                         <?php if ($student->ipCheck) : ?>
                             <div class="d-flex justify-content-center top30">
                                 <a href="<?= Url::to(['cabinet/test']) ?>" class="linkExam">
-                                <span>
-                                    <?php if ($exam->status == 1) : ?>
-                                        <?= Yii::t("app" , "a130") ?>
-                                    <?php elseif ($exam->status == 2) : ?>
-                                        <?= Yii::t("app" , "a131") ?>
-                                    <?php endif; ?>
-                                </span>
+                                    <span>
+                                        <?php if ($exam->status == 1) : ?>
+                                            <?= Yii::t("app", "a130") ?>
+                                        <?php elseif ($exam->status == 2) : ?>
+                                            <?= Yii::t("app", "a131") ?>
+                                        <?php endif; ?>
+                                    </span>
                                 </a>
                             </div>
                         <?php else: ?>
@@ -231,11 +235,11 @@ if ($eduDirection->is_oferta == 1) {
                             </div>
                         <?php endif; ?>
                     <?php else: ?>
-                    <div class="col-md-12 col-12">
-                        <div class="ika_danger top30">
-                            <h6><i class="fa-solid fa-exclamation"></i> <span>Imtixonda qatnashish uchun 5 yillik staj fayl tasdiqlanishini kuting.</span></h6>
+                        <div class="col-md-12 col-12">
+                            <div class="ika_danger top30">
+                                <h6><i class="fa-solid fa-exclamation"></i> <span>Imtixonda qatnashish uchun 5 yillik staj fayl tasdiqlanishini kuting.</span></h6>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>
@@ -255,12 +259,12 @@ if ($eduDirection->is_oferta == 1) {
                             </div>
                             <div class="cfile_box_head">
                                 <div class="cfile_box_head_left">
-                                    <h5>&nbsp; <span></span> &nbsp;&nbsp;  <?= Yii::t("app", "a127") ?></h5>
+                                    <h5>&nbsp; <span></span> &nbsp;&nbsp; <?= Yii::t("app", "a127") ?></h5>
                                 </div>
                             </div>
                             <div class="cfile_box_content_question">
                                 <p><span><i class="fa-solid fa-exclamation"></i></span>
-                                    Prezidentning 2022-yil 22-iyundagi PQ-289-son qaroriga muvofiq pedagogika sohasidagi ta’lim yo‘nalishlariga sirtqi ta’lim shakli bo‘yicha o‘qishga ta’lim tizimida pedagogik faoliyatga oid kamida besh yillik ish stajiga ega bo‘lgan shaxslar qabul qilinadi.                            </p>
+                                    Prezidentning 2022-yil 22-iyundagi PQ-289-son qaroriga muvofiq pedagogika sohasidagi ta’lim yo‘nalishlariga sirtqi ta’lim shakli bo‘yicha o‘qishga ta’lim tizimida pedagogik faoliyatga oid kamida besh yillik ish stajiga ega bo‘lgan shaxslar qabul qilinadi. </p>
                             </div>
                             <?php if ($oferta->file_status == 0) : ?>
                                 <div class="cfile_box_content_upload">

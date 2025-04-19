@@ -13,7 +13,7 @@ return [
     'a10' => '220 Bogishamol street, Yunusabad district, Tashkent city. Click to view location!',
     'a11' => 'Reception system',
     'a12' => 'Educational directions',
-    'a13' => 'Directions accepted for the academic year 2024 - 2025',
+    'a13' => 'Educational programs and specializations available for admission in the 2025–2026 academic year',
     'a14' => 'education',
     'a15' => 'Direction name',
     'a16' => 'Form of education',

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Branch;
 use common\models\ExamDate;
 use common\models\ExamDateSearch;
 use common\models\Student;
@@ -71,6 +72,17 @@ class ExamDateController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionDateCheck()
+    {
+        $result = ExamDate::dateCheck();
+        if ($result['is_ok']) {
+            \Yii::$app->session->setFlash('success');
+            return $this->redirect(['index']);
+        } else {
+            \Yii::$app->session->setFlash('error' , $result['errors']);
+        }
     }
 
     /**

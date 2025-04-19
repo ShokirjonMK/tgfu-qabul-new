@@ -1,6 +1,7 @@
 <?php
 
 use common\models\ExamDate;
+use common\models\User;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -72,12 +73,13 @@ $breadcrumbs['item'][] = [
                 'format' => 'raw',
                 'value' => function($model) {
                     return Student::find()
+                        ->alias('s')
+                        ->innerJoin(User::tableName() . ' u', 's.user_id = u.id')
                         ->where([
-                            'exam_date_id' => $model->id,
-                            'exam_type' => 1,
-                            'is_deleted' => 0
-                        ])
-                        ->count();
+                            'u.status' => [9, 10],
+                            'u.user_role' => 'student',
+                            's.exam_date_id' => $model->id,
+                        ])->count();
                 },
             ],
             [

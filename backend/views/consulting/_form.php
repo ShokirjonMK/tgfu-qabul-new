@@ -52,6 +52,9 @@ $branchs = Branch::find()
                         </div>
                         <div class="col-12 col-md-6">
                             <div class='form-group'>
+                                <?= $form->field($model, 'mail')->textInput(['maxlength' => true]) ?>
+                            </div>
+                            <div class='form-group'>
                                 <?= $form->field($model, 'mfo')->textInput(['maxlength' => true]) ?>
                             </div>
                             <div class='form-group'>

@@ -147,31 +147,18 @@ class FileController extends Controller
         $std_id = Yii::$app->request->get('std_id');
         $student = Student::findOne(['id' => $std_id]);
 
-        $query = ExamDate::find()
-            ->where([
-                'is_deleted' => 0,
-                'status' => 1,
-                'branch_id' => $branch_id
-            ])
-            ->orderBy(['date' => SORT_ASC]);
+        $examDates = ExamDate::find()
+            ->where(['is_deleted' => 0, 'status' => 1, 'branch_id' => $branch_id])
+            ->orderBy(['date' => SORT_ASC])->all();
 
-        if ($student && $student->exam_date_id) {
-            $query->orWhere([
-                'id' => $student->exam_date_id,
-                'branch_id' => $branch_id
-            ]);
-        }
-
-        $examDates = $query->all();
-
-        $html = "<div class='row bottom30'>";
+        $html = "<div class='row'>";
         foreach ($examDates as $examDate) {
             $checked = '';
             if ($student->exam_date_id == $examDate->id) {
                 $checked = 'checked';
             }
             $html .= "<div class='col-md-6 col-sm-12 col-12'>
-                    <div class='exam-date-item'>
+                    <div class='exam-date-item bot20'>
                         <label for='check_{$examDate->id}' class='permission_label2'>
                             <div class='d-flex gap-2 align-items-center'>
                                 <input type='radio' class='bu-check' name='StepThreeOne[exam_date_id]' id='check_{$examDate->id}' value='{$examDate->id}' {$checked}>

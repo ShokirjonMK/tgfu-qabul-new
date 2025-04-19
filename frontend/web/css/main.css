@@ -6,13 +6,13 @@
     box-sizing: border-box;
 }
 :root {
-    --bg-color: #021B66;
+    --bg-color: #09588E;
     /*--main-color: #1c89c1;*/
     --main-color2: #244e7a;
-    --main-color: #021B66;
+    --main-color: #09588E;
     /*--logo-color: #1c89c1;*/
     --logo-color: #1c89c1;
-    --red-color: #fdb338;
+    --red-color: #8D1E1C;
     --color-text: #001b48;
     --color-label: #787F95;
     --yellow: #25C172;
@@ -118,6 +118,9 @@ ul {
 }
 .bot15 {
     margin-bottom: 15px;
+}
+.bot20 {
+    margin-bottom: 20px;
 }
 
 .modal-title {

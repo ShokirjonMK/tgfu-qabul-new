@@ -194,14 +194,6 @@
 }
 
 
-
-
-
-
-
-
-
-
 /*  ---===--- index page ---===--- */
 
 .mainPage {
@@ -399,12 +391,12 @@
     display: block;
     position: relative;
     overflow: hidden;
-    background: #FDB338;
-    background: linear-gradient(0deg,rgba(253, 179, 56, 1) 0%, rgba(2, 27, 102, 1) 2%);
+    background: rgb(214,39,39);
+    background: linear-gradient(0deg, rgba(214,39,39,1) 0%, rgba(9,88,142,1) 2%);
 }
 
 .mb_head_left img {
-    width: 150px;
+    width: 180px;
 }
 
 
@@ -416,8 +408,9 @@
 .mb_vector_img {
     position: absolute;
     right: 0;
+    top: 0;
     bottom: 0;
-    height: 60%;
+    height: 100%;
     z-index: 1;
 }
 .line_white {
@@ -847,9 +840,6 @@
     .ik_nav_pills .nav-link {
         display: block;
         width: 100%;
-    }
-    .mb_vector_img {
-        display: none;
     }
 }
 

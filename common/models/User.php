@@ -166,6 +166,12 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(AuthItem::class, ['name' => 'user_role']);
     }
 
+
+    public function getIsBranch()
+    {
+
+    }
+
     /**
      * Finds user by password reset token
      *

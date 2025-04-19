@@ -84,7 +84,7 @@ class CrmPushController extends Controller
             $phoneNumber = preg_replace('/[^\d+]/', '', $student->username);
             $leadName = $phoneNumber;
             $message = '';
-            $tags = ['TGFU'];
+            $tags = ['zarmed'];
             $pipelineId = AmoCrmClient::DEFAULT_PIPELINE_ID;
             $statusId = $model->lead_status;
             $leadPrice = 0;
@@ -139,10 +139,12 @@ class CrmPushController extends Controller
                 $updatedFields['statusId'] = $model->lead_status;
             }
 
-
             if ($model->data != null) {
                 $jsonData = json_decode($model->data, true);
                 foreach ($jsonData as $key => $value) {
+                    if ($key == CrmPush::TEL) {
+                        $updatedFields['name'] = (string)$value;
+                    }
                     $customFields[$key] = (string)$value;
                 }
             }

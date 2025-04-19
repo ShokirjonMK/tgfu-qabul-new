@@ -40,22 +40,13 @@ $breadcrumbs['item'][] = [
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="form-group">
-                        <?= $form->field($model, 'name_uz')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                     </div>
-                    <div class="form-group">
-                        <?= $form->field($model, 'name_en')->textInput(['maxlength' => true]) ?>
-                    </div>
-                    <div class="form-group">
-                        <?= $form->field($model, 'name_ru')->textInput(['maxlength' => true]) ?>
-                    </div>
-                    <div class="form-group">
-                        <?= $form->field($model, 'name_kr')->textInput(['maxlength' => true]) ?>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="form-group">
                         <?= $form->field($model, 'icon')->textInput(['maxlength' => true]) ?>
                     </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="form-group">
                         <?= $form->field($model, 'order')->textInput(['maxlength' => true]) ?>
                     </div>

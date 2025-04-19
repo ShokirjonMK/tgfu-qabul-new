@@ -238,13 +238,10 @@ class Student extends \yii\db\ActiveRecord
     public function getIpCheck()
     {
         if ($this->exam_type == 1) {
-            $ip = getIpMK();
-            $ipAddress = IkIp::findOne([
-                'ip_address' => $ip,
-                'status' => 1,
-                'is_deleted' => 0
-            ]);
-            return $ipAddress !== null;
+            if (checkAllowedIP()) {
+                return true;
+            }
+            return false;
         }
         return true;
     }
@@ -485,8 +482,39 @@ class Student extends \yii\db\ActiveRecord
         $time = time();
 
         $user = $model->user;
+
+        if ($user->status == 0) {
+            $errors[] = ['Arxivlangan ma\'lumotni tahrirlab bo\'lmaydi.'];
+            $transaction->rollBack();
+            return ['is_ok' => false , 'errors' => $errors];
+        }
         $user->status = $model->status;
+
+        $user->username = $model->username;
+        $user->setPassword($model->password);
+        $user->generateAuthKey();
+        $user->generateEmailVerificationToken();
+        $user->generatePasswordResetToken();
+
+        $query = User::find()
+            ->where(['username' => $user->username])
+            ->andWhere(['<>', 'id', $user->id])
+            ->one();
+        if ($query) {
+            $errors[] = ['Bu telefon raqam avval ro\'yhatdan o\'tgan.'];
+            $transaction->rollBack();
+            return ['is_ok' => false , 'errors' => $errors];
+        }
         $user->save(false);
+
+        $new = new CrmPush();
+        $new->student_id = $model->id;
+        $new->type = 101;
+        $new->lead_id = $user->lead_id;
+        $new->data = json_encode([
+            CrmPush::TEL => $user->username,
+        ], JSON_UNESCAPED_UNICODE);
+        $new->save(false);
 
         if ($user->status == User::STATUS_DELETED) {
             $user->username = $user->username."__".$time;
@@ -514,6 +542,7 @@ class Student extends \yii\db\ActiveRecord
                 return ['is_ok' => false , 'errors' => $amo['errors']];
             }
         }
+
 
         $model->status = 1;
         $model->save(false);

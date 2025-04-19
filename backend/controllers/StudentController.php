@@ -143,6 +143,18 @@ class StudentController extends Controller
         ]);
     }
 
+
+    public function actionOffline()
+    {
+        $searchModel = new StudentSearch();
+        $dataProvider = $searchModel->offline($this->request->queryParams);
+
+        return $this->render('offline', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
     /**
      * Displays a single Student model.
      * @param int $id ID
@@ -265,7 +277,14 @@ class StudentController extends Controller
         $model = $this->findModel($id);
         $old = $model;
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
+            $postData = $this->request->post();
+            if (isset($postData[$model->formName()])) {
+                $model->setAttributes([
+                    'status' => $postData[$model->formName()]['status'] ?? $model->status,
+                    'username' => $postData[$model->formName()]['username'] ?? $model->username,
+                    'password' => $postData[$model->formName()]['password'] ?? $model->password,
+                ], false);
+
                 $result = Student::userUpdate($model, $old);
                 if ($result['is_ok']) {
                     \Yii::$app->session->setFlash('success');
@@ -571,11 +590,21 @@ class StudentController extends Controller
     {
         $errors = [];
         $student = Student::findOne(['id' => $id]);
-        $eduDirection = $student->eduDirection;
-        if ($eduDirection->edu_type_id != 4) {
-            $action = 'contract';
+        if ($type == 2) {
+            $eduDirection = $student->eduDirection;
+            if ($eduDirection->edu_type_id == 4) {
+                $action = 'master';
+            } elseif ($eduDirection->edu_form_id == 2) {
+                $action = 'contract2';
+            } elseif ($eduDirection->edu_form_id == 1) {
+                $action = 'contract2';
+            } else {
+                $errors[] = ['Shartnoma mavjud emas!'];
+                \Yii::$app->session->setFlash('error' , $errors);
+                return $this->redirect(\Yii::$app->request->referrer);
+            }
         } else {
-            $errors[] = ['Shartnoma mavjud emas!'];
+            $errors[] = ['Type not\'g\'ri tanlandi!'];
             \Yii::$app->session->setFlash('error' , $errors);
             return $this->redirect(\Yii::$app->request->referrer);
         }

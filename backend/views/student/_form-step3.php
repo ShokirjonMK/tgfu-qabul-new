@@ -45,22 +45,13 @@ if (count($directions) > 0) {
 }
 $branchs = Branch::find()->where(['is_deleted' => 0 , 'status' => 1])->all();
 if ($student->exam_type != 0) {
-    $query = ExamDate::find()
+    $examDates = ExamDate::find()
         ->where([
             'is_deleted' => 0,
             'status' => 1,
             'branch_id' => $student->branch_id
         ])
-        ->orderBy(['date' => SORT_ASC]);
-
-    if ($student && $student->exam_date_id) {
-        $query->orWhere([
-            'id' => $student->exam_date_id,
-            'branch_id' => $student->branch_id
-        ]);
-    }
-
-    $examDates = $query->all();
+        ->orderBy(['date' => SORT_ASC])->all();
 }
 $exam = [];
 if ($model->edu_direction_id != null) {
@@ -140,7 +131,7 @@ if ($model->edu_direction_id != null) {
 
     <div class="examDateIk">
         <?php if ($student->exam_type != 0) : ?>
-            <div class="row bottom30">
+            <div class="row">
                 <?php foreach ($examDates as $examDate) : ?>
                     <?php
                     $checked = '';
@@ -149,7 +140,7 @@ if ($model->edu_direction_id != null) {
                     }
                     ?>
                     <div class='col-md-6 col-sm-12 col-12'>
-                        <div class='exam-date-item'>
+                        <div class='exam-date-item bot20'>
                             <label for='check_<?= $examDate->id ?>' class='permission_label2'>
                                 <div class='d-flex gap-2 align-items-center'>
                                     <input type='radio' class='bu-check' name='StepThreeOne[exam_date_id]' id='check_<?= $examDate->id ?>' value='<?= $examDate->id ?>' <?= $checked ?>>

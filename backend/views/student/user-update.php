@@ -24,7 +24,7 @@ $data = ($user->status != 0) ? [
 ?>
 
 <div class="modal-header mt-2">
-    <h1 class="modal-title" id="exampleModalLabel">Status tanlang</h1>
+    <h1 class="modal-title" id="exampleModalLabel">Ma'lumotlarni tahrirlash</h1>
     <p class="btn-close" data-bs-dismiss="modal" aria-label="Close"></p>
 </div>
 
@@ -33,6 +33,14 @@ $data = ($user->status != 0) ? [
         'id' => 'login-form',
         'options' => [],
     ]); ?>
+
+    <div class="form-group">
+        <?= $form->field($model, 'username')->textInput()->label('Telefon nomer <span>*</span>'); ?>
+    </div>
+
+    <div class="form-group">
+        <?= $form->field($model, 'password')->textInput()->label('Parol <span>*</span>'); ?>
+    </div>
 
     <div class="form-group">
         <?= $form->field($model, 'status')->widget(Select2::classname(), [

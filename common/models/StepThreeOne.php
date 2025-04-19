@@ -87,6 +87,13 @@ class StepThreeOne extends Model
         }
 
         if ($this->exam_type == 1) {
+
+            if ($this->exam_date_id == null) {
+                $errors[] = ['Imtixon sanasi tanlang.'];
+                $transaction->rollBack();
+                return ['is_ok' => false , 'errors' => $errors];
+            }
+
             if ($student->exam_date_id != $this->exam_date_id) {
                 $examDate = ExamDate::findOne([
                     'id' => $this->exam_date_id,
@@ -98,18 +105,18 @@ class StepThreeOne extends Model
                     $errors[] = ['Imtixon sanasi o\'zgarganligi uchun boshqa sanani tanlang.'];
                     $transaction->rollBack();
                     return ['is_ok' => false , 'errors' => $errors];
-                } else {
-                    $studentExamDateCount = Student::find()
-                        ->joinWith('user')
-                        ->where([
-                            'student.exam_date_id' => $examDate->id,
-                        ])
-                        ->andWhere(['user.status' => [9, 10]])
-                        ->count();
-                    if ($studentExamDateCount >= $examDate->limit) {
-                        $examDate->status = 0;
-                        $examDate->save(false);
-                    }
+                }
+
+                $studentExamDateCount = Student::find()
+                    ->joinWith('user')
+                    ->where([
+                        'student.exam_date_id' => $examDate->id,
+                    ])
+                    ->andWhere(['user.status' => [9, 10]])
+                    ->count();
+                if ($studentExamDateCount >= $examDate->limit) {
+                    $examDate->status = 0;
+                    $examDate->save(false);
                 }
             }
         } else {

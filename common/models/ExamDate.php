@@ -78,6 +78,19 @@ class ExamDate extends \yii\db\ActiveRecord
         return $this->hasOne(Branch::class, ['id' => 'branch_id']);
     }
 
+    public function getName()
+    {
+        $status = '';
+        if ($this->status == 0 && $this->is_deleted == 1) {
+            $status = 'O\'chirilgan';
+        } elseif ($this->status == 0 && $this->is_deleted == 0) {
+            $status = 'No faol';
+        } elseif ($this->status == 1 && $this->is_deleted == 0) {
+            $status = 'Faol';
+        }
+        return $this->date.' '.$status;
+    }
+
     public static function createItem($model, $post) {
         $transaction = Yii::$app->db->beginTransaction();
         $errors = [];
@@ -151,6 +164,91 @@ class ExamDate extends \yii\db\ActiveRecord
                     CrmPush::EXAM_DATE => $examDate->date,
                 ], JSON_UNESCAPED_UNICODE);
                 $new->save(false);
+            }
+        }
+
+        if (empty($errors)) {
+            $transaction->commit();
+            return ['is_ok' => true];
+        } else {
+            $transaction->rollBack();
+            return ['is_ok' => false, 'errors' => $errors];
+        }
+    }
+
+    public static function dateCheck() {
+        $transaction = Yii::$app->db->beginTransaction();
+        $errors = [];
+
+        $fromDate = date('Y-m-d');
+
+        $branchs = Branch::find()
+            ->all();
+        foreach ($branchs as $branch) {
+            $activeDate = 0;
+            $examDates = ExamDate::find()
+                ->where([
+                    'branch_id' => $branch->id,
+                    'is_deleted' => 0
+                ])->all();
+            foreach ($examDates as $examDate) {
+                if ($examDate->status == 1) {
+                    if ($examDate->date <= $fromDate) {
+                        $examDate->status = 0;
+                        $examDate->save(false);
+                    } else {
+                        $activeDate++;
+                    }
+                }
+            }
+
+            if ($activeDate < 4) {
+                $examDateDesc = ExamDate::find()
+                    ->where([
+                        'branch_id' => $branch->id,
+                        'is_deleted' => 0,
+                        'status' => 1,
+                    ])
+                    ->orderBy('date desc')
+                    ->one();
+
+                if (!$examDateDesc) {
+                    $date = date("Y-m-d");
+                } else {
+                    $date = $examDateDesc->date;
+                }
+
+                $date = new \DateTime($date);
+
+                if ($date->format('N') != 6) {
+                    $daysToAdd = 6 - $date->format('N');
+                    if ($daysToAdd <= 0) {
+                        $daysToAdd += 7;
+                    }
+                    $date->modify("+$daysToAdd days");
+                }
+
+                for ($i = 1; $i <= (4 - $activeDate); $i++) {
+                    $t = true;
+                    while ($t) {
+                        $query = ExamDate::findOne([
+                            'branch_id' => $branch->id,
+                            'date' => $date->format('Y-m-d H:i'),
+                            'is_deleted' => 0
+                        ]);
+                        if ($query) {
+                            $date->modify('+7 days');
+                        } else {
+                            $t = false;
+                        }
+                    }
+                    $new = new ExamDate();
+                    $new->branch_id = $branch->id;
+                    $new->date = $date->format('Y-m-d H:i');
+                    $new->status = 1;
+                    $new->save(false);
+                    $date->modify('+7 days');
+                }
             }
         }
 

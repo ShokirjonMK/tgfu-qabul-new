@@ -38,10 +38,12 @@ $branchs = Branch::find()->where(['is_deleted' => 0 , 'status' => 1])->all();
                     'options' => ['placeholder' => 'Sanani va vaqtni tanlang...'],
                     'pluginOptions' => [
                         'autoclose' => true,
-                        'format' => 'yyyy-mm-dd HH:ii',
+                         'format' => 'yyyy-mm-dd hh:ii',
                         'todayHighlight' => true,
+                        'convertFormat' => true,
                         'todayBtn' => true,
-                        'minuteStep' => 30
+                        'showMeridian' => false,
+                        'minuteStep' => 60
                     ]
                 ]) ?>
             </div>

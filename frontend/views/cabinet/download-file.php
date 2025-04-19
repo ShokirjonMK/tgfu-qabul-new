@@ -17,6 +17,7 @@ $lang = Yii::$app->language;
 $this->title = Yii::t("app" , "a112");
 $eduDirection = $student->eduDirection;
 $t = false;
+$online = true;
 if ($student->edu_type_id == 1) {
     $exam = Exam::findOne([
         'student_id' => $student->id,
@@ -25,6 +26,9 @@ if ($student->edu_type_id == 1) {
     ]);
     if ($exam->status == 3) {
         $t = true;
+        if ($student->exam_type == 1) {
+            $online = false;
+        }
     }
 } elseif ($student->edu_type_id == 2) {
     $perevot = StudentPerevot::findOne([
@@ -59,7 +63,7 @@ if ($student->edu_type_id == 1) {
                 <h6><?= Yii::t("app", "a112") ?></h6>
                 <span></span>
             </div>
-            <?php if ($t) : ?>
+            <?php if ($t && $online) : ?>
                 <?= $this->render('_contract') ; ?>
             <?php else: ?>
                 <div class="down_box top30">

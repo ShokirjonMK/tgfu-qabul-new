@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Questions;
 use common\models\Subject;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -52,14 +53,17 @@ $breadcrumbs['item'][] = [
                     return $model->language->name_uz;
                 }
             ],
-//            [
-//                'attribute' => 'Bot savollari',
-//                'contentOptions' => ['date-label' => 'Savollar'],
-//                'format' => 'raw',
-//                'value' => function($model) {
-//                    return "<a href='". Url::to(['questions/bot' , 'id' => $model->id]) ."' class='badge-table-div active'><span>Bot savollari</span></a>";
-//                },
-//            ],
+            [
+                'attribute' => 'Tasdiqlangan savollar soni',
+                'contentOptions' => ['date-label' => 'Tasdiqlangan savollar soni'],
+                'format' => 'raw',
+                'value' => function($model) {
+                    $query = Questions::find()
+                        ->where(['subject_id' => $model->id,'is_deleted' => 0, 'status' => 1, 'type' => 0])
+                        ->count();
+                    return "<div class='badge-table-div active'>".$query." ta</div>";
+                },
+            ],
             [
                 'attribute' => 'Savollar',
                 'contentOptions' => ['date-label' => 'Savollar'],

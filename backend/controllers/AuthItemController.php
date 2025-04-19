@@ -4,7 +4,15 @@ namespace backend\controllers;
 
 use common\models\AuthItem;
 use common\models\AuthItemSearch;
+use common\models\CrmPush;
+use common\models\EduDirection;
 use common\models\Employee;
+use common\models\ExamDate;
+use common\models\Questions;
+use common\models\Status;
+use common\models\Student;
+use common\models\StudentOferta;
+use common\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -99,21 +107,6 @@ class AuthItemController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
-
-    /**
-     * Deletes an existing AuthItem model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $name Name
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($name)
-    {
-        $model = $this->findModel($name);
-        $model->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**
