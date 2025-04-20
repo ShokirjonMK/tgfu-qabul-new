@@ -72,8 +72,8 @@ ul {
 ::-webkit-scrollbar-thumb
 {
     border-radius: 5px;
-    background: rgb(214,39,62);
-    background: linear-gradient(0deg, rgba(214,39,62,1) 50%, rgba(255,255,255,1) 100%);
+    background: #FDB338;
+    background: linear-gradient(0deg,rgba(253, 179, 56, 1) 50%, rgba(255, 255, 255, 1) 100%);
 }
 
 .link-hover {
