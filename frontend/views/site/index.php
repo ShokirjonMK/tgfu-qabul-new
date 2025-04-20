@@ -3,7 +3,7 @@ use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 
-$this->title = 'QABUL ZARMED UNIVERSITY';
+$this->title = 'QATOSHKENT GUMANITAR FANLAR UNIVERSITETI';
 ?>
 
 <div class="mainPage">
@@ -34,7 +34,7 @@ $this->title = 'QABUL ZARMED UNIVERSITY';
                         <img src="/frontend/web/images/logo_blue.svg" alt="">
                     </div>
                     <div class="circle-text">
-                        <p>QABUL * ZARMED * UNIVERSITY *</p>
+                        <p>TOSHKENT * GUMANITAR FANLAR * UNIVERSITY *</p>
                     </div>
                 </div>
             </div>
