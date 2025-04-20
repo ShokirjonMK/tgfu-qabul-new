@@ -22,7 +22,7 @@ use yii\helpers\Url;
                     <ul>
                         <li>
                             <a href="https://tgfu.uz/">
-                                <span><?= Yii::t("app" , "a22") ?> <b>ZARMED UNIVERSITY</b></span>
+                                <span><?= Yii::t("app" , "a22") ?> <b>TOSHKENT GUMANITAR FANLAR UNIVERSITETI</b></span>
                             </a>
                         </li>
                     </ul>
