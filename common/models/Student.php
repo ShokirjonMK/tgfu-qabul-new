@@ -301,6 +301,89 @@ class Student extends \yii\db\ActiveRecord
         return "<div class='badge-table-div active'><span>$text</span></div>";
     }
 
+
+    public function getContractPrice() {
+        $text = 'Shartnoma yo\'q';
+
+        switch ($this->edu_type_id) {
+            case 1:
+                $model = Exam::class;
+                break;
+            case 2:
+                $model = StudentPerevot::class;
+                break;
+            case 3:
+                $model = StudentDtm::class;
+                break;
+            case 4:
+                $model = StudentMaster::class;
+                break;
+            default:
+                return "<div class='badge-table-div active'><span>$text</span></div>";
+        }
+
+        $record = $model::findOne([
+            'student_id' => $this->id,
+            'edu_direction_id' => $this->edu_direction_id,
+            'is_deleted' => 0
+        ]);
+
+        if ($record) {
+            if ($model == Exam::class) {
+                if ($record->status == 3) {
+                    $text = $record->contract_price;
+                }
+            } else {
+                if (isset($record->file_status) && $record->file_status == 2) {
+                    $text = $record->contract_price;
+                }
+            }
+        }
+
+        return "<div class='badge-table-div active'><span>$text</span></div>";
+    }
+
+    public function getContractConfirmDate() {
+        $text = '----';
+
+        switch ($this->edu_type_id) {
+            case 1:
+                $model = Exam::class;
+                break;
+            case 2:
+                $model = StudentPerevot::class;
+                break;
+            case 3:
+                $model = StudentDtm::class;
+                break;
+            case 4:
+                $model = StudentMaster::class;
+                break;
+            default:
+                return "<div class='badge-table-div active'><span>$text</span></div>";
+        }
+
+        $record = $model::findOne([
+            'student_id' => $this->id,
+            'edu_direction_id' => $this->edu_direction_id,
+            'is_deleted' => 0
+        ]);
+
+        if ($record) {
+            if ($model == Exam::class) {
+                if ($record->status == 3) {
+                    $text = $record->confirm_date;
+                }
+            } else {
+                if (isset($record->file_status) && $record->file_status == 2) {
+                    $text = $record->confirm_date;
+                }
+            }
+        }
+
+        return "<div class='badge-table-div active'><span>$text</span></div>";
+    }
+
     public function getChalaStatus() {
         $user = $this->user;
         if ($user->status == 9 && $user->step > 0) {
