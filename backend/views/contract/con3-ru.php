@@ -1,4 +1,5 @@
 <?php
+
 use common\models\Student;
 use common\models\Direction;
 use common\models\Exam;
@@ -9,7 +10,6 @@ use Da\QrCode\QrCode;
 use frontend\models\Contract;
 use common\models\User;
 use common\models\Constalting;
-use common\models\Filial;
 
 /** @var Student $student */
 /** @var Direction $direction */
@@ -17,14 +17,12 @@ use common\models\Filial;
 
 $cons = Constalting::findOne($user->cons_id);
 $direction = $student->direction;
-$full_name = $student->last_name.' '.$student->first_name.' '.$student->middle_name;
+$full_name = $student->last_name . ' ' . $student->first_name . ' ' . $student->middle_name;
 $code = '';
 $joy = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 $date = '';
 $link = '';
 $con2 = '';
-$startDate = strtotime('2024-09-20 00:00:00');
-$lastDate = strtotime('2024-09-30 00:00:00');
 if ($student->edu_type_id == 1) {
     $contract = Exam::findOne([
         'direction_id' => $direction->id,
@@ -32,11 +30,8 @@ if ($student->edu_type_id == 1) {
         'status' => 3,
         'is_deleted' => 0
     ]);
-    $code = $cons->code.'-Q3RU';
-    if ($contract->confirm_date > $lastDate) {
-        $contract->confirm_date = rand($startDate, $lastDate);
-    }
-    $date = date("Y-m-d H:i:s" , $contract->confirm_date);
+    $code = $cons->code . '-Q3RU';
+    $date = date("Y-m-d H:i:s", $contract->confirm_date);
     $link = $contract->contract_link;
     $con2 = $contract->contract_third;
     $contract->down_time = time();
@@ -48,11 +43,8 @@ if ($student->edu_type_id == 1) {
         'file_status' => 2,
         'is_deleted' => 0
     ]);
-    $code = $cons->code.'-P3RU';
-    if ($contract->confirm_date > $lastDate) {
-        $contract->confirm_date = rand($startDate, $lastDate);
-    }
-    $date = date("Y-m-d H:i:s" , $contract->confirm_date);
+    $code = $cons->code . '-P3RU';
+    $date = date("Y-m-d H:i:s", $contract->confirm_date);
     $link = $contract->contract_link;
     $con2 = $contract->contract_third;
     $contract->down_time = time();
@@ -64,27 +56,19 @@ if ($student->edu_type_id == 1) {
         'file_status' => 2,
         'is_deleted' => 0
     ]);
-    $code = $cons->code.'-D3RU';
-    if ($contract->confirm_date > $lastDate) {
-        $contract->confirm_date = rand($startDate, $lastDate);
-    }
-    $date = date("Y-m-d H:i:s" , $contract->confirm_date);
+    $code = $cons->code . '-D3RU';
+    $date = date("Y-m-d H:i:s", $contract->confirm_date);
     $link = $contract->contract_link;
     $con2 = $contract->contract_third;
     $contract->down_time = time();
     $contract->save(false);
 }
 
-$filial = Filial::findOne($student->filial_id);
-if (!$filial) {
-    $filial = Filial::find()->orderBy('id asc')->one();
-}
-
-$qr = (new QrCode('https://qabul.tgfu.uz/site/contract?key=' . $link.'&type=3'))->setSize(120, 120)
+$qr = (new QrCode('https://qabul.ZARMED.university/site/contract?key=' . $link . '&type=3'))->setSize(120, 120)
     ->setMargin(10);
 $img = $qr->writeDataUri();
 
-$lqr = (new QrCode('https://license.gov.uz/registry/48a00e41-6370-49d6-baf7-ea67247beeb6'))->setSize(100, 100)
+$lqr = (new QrCode('https://license.gov.uz/registry/da127cfb-12a8-4dd6-b3f8-7516c1e9dd82'))->setSize(100, 100)
     ->setMargin(10);
 $limg = $lqr->writeDataUri();
 
@@ -96,26 +80,30 @@ $limg = $lqr->writeDataUri();
     <tr>
         <td colspan="4" style="text-align: center">
             <b>
-                ДОГОВОР <?= $code ?>  &nbsp;  <?= $direction->code ?> &nbsp; | &nbsp; <?= $contract->id ?> <br>
+                ДОГОВОР <?= $code ?> &nbsp; <?= $direction->code ?> &nbsp; | &nbsp; <?= $contract->id ?> <br>
                 по оказанию образовательных услуг на платной основе
                 в 2024-2025 учебном году
             </b>
         </td>
     </tr>
 
-    <tr><td>&nbsp;</td></tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
 
     <tr>
         <td colspan="2"><?= $date ?></td>
         <td colspan="2" style="text-align: right">г.Ташкент</td>
     </tr>
 
-    <tr><td>&nbsp;</td></tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
 
     <tr>
         <td colspan="4">
-            От имени организации высшего образования «PERFECT UNIVERSITY» (далее – «Университет»)
-            ректор АСКАРАЛИЕВ ОДИЛБЕК УЛУГБЕК УГЛИ, действуя на основании Устава, с одной стороны,
+            От имени организации высшего образования «ZARMED UNIVERSITETI» (далее – «Университет»)
+            директор ШАРИПОВ МУЗАФФАР ТАЛИБЖАНОВИЧ, действуя на основании Устава, с одной стороны,
             <table width="100%">
                 <tr>
                     <td colspan="4">__________________________________________________________________________________ _____________________</td>
@@ -179,7 +167,7 @@ $limg = $lqr->writeDataUri();
             <table width="100%">
                 <tr>
                     <td>Образовательная направленность::</td>
-                    <td><b><?= $direction->code.' '.$direction->name_ru ?></b></td>
+                    <td><b><?= $direction->code . ' ' . $direction->name_ru ?></b></td>
                 </tr>
                 <tr>
                     <td>Форма обучения:</td>
@@ -187,19 +175,19 @@ $limg = $lqr->writeDataUri();
                 </tr>
                 <tr>
                     <td style="padding-right: 15px">Продолжительность обучения по направлению образования:</td>
-                    <td><b><?= $direction->edu_duration .' лет' ?></b></td>
+                    <td><b><?= $direction->edu_duration . ' лет' ?></b></td>
                 </tr>
                 <tr>
                     <td>Учебный курс:</td>
                     <?php if ($student->edu_type_id == 2) : ?>
                         <td><b><?= Course::findOne(['id' => ($student->course_id + 1)])->name_ru ?></b></td>
-                    <?php else: ?>
+                    <?php else : ?>
                         <td><b>1 курс</b></td>
                     <?php endif; ?>
                 </tr>
                 <tr>
                     <td style="padding-right: 15px">Общая стоимость контракта (за один учебный год):</td>
-                    <td><b><?= number_format((int)$contract->contract_price, 0, '', ' ') .' сум.'?></b></td>
+                    <td><b><?= number_format((int)$contract->contract_price, 0, '', ' ') . ' сум.' ?></b></td>
                 </tr>
             </table>
         </td>
@@ -353,19 +341,19 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  2.1.9. Продление сроков оплаты договора.
+            <?= $joy ?> 2.1.9. Продление сроков оплаты договора.
         </td>
     </tr>
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  2.1.10. Принятие решения о переводе режима обучения на дистанционную форму без снижения затрат на образовательные услуги, установленных настоящим договором, в соответствии с действующим законодательством Республики Узбекистан и в зависимости от обстоятельств форс-мажора.
+            <?= $joy ?> 2.1.10. Принятие решения о переводе режима обучения на дистанционную форму без снижения затрат на образовательные услуги, установленных настоящим договором, в соответствии с действующим законодательством Республики Узбекистан и в зависимости от обстоятельств форс-мажора.
         </td>
     </tr>
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  2.2. Обязательства университета:
+            <?= $joy ?> 2.2. Обязательства университета:
         </td>
     </tr>
 
@@ -396,7 +384,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  2.2.5. Университет не берет на себя:
+            <?= $joy ?> 2.2.5. Университет не берет на себя:
         </td>
     </tr>
 
@@ -475,7 +463,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  2.4.3. При изменении минимального размера оплаты труда или базового размера начисления оплата производится в установленные сроки, пропорционально сумме договорного платежа соответственно.
+            <?= $joy ?> 2.4.3. При изменении минимального размера оплаты труда или базового размера начисления оплата производится в установленные сроки, пропорционально сумме договорного платежа соответственно.
         </td>
     </tr>
 
@@ -505,7 +493,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  2.5.4. Внесение предложений по совершенствованию образовательных процессов вуза.
+            <?= $joy ?> 2.5.4. Внесение предложений по совершенствованию образовательных процессов вуза.
         </td>
     </tr>
 
@@ -542,13 +530,13 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  в) предоставление академического отпуска в связи со смертью близкого родственника в этом случае рассматривается руководством вуза в каждом конкретном случае и принимается решение;
+            <?= $joy ?> в) предоставление академического отпуска в связи со смертью близкого родственника в этом случае рассматривается руководством вуза в каждом конкретном случае и принимается решение;
         </td>
     </tr>
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  г) в связи с мобилизацией для прохождения военной службы;
+            <?= $joy ?> г) в связи с мобилизацией для прохождения военной службы;
         </td>
     </tr>
 
@@ -566,7 +554,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  2.6. Обязанности студента:
+            <?= $joy ?> 2.6. Обязанности студента:
         </td>
     </tr>
 
@@ -584,7 +572,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  2.6.3. Предоставление всего необходимого документа в соответствии с внутренними документами университета.
+            <?= $joy ?> 2.6.3. Предоставление всего необходимого документа в соответствии с внутренними документами университета.
         </td>
     </tr>
 
@@ -596,7 +584,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  2.6.5. Не совершение действий и поступков, противоречащих законодательству Республики Узбекистан.
+            <?= $joy ?> 2.6.5. Не совершение действий и поступков, противоречащих законодательству Республики Узбекистан.
         </td>
     </tr>
 
@@ -614,7 +602,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  2.6.8. Выезд с территории Республики Узбекистан на основании письменного разрешения университета.
+            <?= $joy ?> 2.6.8. Выезд с территории Республики Узбекистан на основании письменного разрешения университета.
         </td>
     </tr>
 
@@ -649,7 +637,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 3.1. Оплата контракта на 2024-2025 учебный год  <?= number_format((int)$contract->contract_price, 0, '', ' ') .' сум.'?>
+            <?= $joy ?> 3.1. Оплата контракта на 2024-2025 учебный год <?= number_format((int)$contract->contract_price, 0, '', ' ') . ' сум.' ?>
         </td>
     </tr>
 
@@ -670,7 +658,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?> 3.3.1. До 15 сентября 2024 года — не менее 25 процентов .
+            <?= $joy ?> 3.3.1. До 1 октября 2024 года — не менее 25 процентов .
         </td>
     </tr>
 
@@ -689,7 +677,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  3.3.4. До 15 апреля 2025 года – сумма неоплаченной части оплаты обучения, предусмотренной
+            <?= $joy ?> 3.3.4. До 15 апреля 2025 года – сумма неоплаченной части оплаты обучения, предусмотренной
             пунктом 3.1.
         </td>
     </tr>
@@ -754,7 +742,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  4.2. Настоящее Соглашение может быть расторгнуто в следующих случаях:
+            <?= $joy ?> 4.2. Настоящее Соглашение может быть расторгнуто в следующих случаях:
         </td>
     </tr>
 
@@ -781,7 +769,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  4.2.4. в связи с истечением срока действия договора;
+            <?= $joy ?> 4.2.4. в связи с истечением срока действия договора;
         </td>
     </tr>
 
@@ -793,7 +781,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  4.2.6. В случае прекращения деятельности университета.
+            <?= $joy ?> 4.2.6. В случае прекращения деятельности университета.
         </td>
     </tr>
 
@@ -922,20 +910,20 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  6.3. Университет не несет ответственности за источники оплаты контракта .
+            <?= $joy ?> 6.3. Университет не несет ответственности за источники оплаты контракта .
         </td>
     </tr>
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  6.4. Университет не несет ответственности за ошибки, допущенные при оформлении оплаты
+            <?= $joy ?> 6.4. Университет не несет ответственности за ошибки, допущенные при оформлении оплаты
             контракта .
         </td>
     </tr>
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  6.5. Отчисление Обучающегося или исключение из рядов Обучающихся не освобождает
+            <?= $joy ?> 6.5. Отчисление Обучающегося или исключение из рядов Обучающихся не освобождает
             Заказчика и Обучающегося от уплаты платы за оказанные Обучающемуся образовательные услуги ииных обязательств по настоящему договору.
         </td>
     </tr>
@@ -978,7 +966,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  7.3. Обязательства, предусмотренные пунктом 1 настоящего Соглашения, могут быть
+            <?= $joy ?> 7.3. Обязательства, предусмотренные пунктом 1 настоящего Соглашения, могут быть
             предоставлены непосредственно или в режиме онлайн в соответствии с требованиями действующего
             законодательства Республики Узбекистан. В случае оказания услуг академического образования в
             режиме онлайн Обучающийся несет личную ответственность за качество состояния технических и
@@ -1079,7 +1067,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  8.3. В соответствии с соответствующим постановлением Президента Республики Узбекистан при
+            <?= $joy ?> 8.3. В соответствии с соответствующим постановлением Президента Республики Узбекистан при
             изменении минимального размера оплаты труда или базовой расчетной суммы размер контрактной
             оплаты увеличивается с начала следующего семестра.
         </td>
@@ -1097,7 +1085,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4">
-            <?= $joy ?>  8.5. Настоящее Соглашение составлено на узбекском и на русском языках в трех экземплярах,
+            <?= $joy ?> 8.5. Настоящее Соглашение составлено на узбекском и на русском языках в трех экземплярах,
             имеющих одинаковую юридическую силу, по одному экземпляру для каждой стороны.
         </td>
     </tr>
@@ -1140,22 +1128,22 @@ $limg = $lqr->writeDataUri();
 
                     <tr>
                         <td colspan="2" style="vertical-align: top">
-                            <b>"PERFECT UNIVERSITY" высшая образовательная организация</b> <br>
+                            <b>"ZARMED UNIVERSITETI" высшая образовательная организация</b> <br>
                             <b>Адрес:</b> город Ташкент, Юнусабадский район,
                             МФУ Посира, улица Богишамол, 220 <br>
                             <b>Сч/Н:</b> <?= $cons->h_r ?> <br>
                             <b>Банк:</b> "КАПИТАЛБАНК" АТБ Сиргалинский филиал <br>
-                            <b>Код банка (МФО):</b> 01042  <br>
-                            <b>ИФУТ (ОКЕД):</b> 85420  <br>
+                            <b>Код банка (МФО):</b> 01042 <br>
+                            <b>ИФУТ (ОКЕД):</b> 85420 <br>
                             <b>СТИР (ИНН):</b> 309477784 <br>
                             <b>Телефон:</b> +998 77 129-29-29 <br>
                             <b>Телефон:</b> +998 55 500-02-50 <br>
                         </td>
                         <td colspan="2" style="vertical-align: top">
                             <b>ФИО.: </b> <?= $full_name ?> <br>
-                            <b>Паспортные данные:</b> <?= $student->passport_serial.' '.$student->passport_number ?> <br>
+                            <b>Паспортные данные:</b> <?= $student->passport_serial . ' ' . $student->passport_number ?> <br>
                             <b>ПИНФЛ:</b> <?= $student->passport_pin ?> <br>
-                            <b>Зарегистрированный номер телефона:  </b> <?= $student->user->username ?> <br>
+                            <b>Зарегистрированный номер телефона: </b> <?= $student->user->username ?> <br>
                         </td>
                     </tr>
 
@@ -1178,10 +1166,10 @@ $limg = $lqr->writeDataUri();
 
                     <tr>
                         <td colspan="2">
-                            Ректор _________________________ Аскаралиев О.У
+                            Директор ___________________ ШАРИПОВ М.Т.
                         </td>
                         <td colspan="2">
-                            Подпись : _________________________________________
+                            Подпись : _____________________________
                         </td>
                     </tr>
 
@@ -1196,7 +1184,7 @@ $limg = $lqr->writeDataUri();
                         <td colspan="2" style="vertical-align: top">
                             <img src="<?= $limg ?>" width="120px"> <br>
                             <b>Дата и номер лицензии</b> <br>
-                            30.12.2022 <b>№ 222840</b>
+                            19.10.2022 <b>№ 043951</b>
                         </td>
                     </tr>
 
@@ -1218,8 +1206,8 @@ $limg = $lqr->writeDataUri();
                             <b>Адрес: </b> _________________ ________________ <br><br>
                             _____________ _________________ _____________________ <br><br>
                             <b>Сч/Н:</b> _________________ ________________ <br><br>
-                            <b>Банк:</b> _________________ ________________  <br><br>
-                            <b>MFO:</b> _________________ ________________  <br><br>
+                            <b>Банк:</b> _________________ ________________ <br><br>
+                            <b>MFO:</b> _________________ ________________ <br><br>
                             <b>ИНН:</b> _________________ ________________ <br><br>
                             <b>Тел:</b> _________________ ________________ <br><br>
                             <b>Э-почта:</b> _________________ ________________ <br><br>

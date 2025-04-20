@@ -34,7 +34,7 @@ $breadcrumbs['item'][] = [
 
         <?php if (permission('auth-item', 'delete')): ?>
             <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'name' => $model->name], [
-                'class' => 'b-btn b-danger mb-3',
+                'class' => 'b-btn b-danger',
                 'data' => [
                     'confirm' => Yii::t('app', 'Ma\'lumotni o\'chirishni xoxlaysizmi?'),
                     'method' => 'post',

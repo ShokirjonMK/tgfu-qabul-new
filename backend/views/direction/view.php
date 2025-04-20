@@ -34,11 +34,11 @@ $breadcrumbs['item'][] = [
 
     <p class="mb-3">
         <?php if (permission('direction', 'update')): ?>
-            <?= Html::a(Yii::t('app', 'Update'), ['update', 'name' => $model->name], ['class' => 'b-btn b-primary mb-3']) ?>
+            <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'b-btn b-primary mb-3']) ?>
         <?php endif; ?>
 
         <?php if (permission('direction', 'delete')): ?>
-            <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'name' => $model->name], [
+            <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
                 'class' => 'b-btn b-danger mb-3',
                 'data' => [
                     'confirm' => Yii::t('app', 'Ma\'lumotni o\'chirishni xoxlaysizmi?'),
