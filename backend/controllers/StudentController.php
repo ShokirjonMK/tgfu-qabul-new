@@ -12,6 +12,7 @@ use common\models\Exam;
 use common\models\ExamSubject;
 use common\models\StepFour;
 use common\models\StepOne;
+use common\models\StepOneThree;
 use common\models\StepOneTwo;
 use common\models\StepThreeFour;
 use common\models\StepThreeOne;
@@ -230,7 +231,19 @@ class StudentController extends Controller
     {
         $student = $this->findModel($id);
         $user = $student->user;
-        $model = new StepOneTwo();
+        $action = '';
+        if (\Yii::$app->params['ikIntegration'] == 1) {
+            $action = '_form-step1';
+            $model = new StepOne();
+        } elseif (\Yii::$app->params['ikIntegration'] == 2) {
+            $action = '_form-step12';
+            $model = new StepOneTwo();
+        } elseif (\Yii::$app->params['ikIntegration'] == 3) {
+            $action = '_form-step13';
+            $model = new StepOneThree();
+        } else {
+            return false;
+        }
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $result = $model->ikStep($user , $student);
@@ -243,7 +256,7 @@ class StudentController extends Controller
             }
         }
 
-        return $this->renderAjax('_form-step1' , [
+        return $this->renderAjax($action , [
             'model' => $model,
             'student' => $student,
         ]);
