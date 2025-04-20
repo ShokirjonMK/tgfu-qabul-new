@@ -56,10 +56,18 @@ class Integration extends Model
                 ->send();
 
             if ($response->isOk) {
-                return $response->data;
+                $data = $response->data;
+//                dd($response->data['data']);
+                if ($data['status'] == 1) {
+                    return ['is_ok' => true, 'data' => $data['data']];
+                } else {
+                    $errors[] = [$data['message']];
+                    return ['is_ok' => false, 'errors' => $errors];
+                }
             }
 
-            return false;
+            $errors[] = ['Ma\'lumotni olishda xatolik sodir bo\'ldi.'];
+            return ['is_ok' => false, 'errors' => $errors];
 
         } catch (\Throwable $e) {
             $errors[] = ['Ma\'lumotni olishda xatolik sodir bo\'ldi.'];
