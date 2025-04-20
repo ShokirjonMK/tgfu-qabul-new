@@ -406,9 +406,9 @@
     position: relative;
 }
 .mb_vector_img {
+    width: 120px;
     position: absolute;
     right: 0;
-    top: 0;
     bottom: 0;
     height: 100%;
     z-index: 1;
@@ -827,6 +827,9 @@
 }
 
 @media screen and (max-width: 700px) {
+    .mb_vector_img {
+        display: none;
+    }
     .banner-center h1 {
         font-size: 6rem;
     }
