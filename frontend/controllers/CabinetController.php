@@ -261,21 +261,11 @@ class CabinetController extends Controller
             \Yii::$app->session->setFlash('error', $errors);
             return $this->redirect(\Yii::$app->request->referrer);
         }
-        if ($type == 2) {
-            $eduDirection = $student->eduDirection;
-            if ($eduDirection->edu_type_id == 4) {
-                $action = 'master';
-            } elseif ($eduDirection->edu_form_id == 2) {
-                $action = 'contract2';
-            } elseif ($eduDirection->edu_form_id == 1) {
-                $action = 'contract2';
-            } else {
-                $errors[] = ['Shartnoma mavjud emas!'];
-                \Yii::$app->session->setFlash('error', $errors);
-                return $this->redirect(\Yii::$app->request->referrer);
-            }
-        } else {
-            $errors[] = ['Type not\'g\'ri tanlandi!'];
+        $eduDirection = $student->eduDirection;
+        if ($eduDirection->edu_type_id != 4) {
+            $action = 'contract';
+        }  else {
+            $errors[] = ['Shartnoma mavjud emas!'];
             \Yii::$app->session->setFlash('error', $errors);
             return $this->redirect(\Yii::$app->request->referrer);
         }
