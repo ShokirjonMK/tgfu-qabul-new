@@ -31,7 +31,7 @@ $this->title = 'TOSHKENT GUMANITAR FANLAR UNIVERSITETI';
             <div class="banner-logo">
                 <div class="circle">
                     <div class="logo">
-                        <img src="/frontend/web/images/logo111.png" alt="">
+                        <img src="/frontend/web/images/logo_blue.svg" alt="">
                     </div>
                     <div class="circle-text">
                         <p>TOSHKENT * GUMANITAR FANLAR * UNIVERSITETI *</p>
