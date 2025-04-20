@@ -63,21 +63,36 @@ class StepOneTwo extends Model
         }
 
         if ($pinfl != $this->passport_pin) {
+
             self::deleteNull($student->id);
 
-            $student->last_name = $this->last_name;
-            $student->first_name = $this->first_name;
-            $student->middle_name = $this->middle_name;
-            $student->birthday = $this->birthday;
-            $student->passport_serial = $this->passport_serial;
-            $student->passport_number = $this->passport_number;
-            $student->passport_pin = $this->passport_pin;
-            $student->gender = 1;
+            $integration = new Integration();
+            $integration->pinfl = $this->jshshr;
+            $data = $integration->checkPinfl();
+            if ($data['is_ok']) {
+                $data = $data['data'];
+                $student->first_name = $data['first_name'];
+                $student->last_name = $data['last_name'];
+                $student->middle_name = $data['middle_name'];
+                $student->passport_number = $data['passport_number'];
+                $student->passport_serial = $data['passport_serial'];
+                $student->passport_pin = $data['passport_pin'];
+                $student->birthday = $data['birthday'];
+                $student->gender = $data['gender'];
 
-            $amo = CrmPush::processType(3, $student, $user);
-            if (!$amo['is_ok']) {
+                if (!$student->validate()){
+                    $errors[] = $this->simple_errors($student->errors);
+                }
+
+                $amo = CrmPush::processType(3, $student, $user);
+                if (!$amo['is_ok']) {
+                    $transaction->rollBack();
+                    return ['is_ok' => false , 'errors' => $amo['errors']];
+                }
+            } else {
+                $errors[] = ['Ma\'lumotlarni olishda xatolik yuz berdi.'];
                 $transaction->rollBack();
-                return ['is_ok' => false , 'errors' => $amo['errors']];
+                return ['is_ok' => false, 'errors' => $errors];
             }
         }
 

@@ -41,6 +41,7 @@ class Integration extends Model
 
     public function checkPassport()
     {
+        $errors = [];
         try {
             $client = $this->getHttpClient();
 
@@ -61,13 +62,14 @@ class Integration extends Model
             return false;
 
         } catch (\Throwable $e) {
-            Yii::error("Passport check error: " . $e->getMessage(), __METHOD__);
-            return false;
+            $errors[] = ['Ma\'lumotni olishda xatolik sodir bo\'ldi.'];
+            return ['is_ok' => false, 'errors' => $errors];
         }
     }
 
     public function checkPinfl()
     {
+        $errors = [];
         try {
             $client = $this->getHttpClient();
 
@@ -78,14 +80,22 @@ class Integration extends Model
                 ->send();
 
             if ($response->isOk) {
-                return $response->data;
+                $data = $response->data;
+//                dd($response->data['data']);
+                if ($data['status'] == 1) {
+                    return ['is_ok' => true, 'data' => $data['data']];
+                } else {
+                    $errors[] = [$data['message']];
+                    return ['is_ok' => false, 'errors' => $errors];
+                }
             }
 
-            return false;
+            $errors[] = ['Ma\'lumotni olishda xatolik sodir bo\'ldi.'];
+            return ['is_ok' => false, 'errors' => $errors];
 
         } catch (\Throwable $e) {
-            Yii::error("PINFL check error: " . $e->getMessage(), __METHOD__);
-            return false;
+            $errors[] = ['Ma\'lumotni olishda xatolik sodir bo\'ldi.'];
+            return ['is_ok' => false, 'errors' => $errors];
         }
     }
 
