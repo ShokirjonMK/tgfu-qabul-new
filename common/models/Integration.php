@@ -109,4 +109,108 @@ class Integration extends Model
      * print_r($result2);
      * echo "</pre>";
      */
+
+
+
+     /***
+      * pin result:
+{
+    "status": 1,
+    "message": "",
+    "data": {
+        "pinfl": null,
+        "docSeria": "AC",
+        "docNumber": "0309038",
+        "surnameLatin": "XUDAYBERGANOVA",
+        "nameLatin": "SHOHIDA",
+        "patronymLatin": "SHONAZAR QIZI",
+        "engSurname": "KHUDAYBERGANOVA",
+        "engName": "SHOKHIDA",
+        "birthDate": "2002-05-05",
+        "birthPlace": null,
+        "birthCountry": "УЗБЕКИСТАН",
+        "birthCountryId": 182,
+        "liveStatus": 1,
+        "nationality": "УЗБЕК/УЗБЕЧКА",
+        "nationalityId": 44,
+        "citizenship": "УЗБЕКИСТАН",
+        "citizenshipId": 182,
+        "sex": 2,
+        "docGivePlace": "ГУРЛЕНСКИЙ РОВД ХОРЕЗМСКОЙ ОБЛАСТИ",
+        "docGivePlaceId": 33208,
+        "docDateBegin": "2018-11-26",
+        "docDateEnd": "2028-11-25",
+        "photo": "/9j/4AAQSkZJRgABAQEAYABB/v/r0VHsT+6yoq+U6OZH/9k="
+    }
+}
+      */
+
+
+      /**
+       * seria reponse
+       * 
+{
+    "status": 1,
+    "message": "Maʼlumot topildi",
+    "data": {
+        "photo": null,
+        "pinfl": 60505027110012,
+        "docSeria": "AC",
+        "docNumber": "0309038",
+        "surnameLatin": "XUDAYBERGANOVA",
+        "nameLatin": "SHOHIDA",
+        "patronymLatin": "SHONAZAR QIZI",
+        "engSurname": null,
+        "engName": null,
+        "birthDate": "2002-05-05",
+        "birthPlace": "GURLAN TUMANI",
+        "birthCountry": null,
+        "birthCountryId": 182,
+        "liveStatus": null,
+        "nationality": "O‘ZBEK",
+        "nationalityId": 44,
+        "citizenship": "O‘ZBEKISTON",
+        "citizenshipId": 182,
+        "sex": 2,
+        "docGivePlace": "XORAZM VILOYATI GURLAN TUMANI IIB",
+        "docGivePlaceId": null,
+        "docDateBegin": "2018-11-26",
+        "docDateEnd": "2028-11-25",
+        "photo": "/9j/4AAQSkZJRgABAQEAYABB/v/r0VHsT+6yoq+U6OZH/9k="
+    }
+}
+       */
+        "pinfl": 60505027110012,
+        "docSeria": "AC",
+        "docNumber": "0309038",
+        "surnameLatin": "XUDAYBERGANOVA",
+        "nameLatin": "SHOHIDA",
+        "patronymLatin": "SHONAZAR QIZI",
+        "engSurname": null,
+        "engName": null,
+        "birthDate": "2002-05-05",
+        "birthPlace": "GURLAN TUMANI",
+        "birthCountry": null,
+        "birthCountryId": 182,
+        "liveStatus": null,
+        "nationality": "O‘ZBEK",
+        "nationalityId": 44,
+        "citizenship": "O‘ZBEKISTON",
+        "citizenshipId": 182,
+        "sex": 2,
+        "docGivePlace": "XORAZM VILOYATI GURLAN TUMANI IIB",
+        "docGivePlaceId": null,
+        "docDateBegin": "2018-11-26",
+        "docDateEnd": "2028-11-25",
+        "tin": null,
+        "document": "AC0309038",
+        "full_name": "XUDAYBERGANOVA SHOHIDA SHONAZAR QIZI",
+        "address": "Gurlan tumani Хорезмская область, Гурленский район, Эшимжирон ССГ, Эшимжирон МСГ, ул. Тадбиркорлар, дом 25, 57",
+        "region_id": 33,
+        "district_id": 3307,
+        "is_itd": false,
+        "living_place": null
+    }
+}
+       */
 }
