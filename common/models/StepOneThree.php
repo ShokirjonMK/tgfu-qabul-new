@@ -13,18 +13,25 @@ use yii\httpclient\Client;
 /**
  * Signup form
  */
-class StepOne extends Model
+class StepOneThree extends Model
 {
-    public $jshshr;
+    public $birthday;
+    public $seria;
+    public $number;
+
 
     public function rules()
     {
         return [
-            [['jshshr'], 'required'],
-            [['jshshr'], 'string', 'min' => 14, 'max' => 14, 'message' => 'Pasport pin 14 xonali bo\'lishi kerak'],
-            [['jshshr'], 'match', 'pattern' => '/^\d{14}$/', 'message' => 'Pasport pin faqat 14 ta raqamdan iborat bo‘lishi kerak'],
+            [['birthday', 'seria', 'number'], 'required'],
+            [['seria'], 'string', 'min' => 2, 'max' => 2, 'message' => 'Pasport seria 2 xonali bo\'lishi kerak'],
+            ['seria', 'match', 'pattern' => '/^[^\d]*$/', 'message' => 'Pasport seriasi raqamlardan iborat bo\'lmasligi kerak'],
+            [['birthday'], 'safe'],
+            [['number'], 'string', 'min' => 7, 'max' => 7, 'message' => 'Pasport raqam 7 xonali bo\'lishi kerak'],
+            ['number', 'match', 'pattern' => '/^\d{7}$/', 'message' => 'Pasport raqam faqat raqamlardan iborat bo\'lishi kerak'],
         ];
     }
+
 
     function simple_errors($errors) {
         $result = [];
@@ -52,10 +59,20 @@ class StepOne extends Model
 
             self::deleteNull($student->id);
 
-            $integration = new Integration();
-            $integration->pinfl = $this->jshshr;
-            $data = $integration->checkPinfl();
-            dd($data);
+            $client = new Client();
+            $url = '';
+
+            $params = [
+                'passport_pin' => $this->jshshr,
+                'phone' => $student->username,
+            ];
+
+            $response = $client->createRequest()
+                ->setMethod('POST')
+                ->setUrl($url)
+                ->setData($params)
+                ->addHeaders(['content-type' => 'application/json'])
+                ->send();
 
             if ($response->data) {
                 $data = $response->data;
