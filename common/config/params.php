@@ -6,5 +6,5 @@ return [
     'senderName' => 'Example.com mailer',
     'user.passwordResetTokenExpire' => 3600,
     'user.passwordMinLength' => 6,
-    'ikIntegration' => 1,
+    'ikIntegration' => 2,
 ];
