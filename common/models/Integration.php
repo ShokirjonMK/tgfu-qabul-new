@@ -88,4 +88,25 @@ class Integration extends Model
             return false;
         }
     }
+
+
+
+    /**
+     * ✅ Foydalanish (Controller misol):
+     * 
+     * $model = new \app\models\PersonVerificationForm([
+     *     'series' => 'AC',
+     *     'number' => '0309038',
+     *     'birthDate' => '2002-05-05',
+     *     'pinfl' => '60505027110012'
+     * ]);
+
+     * $result1 = $model->checkPassport();
+     * $result2 = $model->checkPinfl();
+
+     * echo "<pre>";
+     * print_r($result1);
+     * print_r($result2);
+     * echo "</pre>";
+     */
 }
