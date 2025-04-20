@@ -149,37 +149,6 @@ class Integration extends Model
       /**
        * seria reponse
        * 
-{
-    "status": 1,
-    "message": "Maʼlumot topildi",
-    "data": {
-        "photo": null,
-        "pinfl": 60505027110012,
-        "docSeria": "AC",
-        "docNumber": "0309038",
-        "surnameLatin": "XUDAYBERGANOVA",
-        "nameLatin": "SHOHIDA",
-        "patronymLatin": "SHONAZAR QIZI",
-        "engSurname": null,
-        "engName": null,
-        "birthDate": "2002-05-05",
-        "birthPlace": "GURLAN TUMANI",
-        "birthCountry": null,
-        "birthCountryId": 182,
-        "liveStatus": null,
-        "nationality": "O‘ZBEK",
-        "nationalityId": 44,
-        "citizenship": "O‘ZBEKISTON",
-        "citizenshipId": 182,
-        "sex": 2,
-        "docGivePlace": "XORAZM VILOYATI GURLAN TUMANI IIB",
-        "docGivePlaceId": null,
-        "docDateBegin": "2018-11-26",
-        "docDateEnd": "2028-11-25",
-        "photo": "/9j/4AAQSkZJRgABAQEAYABB/v/r0VHsT+6yoq+U6OZH/9k="
-    }
-}
-       */
         "pinfl": 60505027110012,
         "docSeria": "AC",
         "docNumber": "0309038",
