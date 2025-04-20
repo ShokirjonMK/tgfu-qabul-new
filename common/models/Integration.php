@@ -149,37 +149,47 @@ class Integration extends Model
       /**
        * seria reponse
        * 
-        "pinfl": 60505027110012,
-        "docSeria": "AC",
-        "docNumber": "0309038",
-        "surnameLatin": "XUDAYBERGANOVA",
-        "nameLatin": "SHOHIDA",
-        "patronymLatin": "SHONAZAR QIZI",
-        "engSurname": null,
-        "engName": null,
-        "birthDate": "2002-05-05",
-        "birthPlace": "GURLAN TUMANI",
-        "birthCountry": null,
-        "birthCountryId": 182,
-        "liveStatus": null,
-        "nationality": "O‘ZBEK",
-        "nationalityId": 44,
-        "citizenship": "O‘ZBEKISTON",
-        "citizenshipId": 182,
-        "sex": 2,
-        "docGivePlace": "XORAZM VILOYATI GURLAN TUMANI IIB",
-        "docGivePlaceId": null,
-        "docDateBegin": "2018-11-26",
-        "docDateEnd": "2028-11-25",
-        "tin": null,
-        "document": "AC0309038",
-        "full_name": "XUDAYBERGANOVA SHOHIDA SHONAZAR QIZI",
-        "address": "Gurlan tumani Хорезмская область, Гурленский район, Эшимжирон ССГ, Эшимжирон МСГ, ул. Тадбиркорлар, дом 25, 57",
-        "region_id": 33,
-        "district_id": 3307,
-        "is_itd": false,
-        "living_place": null
-    }
-}
+        * "pinfl": 60505027110012,
+        * "docSeria": "AC",
+        * "docNumber": "0309038",
+        * "surnameLatin": "XUDAYBERGANOVA",
+        * "nameLatin": "SHOHIDA",
+        * "patronymLatin": "SHONAZAR QIZI",
+        * "engSurname": null,
+        * "engName": null,
+        * "birthDate": "2002-05-05",
+        * "birthPlace": "GURLAN TUMANI",
+        * "birthCountry": null,
+        * "birthCountryId": 182,
+        * "liveStatus": null,
+        * "nationality": "O‘ZBEK",
+        * "nationalityId": 44,
+        * "citizenship": "O‘ZBEKISTON",
+        * "citizenshipId": 182,
+        * "sex": 2,
+        * "docGivePlace": "XORAZM VILOYATI GURLAN TUMANI IIB",
+        * "docGivePlaceId": null,
+        * "docDateBegin": "2018-11-26",
+        * "docDateEnd": "2028-11-25",
+        * "tin": null,
+        * "document": "AC0309038",
+        * "full_name": "XUDAYBERGANOVA SHOHIDA SHONAZAR QIZI",
+        * "address": "Gurlan tumani Хорезмская область, Гурленский район, Эшимжирон ССГ, Эшимжирон МСГ, ул. Тадбиркорлар, дом 25, 57",
+        * "region_id": 33,
+        * "district_id": 3307,
+        * "is_itd": false,
+       * "living_place": null
+       * }
+       * }
+       *
+       *
+       * $student->first_name = $data['first_name'];
+       * $student->last_name = $data['last_name'];
+       * $student->middle_name = $data['middle_name'];
+       * $student->passport_number = $data['passport_number'];
+       * $student->passport_serial = $data['passport_serial'];
+       * $student->passport_pin = $data['passport_pin'];
+       * $student->birthday = $data['birthday'];
+       * $student->gender = $data['gender'];
        */
 }
