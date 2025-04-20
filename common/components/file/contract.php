@@ -1,4 +1,6 @@
 <?php
+
+use common\models\CrmPush;
 use common\models\Student;
 use common\models\Direction;
 use common\models\Exam;
@@ -8,19 +10,19 @@ use common\models\Course;
 use Da\QrCode\QrCode;
 use frontend\models\Contract;
 use common\models\User;
-use common\models\Constalting;
-use common\models\StudentMagistr;
-use common\models\Filial;
+use common\models\Consulting;
+use common\models\Branch;
+use common\models\StudentMaster;
 
 /** @var Student $student */
 /** @var Direction $direction */
 /** @var User $user */
-/** @var Filial $filial */
+/** @var Branch $filial */
 
 $user = $student->user;
-$phone = preg_replace('/\D/', '', $user->username);
-$cons = Constalting::findOne($user->cons_id);
-$direction = $student->direction;
+$cons = Consulting::findOne($user->cons_id);
+$eduDirection = $student->eduDirection;
+$direction = $eduDirection->direction;
 $full_name = $student->last_name.' '.$student->first_name.' '.$student->middle_name;
 $code = '';
 $joy = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -29,68 +31,68 @@ $link = '';
 $con2 = '';
 if ($student->edu_type_id == 1) {
     $contract = Exam::findOne([
-        'direction_id' => $direction->id,
+        'edu_direction_id' => $eduDirection->id,
         'student_id' => $student->id,
         'status' => 3,
         'is_deleted' => 0
     ]);
-    $code = $cons->code.'-Q';
-    $date = date("Y-m-d H:i:s" , $contract->confirm_date);
-    $link = $contract->contract_link;
-    $con2 = $contract->contract_second;
+    $code = 'Q2/'.$cons->code.'/'.$contract->id;
+    $date = date("Y-m-d H:i" , $contract->confirm_date);
+    $link = '1&id='.$contract->id;
+    $con2 = '2'.$contract->invois;
     $contract->down_time = time();
     $contract->save(false);
 } elseif ($student->edu_type_id == 2) {
     $contract = StudentPerevot::findOne([
-        'direction_id' => $direction->id,
+        'edu_direction_id' => $eduDirection->id,
         'student_id' => $student->id,
         'file_status' => 2,
         'is_deleted' => 0
     ]);
-    $code = $cons->code.'-P';
-    $date = date("Y-m-d H:i:s" , $contract->confirm_date);
-    $link = $contract->contract_link;
-    $con2 = $contract->contract_second;
+    $code = 'P2/'.$cons->code.'/'.$contract->id;
+    $date = date("Y-m-d H:i" , $contract->confirm_date);
+    $link = '2&id='.$contract->id;
+    $con2 = '2'.$contract->invois;
     $contract->down_time = time();
     $contract->save(false);
 } elseif ($student->edu_type_id == 3) {
     $contract = StudentDtm::findOne([
-        'direction_id' => $direction->id,
+        'edu_direction_id' => $eduDirection->id,
         'student_id' => $student->id,
         'file_status' => 2,
         'is_deleted' => 0
     ]);
-    $code = $cons->code.'-D';
+    $code = 'D2/'.$cons->code.'/'.$contract->id;
     $date = date("Y-m-d H:i:s" , $contract->confirm_date);
-    $link = $contract->contract_link;
-    $con2 = $contract->contract_second;
+    $link = '3&id='.$contract->id;
+    $con2 = '2'.$contract->invois;
     $contract->down_time = time();
     $contract->save(false);
 } elseif ($student->edu_type_id == 4) {
-    $contract = StudentMagistr::findOne([
-        'direction_id' => $direction->id,
+    $contract = StudentMaster::findOne([
+        'edu_direction_id' => $eduDirection->id,
         'student_id' => $student->id,
         'file_status' => 2,
         'is_deleted' => 0
     ]);
-    $code = $cons->code.'-M';
+    $code = 'M2/'.$cons->code.'/'.$contract->id;
     $date = date("Y-m-d H:i:s" , $contract->confirm_date);
-    $link = $contract->contract_link;
-    $con2 = $contract->contract_second;
+    $link = '4&id='.$contract->id;
+    $con2 = '2'.$contract->invois;
     $contract->down_time = time();
     $contract->save(false);
 }
 
-$filial = Filial::findOne($student->filial_id);
-if (!$filial) {
-    $filial = Filial::find()->orderBy('id asc')->one();
-}
+$student->is_down = 1;
+$student->update(false);
 
-$qr = (new QrCode('https://qabul.tgfu.uz/site/contract?key=' . $link.'&type=2'))->setSize(120, 120)
+$filial = Branch::findOne($student->branch_id);
+
+$qr = (new QrCode('https://admission.zarmeduniver.com/site/contract?key=' . $link.'&type=2'))->setSize(120, 120)
     ->setMargin(10);
 $img = $qr->writeDataUri();
 
-$lqr = (new QrCode('https://license.gov.uz/registry/48a00e41-6370-49d6-baf7-ea67247beeb6'))->setSize(100, 100)
+$lqr = (new QrCode('https://license.gov.uz/registry/005d3941-2cb8-432d-98c4-a45e4f9a9bc3'))->setSize(100, 100)
     ->setMargin(10);
 $limg = $lqr->writeDataUri();
 
@@ -114,14 +116,14 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="2"><?= $date ?></td>
-        <td colspan="2" style="text-align: right"><span>Toshkent shahri</span></td>
+        <td colspan="2" style="text-align: right"><span><?= $filial->name_uz ?></span></td>
     </tr>
 
     <tr><td>&nbsp;</td></tr>
 
     <tr>
         <td colspan="4" style="text-align: justify">
-            Oliy ta’lim хizmatlarini ko‘rsatish faoliyati uchun 2022-yil 30-dekabrda bеrilgan 222840-raqamli litsеnziya egasi, <b style="text-transform: uppercase;"><?= $filial->univer_name_uz ?></b> (kеyingi o‘rinlarda matnda “Ta’lim tashkiloti” dеb yuritiladi) nomidan uning Ustaviga muvofiq ish ko‘ruvchi rektor <b style="text-transform: uppercase;"><?= $filial->prorektor_uz ?></b> bir tomondan va
+            Oliy ta’lim хizmatlarini ko‘rsatish faoliyati uchun 2022-yil 30-dekabrda bеrilgan 222840-raqamli litsеnziya egasi, <b style="text-transform: uppercase;"><?= $filial->name_uz ?></b> (kеyingi o‘rinlarda matnda “Ta’lim tashkiloti” dеb yuritiladi) nomidan uning Ustaviga muvofiq ish ko‘ruvchi rektor <b style="text-transform: uppercase;"><?= $filial->rector_uz ?></b> bir tomondan va
             <b style="text-transform: uppercase;"><?= $full_name ?></b> (kеyingi o‘rinlarda matnda “Talaba” dеb yuritiladi) ikkinchi tomondan, <br>
             _______________________________________________ keyingi o`rinlarda matnda “To‘lovchi” deb yuritiladi) __________________ asosida ish yurituvchi
             ____________________________________________ ishtirokida (birgalikda- “Taraflar” deb atalishadi) quyidagilar to‘g‘risida ushbu shartnomani tuzdilar:
@@ -144,7 +146,7 @@ $limg = $lqr->writeDataUri();
 
     <tr>
         <td colspan="4" style="text-align: justify">
-            1.1. Mazkur Shartnomaga asosan Taʻlim tashkiloti Talabani 2025/2026 oʻquv yili davomida <b><?= $direction->code.' '.$direction->name_uz ?></b> ta’lim yo‘nalishi bo‘yicha <b style="text-transform: uppercase"><?= $direction->eduForm->name_uz ?></b> ta’lim shaklida bakalavr qilib tayyorlash dasturi bo‘yicha o‘quv jarayonini (keyingi o‘rinlarda “o‘qitish”) amalga oshirish majburiyatini o‘z zimmasiga oladi, Talaba/to‘lovchi esa Shartnomaning 3-bobida koʻrsatilgan tartib va miqdordagi toʻlovni amalga oshirish majburiyatini oladi. Talabaning ta’lim ma’lumotlari quyidagicha:
+            1.1. Mazkur Shartnomaga asosan Taʻlim tashkiloti Talabani 2025/2026 oʻquv yili davomida <b><?= $direction->code.' '.$direction->name_uz ?></b> ta’lim yo‘nalishi bo‘yicha <b style="text-transform: uppercase"><?= $eduDirection->eduForm->name_uz ?></b> ta’lim shaklida bakalavr qilib tayyorlash dasturi bo‘yicha o‘quv jarayonini (keyingi o‘rinlarda “o‘qitish”) amalga oshirish majburiyatini o‘z zimmasiga oladi, Talaba/to‘lovchi esa Shartnomaning 3-bobida koʻrsatilgan tartib va miqdordagi toʻlovni amalga oshirish majburiyatini oladi. Talabaning ta’lim ma’lumotlari quyidagicha:
         </td>
     </tr>
 
@@ -161,7 +163,7 @@ $limg = $lqr->writeDataUri();
                 </tr>
                 <tr>
                     <td colspan="2">Ta’lim shakli:</td>
-                    <td colspan="2"><b><?= $direction->eduForm->name_uz ?></b></td>
+                    <td colspan="2"><b><?= $eduDirection->eduForm->name_uz ?></b></td>
                 </tr>
                 <tr>
                     <td colspan="2">O‘quv bosqichi:</td>
@@ -173,7 +175,7 @@ $limg = $lqr->writeDataUri();
                 </tr>
                 <tr>
                     <td colspan="2">O‘qish muddati:</td>
-                    <td colspan="2"><b><?= $direction->edu_duration .' yil' ?></b></td>
+                    <td colspan="2"><b><?= $eduDirection->duration .' yil' ?></b></td>
                 </tr>
                 <tr>
                     <td colspan="4" style="text-align: justify">
@@ -749,15 +751,14 @@ $limg = $lqr->writeDataUri();
 
                     <tr>
                         <td colspan="2" style="vertical-align: top">
-                            <b><?= $filial->univer_name_uz ?></b> <br>
+                            <b><?= $filial->name_uz ?></b> <br>
                             <b>Manzili:</b> <?= $filial->address_uz ?> <br>
-                            <b>H/R:</b> <?= $filial->h_r ?> <br>
-                            <b>Bank:</b> <?= $filial->bank_uz ?>  <br>
-                            <b>Bank kodi (MFO):</b> <?= $filial->mfo ?>  <br>
-                            <b>IFUT (OKED):</b> <?= $filial->oked ?>  <br>
-                            <b>STIR (INN):</b> <?= $filial->stir ?> <br>
-                            <b>Tel:</b> <?= $filial->phone ?> <br>
-                            <b>Rеktor:</b> ______________ <?= $filial->prorektor_uz ?> <br>
+                            <b>H/R:</b> <?= $cons->hr ?> <br>
+                            <b>Bank:</b> <?= $cons->bank_name_uz ?>  <br>
+                            <b>Bank kodi (MFO):</b> <?= $cons->mfo ?>  <br>
+                            <b>STIR (INN):</b> <?= $cons->inn ?> <br>
+                            <b>Tel:</b> <?= $cons->tel1 ?> <br>
+                            <b>Rеktor:</b> ______________ <?= $filial->rector_uz ?> <br>
                         </td>
                         <td colspan="2" style="vertical-align: top">
                             <b>Talabaning F.I.O.:</b> <?= $full_name ?> <br>
