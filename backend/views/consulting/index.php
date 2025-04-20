@@ -78,8 +78,8 @@ $breadcrumbs['item'][] = [
                 'contentOptions' => ['date-label' => 'Almashish'],
                 'format' => 'raw',
                 'value' => function($model) {
-                    if (permission('constalting', 'replace')) {
-                        return "<a href='". Url::to(['constalting/replace' , 'id' => $model->id]) ."' class='badge-table-div active'><span><i class='fa-solid fa-arrows-rotate p-0'></i></span></a>";
+                    if (permission('consulting', 'replace')) {
+                        return "<a href='". Url::to(['consulting/replace' , 'id' => $model->id]) ."' class='badge-table-div active'><span><i class='fa-solid fa-arrows-rotate p-0'></i></span></a>";
                     }
                 },
             ],
@@ -89,7 +89,7 @@ $breadcrumbs['item'][] = [
                 'header'=> 'Harakatlar',
                 'buttons'  => [
                     'view' => function ($url, $model) {
-                        if (permission('constalting', 'view')) {
+                        if (permission('consulting', 'view')) {
                             $url = Url::to(['view', 'id' => $model->id]);
                             return Html::a('<i class="fa fa-eye"></i>', $url, [
                                 'title' => 'view',
@@ -99,7 +99,7 @@ $breadcrumbs['item'][] = [
                         return false;
                     },
                     'update' => function ($url, $model) {
-                        if (permission('constalting', 'update')) {
+                        if (permission('consulting', 'update')) {
                             $url = Url::to(['update', 'id' => $model->id]);
                             return Html::a('<i class="fa-solid fa-pen-to-square"></i>', $url, [
                                 'title' => 'update',
@@ -109,7 +109,7 @@ $breadcrumbs['item'][] = [
                         return false;
                     },
                     'delete' => function ($url, $model) {
-                        if (permission('constalting', 'delete')) {
+                        if (permission('consulting', 'delete')) {
                             $url = Url::to(['delete', 'id' => $model->id]);
                             return Html::a('<i class="fa fa-trash"></i>', $url, [
                                 'title' => 'delete',
