@@ -391,8 +391,8 @@
     display: block;
     position: relative;
     overflow: hidden;
-    background: rgb(214,39,39);
-    background: linear-gradient(0deg, rgba(214,39,39,1) 0%, rgba(9,88,142,1) 2%);
+    background: #FDB338;
+    background: linear-gradient(0deg,rgba(253, 179, 56, 1) 0%, rgba(2, 27, 102, 1) 2%);
 }
 
 .mb_head_left img {
