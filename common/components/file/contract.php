@@ -88,7 +88,7 @@ $student->update(false);
 
 $filial = Branch::findOne($student->branch_id);
 
-$qr = (new QrCode('https://admission.zarmeduniver.com/site/contract?key=' . $link.'&type=2'))->setSize(120, 120)
+$qr = (new QrCode('https://qabul.tgfu.com/site/contract?key=' . $link.'&type=2'))->setSize(120, 120)
     ->setMargin(10);
 $img = $qr->writeDataUri();
 
