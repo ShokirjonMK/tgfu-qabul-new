@@ -188,6 +188,59 @@ function getConsIk()
     return $data;
 }
 
+function getBranchOneIk()
+{
+    $user = Yii::$app->user->identity;
+    $role = $user->user_role;
+    $authItem = AuthItem::findOne(['name' => $role]);
+
+    $data = null;
+
+    if ($authItem) {
+        $branch = Branch::find()
+            ->select('id')
+            ->column();
+
+        if ($authItem->type == 1) {
+            $data = $branch;
+        } elseif ($authItem->type == 2) {
+            $data = $authItem->branch_id;
+        } elseif ($authItem->type == 3) {
+            $data = $branch;
+        } elseif ($authItem->type == 4) {
+            $data = $authItem->branch_id;
+        }
+    }
+
+    return $data;
+}
+
+function getConsOneIk()
+{
+    $user = Yii::$app->user->identity;
+    $role = $user->user_role;
+    $authItem = AuthItem::findOne(['name' => $role]);
+
+    $data = null;
+
+    if ($authItem) {
+        $cons = Consulting::find()
+            ->select('id')
+            ->column();
+
+        if ($authItem->type == 1) {
+            $data = $cons;
+        } elseif ($authItem->type == 2) {
+            $data = $cons;
+        } elseif ($authItem->type == 3) {
+            $data = $user->cons_id;
+        } elseif ($authItem->type == 4) {
+            $data = $user->cons_id;
+        }
+    }
+
+    return $data;
+}
 
 function permission($controller, $action)
 {
