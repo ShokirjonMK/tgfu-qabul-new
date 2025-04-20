@@ -9,13 +9,13 @@ viewBox="0 0 5450.81 5450.81"
   <style type="text/css">
    <![CDATA[
    .str0 {stroke:#373435;stroke-width:0.98;stroke-miterlimit:22.9256}
-.fil0 {fill:#fff}
+.fil0 {fill:#FEFEFE}
 .fil4 {fill:#FFF212}
 .fil2 {fill:#FEFEFE}
 .fil3 {fill:#2E4C90;fill-rule:nonzero}
-.fil5 {fill:#2E4C90;fill-rule:nonzero}
-.fil1 {fill:#000;fill-rule:nonzero;fill-opacity:0.168627}
-.fil6 {fill:#000;fill-opacity:0.211765}
+.fil5 {fill:#FEFEFE;fill-rule:nonzero}
+.fil1 {fill:#FEFEFE;fill-rule:nonzero;fill-opacity:0.168627}
+.fil6 {fill:#FEFEFE;fill-opacity:0.211765}
    ]]>
   </style>
  </defs>
