@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Direction;
 use common\models\Languages;
 use common\models\LanguagesSearch;
 use yii\base\NotSupportedException;
@@ -20,6 +21,22 @@ class LanguagesController extends Controller
 
     public function actionIndex()
     {
+        $directions = Direction::find()
+            ->where([
+                'is_deleted' => 0
+            ])
+            ->all();
+
+        foreach ($directions as $direction) {
+            $new = new Direction();
+            $new->name_uz = $direction->name_uz;
+            $new->name_ru = $direction->name_ru;
+            $new->name_en = $direction->name_en;
+            $new->code = $direction->code;
+            $new->branch_id = 3;
+            $new->save(false);
+        }
+        
         $searchModel = new LanguagesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
