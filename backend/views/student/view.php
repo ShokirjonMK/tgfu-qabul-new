@@ -169,7 +169,7 @@ if ($model->eduType != null) {
                                             <div class="subject_box_right">
                                                 <h6>
                                                     <?= $cons->name ?> &nbsp;&nbsp;
-                                                    <?= "<a href='$cons->domen'>".str_replace("https://", "", $cons->domen)."</a>"; ?>
+                                                    <?= "<a href='https://{$cons->domen}'>".$cons->domen."</a>"; ?>
                                                 </h6>
                                             </div>
                                         </div>
