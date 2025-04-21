@@ -32,13 +32,6 @@ class AuthItemController extends Controller
      */
     public function actionIndex()
     {
-        $eduDirections = EduDirection::find()
-            ->all();
-        foreach ($eduDirections as $eduDirection) {
-            $eduDirection->price = preg_replace('/\D/', '', $eduDirection->price);
-            $eduDirection->save(false);
-        }
-        dd(232323);
         $searchModel = new AuthItemSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
