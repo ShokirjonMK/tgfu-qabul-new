@@ -54,6 +54,8 @@ class Integration extends Model
                     'birthDate' => $this->birthDate
                 ])
                 ->send();
+            
+            dd($response);
 
             if ($response->isOk) {
                 $data = $response->data;
