@@ -31,6 +31,23 @@ class AuthItemController extends Controller
      */
     public function actionIndex()
     {
+        $directions = EduDirection::find()
+            ->where(['is_deleted' => 0])
+            ->all();
+        foreach ($directions as $direction) {
+            $new = new EduDirection();
+            $new->branch_id = $direction->branch_id;
+            $new->direction_id = $direction->direction_id;
+            $new->edu_type_id = $direction->edu_type_id;
+            $new->edu_form_id = $direction->edu_form_id;
+            $new->is_oferta = $direction->is_oferta;
+            $new->status = $direction->status;
+            $new->duration = $direction->duration;
+            $new->price = $direction->price;
+            $new->lang_id = 3;
+            $new->save(false);
+        }
+        dd(2121212);
         $searchModel = new AuthItemSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
