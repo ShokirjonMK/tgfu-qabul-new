@@ -179,7 +179,6 @@ class AuthItem extends \yii\db\ActiveRecord
     public static function updateItem($model, $post) {
         $transaction = Yii::$app->db->beginTransaction();
         $errors = [];
-        $model->type = 1;
 
         if (!$model->validate()) {
             $errors[] = $model->simple_errors($model->errors);
