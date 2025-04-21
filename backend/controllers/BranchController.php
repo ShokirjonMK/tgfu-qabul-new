@@ -24,13 +24,6 @@ class BranchController extends Controller
      */
     public function actionIndex()
     {
-        $directions = Direction::find()
-            ->select(['code', 'COUNT(*) as code_count']) // Count occurrences of each 'code'
-            ->groupBy('code') // Group by 'code'
-            ->having(['>', 'code_count', 2]) // Only keep codes that appear more than once
-            ->all();
-
-        dd($directions);
         $searchModel = new BranchSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
