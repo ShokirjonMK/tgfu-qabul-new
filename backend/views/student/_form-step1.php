@@ -31,8 +31,8 @@ $model->jshshr = $student->passport_pin;
         ])->label(Yii::t("app" , "JSHSHIR").' <span>*</span>') ?>
     </div>
 
-    <div class="step_btn_block top40">
-        <?= Html::submitButton(Yii::t("app" , "a52"), ['class' => 'step_right_btn step_btn', 'name' => 'login-button']) ?>
+    <div class="d-flex justify-content-center mt-2 mb-2">
+        <?= Html::submitButton('Ma\'lumotni saqlash', ['class' => 'b-btn b-primary', 'name' => 'login-button']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

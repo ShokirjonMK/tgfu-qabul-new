@@ -27,7 +27,7 @@ $model->number = $student->passport_number;
         <?= $form->field($model, 'birthday')->textInput(['type' => 'date'])->label(Yii::t("app" , "Tug\'ilgan sana").' <span>*</span>'); ?>
     </div>
 
-    <div class="form-group mt-4">
+    <div class="form-group mt-2">
         <?= $form->field($model, 'seria')->textInput([
             'maxlength' => true,
             'placeholder' => '__',
@@ -35,7 +35,7 @@ $model->number = $student->passport_number;
         ])->label(Yii::t("app" , "Pasport seriya").' <span>*</span>') ?>
     </div>
 
-    <div class="form-group mt-4">
+    <div class="form-group mt-2">
         <?= $form->field($model, 'number')->widget(\yii\widgets\MaskedInput::class, [
             'mask' => '9999999',
             'options' => [
@@ -44,8 +44,8 @@ $model->number = $student->passport_number;
         ])->label(Yii::t("app" , "Pasport raqam").' <span>*</span>') ?>
     </div>
 
-    <div class="step_btn_block top40">
-        <?= Html::submitButton(Yii::t("app" , "a52"), ['class' => 'step_right_btn step_btn', 'name' => 'login-button']) ?>
+    <div class="d-flex justify-content-center mt-2 mb-2">
+        <?= Html::submitButton('Ma\'lumotni saqlash', ['class' => 'b-btn b-primary', 'name' => 'login-button']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
