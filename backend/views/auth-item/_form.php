@@ -38,15 +38,15 @@ $branchs = Branch::find()
                             Status::rolType(),
                             ['class'=>'form-select form-control']) ?>
                     </div>
-                    <div class="form-group">
-                        <?= $form->field($model, 'branch_id')->widget(Select2::classname(), [
-                            'data' => ArrayHelper::map($branchs, 'id', 'name_uz'),
-                            'options' => ['placeholder' => 'Filial tanlang'],
-                            'pluginOptions' => [
-                                'allowClear' => true
-                            ],
-                        ])->label('Filial tanlang'); ?>
-                    </div>
+<!--                    <div class="form-group">-->
+<!--                        --><?php //= $form->field($model, 'branch_id')->widget(Select2::classname(), [
+//                            'data' => ArrayHelper::map($branchs, 'id', 'name_uz'),
+//                            'options' => ['placeholder' => 'Filial tanlang'],
+//                            'pluginOptions' => [
+//                                'allowClear' => true
+//                            ],
+//                        ])->label('Filial tanlang'); ?>
+<!--                    </div>-->
                     <div class="form-group">
                         <?= $form->field($model, 'status')->dropDownList(
                             Status::accessStatus(),
