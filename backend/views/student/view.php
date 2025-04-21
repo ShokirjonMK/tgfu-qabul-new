@@ -419,14 +419,13 @@ if ($model->eduType != null) {
                             ?>
                         </h6>
                     <?php endif; ?>
-
-                    <?php if (permission('student', 'direction')): ?>
-                        <h6 class="title-link">
-                            <?= Html::a(Yii::t('app', 'Tahrirlash'), ['direction', 'id' => $model->id],
-                                ["data-bs-toggle" => "modal", "data-bs-target" => "#studentInfo"])
-                            ?>
-                        </h6>
-                    <?php endif; ?>
+                <?php endif; ?>
+                <?php if (permission('student', 'direction')): ?>
+                    <h6 class="title-link">
+                        <?= Html::a(Yii::t('app', 'Tahrirlash'), ['direction', 'id' => $model->id],
+                            ["data-bs-toggle" => "modal", "data-bs-target" => "#studentInfo"])
+                        ?>
+                    </h6>
                 <?php endif; ?>
             </div>
         </div>
