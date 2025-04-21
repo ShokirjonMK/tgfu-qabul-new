@@ -32,37 +32,6 @@ class AuthItemController extends Controller
      */
     public function actionIndex()
     {
-        $transaction = \Yii::$app->db->beginTransaction();
-        $errors = [];
-
-        $directions = EduDirection::find()
-            ->where(['is_deleted' => 0])
-            ->all();
-
-        foreach ($directions as $direction) {
-            $code = $direction->direction->code;
-            $dir = Direction::findOne([
-                'branch_id' => 3,
-                'code' => $code
-            ]);
-
-
-            $new = new EduDirection();
-            $new->branch_id = 3;
-            $new->direction_id = $dir->id;
-            $new->edu_type_id = $direction->edu_type_id;
-            $new->edu_form_id = $direction->edu_form_id;
-            $new->is_oferta = $direction->is_oferta;
-            $new->status = $direction->status;
-            $new->duration = $direction->duration;
-            $new->price = $direction->price;
-            $new->lang_id = $direction->lang_id;
-            $new->save(false);
-        }
-
-        $transaction->commit();
-        dd(23232323);
-
         $searchModel = new AuthItemSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
