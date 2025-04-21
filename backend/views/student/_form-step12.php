@@ -24,7 +24,7 @@ $model->number = $student->passport_number;
     ]); ?>
 
     <div class="form-group">
-        <?= $form->field($model, 'birthday')->textInput(['type' => 'date'])->label(Yii::t("app" , "Tug\'ilgan sana").' <span>*</span>'); ?>
+        <?= $form->field($model, 'birthday')->textInput(['type' => 'date', 'id' => 'ikBirthdayDate'])->label(Yii::t("app" , "Tug\'ilgan sana").' <span>*</span>'); ?>
     </div>
 
     <div class="form-group mt-2">
@@ -51,6 +51,15 @@ $model->number = $student->passport_number;
     <?php ActiveForm::end(); ?>
 </div>
 
+
+<?php
+// Register the script to initialize the datepicker with d-m-Y format
+$this->registerJs("
+    $('#ikBirthdayDate').datepicker({
+        dateFormat: 'dd-mm-yy'
+    });
+");
+?>
 
 
 
