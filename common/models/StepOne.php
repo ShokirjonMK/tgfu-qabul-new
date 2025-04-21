@@ -62,7 +62,7 @@ class StepOne extends Model
                 $student->middle_name = $data['middle_name'];
                 $student->passport_number = $data['passport_number'];
                 $student->passport_serial = $data['passport_serial'];
-                $student->passport_pin = $data['passport_pin'];
+                $student->passport_pin = (string)$data['passport_pin'];
                 $student->birthday = $data['birthday'];
                 $student->gender = $data['gender'];
 
