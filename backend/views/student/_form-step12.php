@@ -12,11 +12,7 @@ use common\models\Student;
 $model->birthday = $student->birthday;
 $model->seria = $student->passport_serial;
 $model->number = $student->passport_number;
-
-$this->registerJsFile('https://code.jquery.com/ui/1.12.1/jquery-ui.min.js', ['depends' => [\yii\web\JqueryAsset::class]]);
-$this->registerCssFile('https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css');
 ?>
-
 
 <div class="step_one_box">
     <?php $form = ActiveForm::begin([
@@ -28,10 +24,16 @@ $this->registerCssFile('https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.
     ]); ?>
 
     <div class="form-group">
-        <?= $form->field($model, 'birthday')->textInput(['type' => 'date', 'id' => 'ikBirthdayDate'])->label(Yii::t("app" , "Tug\'ilgan sana").' <span>*</span>'); ?>
+        <?= $form->field($model, 'birthday')->widget(DatePicker::classname(), [
+            'options' => ['placeholder' => Yii::t("app" , "a53")],
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'dd-mm-yyyy'
+            ]
+        ])->label(Yii::t("app" , "Tug\'ilgan sana").' <span>*</span>'); ?>
     </div>
 
-    <div class="form-group mt-2">
+    <div class="form-group mt-4">
         <?= $form->field($model, 'seria')->textInput([
             'maxlength' => true,
             'placeholder' => '__',
@@ -39,7 +41,7 @@ $this->registerCssFile('https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.
         ])->label(Yii::t("app" , "Pasport seriya").' <span>*</span>') ?>
     </div>
 
-    <div class="form-group mt-2">
+    <div class="form-group mt-4">
         <?= $form->field($model, 'number')->widget(\yii\widgets\MaskedInput::class, [
             'mask' => '9999999',
             'options' => [
@@ -55,15 +57,6 @@ $this->registerCssFile('https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.
     <?php ActiveForm::end(); ?>
 </div>
 
-
-<?php
-// Register the script to initialize the datepicker with d-m-Y format
-$this->registerJs("
-    $('#ikBirthdayDate').datepicker({
-        dateFormat: 'dd-mm-yy'
-    });
-");
-?>
 
 
 
