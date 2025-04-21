@@ -12,7 +12,11 @@ use common\models\Student;
 $model->birthday = $student->birthday;
 $model->seria = $student->passport_serial;
 $model->number = $student->passport_number;
+
+$this->registerJsFile('https://code.jquery.com/ui/1.12.1/jquery-ui.min.js', ['depends' => [\yii\web\JqueryAsset::class]]);
+$this->registerCssFile('https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css');
 ?>
+
 
 <div class="step_one_box">
     <?php $form = ActiveForm::begin([
