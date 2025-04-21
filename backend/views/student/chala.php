@@ -22,6 +22,7 @@ $breadcrumbs['item'][] = [
     'label' => Yii::t('app', 'Bosh sahifa'),
     'url' => ['/'],
 ];
+kartik\export\ExportMenuAsset::register($this);
 ?>
 <div class="page">
 
