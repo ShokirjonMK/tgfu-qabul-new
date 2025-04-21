@@ -47,7 +47,8 @@ class StepOneTwo extends Model
     {
         $transaction = Yii::$app->db->beginTransaction();
         $errors = [];
-        $pinfl = $student->passport_pin;
+        $seriaNumber = $student->passport_serial.$student->passport_number;
+        $sn = $this->seria.$this->number;
 
         if (!$this->validate()) {
             $errors[] = $this->simple_errors($this->errors);
@@ -55,7 +56,7 @@ class StepOneTwo extends Model
             return ['is_ok' => false , 'errors' => $errors];
         }
 
-        if ($pinfl != $this->jshshr) {
+        if ($sn != $seriaNumber) {
 
             self::deleteNull($student->id);
 
