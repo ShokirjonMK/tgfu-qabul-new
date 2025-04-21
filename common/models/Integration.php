@@ -47,7 +47,7 @@ class Integration extends Model
 
             $response = $client->createRequest()
                 ->setMethod('POST')
-                ->setUrl('integration/pin2')
+                ->setUrl('integration/seria')
                 ->setData([
                     'series' => $this->series,
                     'number' => $this->number,
