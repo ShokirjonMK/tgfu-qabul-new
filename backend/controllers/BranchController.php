@@ -4,9 +4,11 @@ namespace backend\controllers;
 
 use common\models\Branch;
 use common\models\BranchSearch;
+use common\models\Direction;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use function React\Promise\all;
 
 /**
  * BranchController implements the CRUD actions for Branch model.
@@ -22,6 +24,13 @@ class BranchController extends Controller
      */
     public function actionIndex()
     {
+        $directions = Direction::find()
+            ->select(['code', 'COUNT(*) as code_count']) // Count occurrences of each 'code'
+            ->groupBy('code') // Group by 'code'
+            ->having(['>', 'code_count', 1]) // Only keep codes that appear more than once
+            ->all();
+        
+        dd($directions);
         $searchModel = new BranchSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
