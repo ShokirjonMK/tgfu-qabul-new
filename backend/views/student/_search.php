@@ -172,7 +172,7 @@ $cons = Consulting::find()
                             'options' => ['placeholder' => 'Start date ...'],
                             'pluginOptions' => [
                                 'autoclose' => true,
-                                'format' => 'yyyy-mm-dd'
+                                'format' => 'dd-mm-yyyy'
                             ]
                         ])->label('Start Date <span>*</span>'); ?>
                     </div>
@@ -184,7 +184,7 @@ $cons = Consulting::find()
                             'options' => ['placeholder' => 'End date ...'],
                             'pluginOptions' => [
                                 'autoclose' => true,
-                                'format' => 'yyyy-mm-dd'
+                                'format' => 'dd-mm-yyyy'
                             ]
                         ])->label('End Date <span>*</span>'); ?>
                     </div>
