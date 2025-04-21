@@ -61,7 +61,7 @@ class StepOneTwo extends Model
             self::deleteNull($student->id);
 
             $integration = new Integration();
-            $integration->birthDate = $this->birthday;
+            $integration->birthDate = date("d-m-Y" , strtotime($this->birthday));
             $integration->series = $this->seria;
             $integration->number = $this->number;
             $data = $integration->checkPassport();

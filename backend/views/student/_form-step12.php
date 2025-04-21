@@ -24,13 +24,7 @@ $model->number = $student->passport_number;
     ]); ?>
 
     <div class="form-group">
-        <?= $form->field($model, 'birthday')->widget(DatePicker::classname(), [
-            'options' => ['placeholder' => Yii::t("app" , "a53")],
-            'pluginOptions' => [
-                'autoclose' => true,
-                'format' => 'dd-mm-yyyy'
-            ]
-        ])->label(Yii::t("app" , "Tug\'ilgan sana").' <span>*</span>'); ?>
+        <?= $form->field($model, 'birthday')->textInput(['type' => 'date'])->label(Yii::t("app" , "Tug\'ilgan sana").' <span>*</span>'); ?>
     </div>
 
     <div class="form-group mt-4">
