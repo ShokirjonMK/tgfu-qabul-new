@@ -372,11 +372,11 @@ class Student extends \yii\db\ActiveRecord
         if ($record) {
             if ($model == Exam::class) {
                 if ($record->status == 3) {
-                    $text = $record->confirm_date;
+                    $text = preg_replace('/\D/', '', $record->contract_price);
                 }
             } else {
                 if (isset($record->file_status) && $record->file_status == 2) {
-                    $text = $record->confirm_date;
+                    $text = preg_replace('/\D/', '', $record->contract_price);
                 }
             }
         }
