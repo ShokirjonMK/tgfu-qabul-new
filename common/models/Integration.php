@@ -55,8 +55,6 @@ class Integration extends Model
                 ])
                 ->send();
 
-            dd($response);
-
             if ($response->isOk) {
                 $data = $response->data;
                 dd($data);
