@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\UserUpdate;
 use common\models\AuthItem;
 use common\models\AuthItemSearch;
 use common\models\CrmPush;
@@ -32,6 +33,20 @@ class AuthItemController extends Controller
      */
     public function actionIndex()
     {
+        $eduDirection = EduDirection::findOne(1);
+
+        $dirs = EduDirection::find()
+            ->where([
+                'is_deleted' => 0,
+                'edu_type_id' => 1,
+            ])
+            ->all();
+        foreach ($dirs as $dir) {
+            $dir->exam_type = $eduDirection->exam_type;
+            $dir->save(false);
+            dd(123232);
+        }
+
         $searchModel = new AuthItemSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
