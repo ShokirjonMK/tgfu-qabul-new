@@ -870,7 +870,6 @@ $(document).ready(function() {
         var button = $(e.relatedTarget);
         var url = button.attr('href');
         $(this).find('#studentInfoBody').load(url);
-        $('.datepicker').datepicker('refresh');
     });
 });
 JS;
