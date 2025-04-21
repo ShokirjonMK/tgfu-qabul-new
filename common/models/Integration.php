@@ -57,6 +57,7 @@ class Integration extends Model
 
             if ($response->isOk) {
                 $data = $response->data;
+//                dd($data);
 //                dd($response->data['data']);
                 if ($data['status'] == 1) {
                     return ['is_ok' => true, 'data' => $data['data']];
