@@ -32,20 +32,6 @@ class AuthItemController extends Controller
      */
     public function actionIndex()
     {
-        $edu = EduDirection::findOne([
-            'id' => 1,
-        ]);
-        $branchs = EduDirection::find()
-            ->where([
-                'branch_id' => 3,
-                'edu_type_id' => 1
-            ])->all();
-        foreach ($branchs as $branch) {
-            $branch->exam_type = $edu->exam_type;
-            $branch->save(false);
-        }
-        dd(23232323);
-        
         $searchModel = new AuthItemSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
