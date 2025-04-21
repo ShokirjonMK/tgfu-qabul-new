@@ -8,7 +8,7 @@ use yii\grid\GridView;
 use common\models\EduType;
 use common\models\Course;
 use common\models\Status;
-use kartik\export\ExportMenu;
+//use kartik\export\ExportMenu;
 use yii\widgets\LinkPager;
 
 /** @var yii\web\View $this */
@@ -22,7 +22,7 @@ $breadcrumbs['item'][] = [
     'label' => Yii::t('app', 'Bosh sahifa'),
     'url' => ['/'],
 ];
-kartik\export\ExportMenuAsset::register($this);
+//kartik\export\ExportMenuAsset::register($this);
 ?>
 <div class="page">
 
@@ -117,11 +117,11 @@ kartik\export\ExportMenuAsset::register($this);
                 <p><b>Jami soni: &nbsp; <?= $dataProvider->totalCount ?></b></p>
                 <div class="page_export d-flex align-items-center gap-4">
                     <div>
-                        <?php echo ExportMenu::widget([
-                            'dataProvider' => $dataProvider,
-                            'columns' => $data,
-                            'asDropdown' => false,
-                        ]); ?>
+<!--                        --><?php //echo ExportMenu::widget([
+//                            'dataProvider' => $dataProvider,
+//                            'columns' => $data,
+//                            'asDropdown' => false,
+//                        ]); ?>
                     </div>
                 </div>
             </div>
