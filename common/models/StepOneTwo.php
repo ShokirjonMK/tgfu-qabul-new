@@ -80,13 +80,16 @@ class StepOneTwo extends Model
                     $errors[] = $this->simple_errors($student->errors);
                 }
 
-                $query = Student::findOne([
-                    'passport_pin' => $student->passport_pin,
-                ]);
+                $query = Student::find()
+                    ->joinWith('user')
+                    ->where(['passport_pin' => $student->passport_pin])
+                    ->andWhere(['user.status' => [9, 10]])
+                    ->one();
+
                 if ($query) {
                     $queryUser = $query->user;
                     if ($queryUser->id != $user->id) {
-                        $errors[] = ['Bu pasport ma\'lumot avval ro\'yhatdan o\'tgan. Tel:'. $queryUser->username];
+                        $errors[] = ['Bu pasport ma\'lumot avval ro\'yhatdan o\'tgan. Tel:' . $queryUser->username];
                         $transaction->rollBack();
                         return ['is_ok' => false, 'errors' => $errors];
                     }
