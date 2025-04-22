@@ -79,6 +79,7 @@ class StepThreeOne extends Model
         $transaction = Yii::$app->db->beginTransaction();
         $errors = [];
         $examDate = false;
+        $this->exam_type = 0;
 
         if (!$this->validate()) {
             $transaction->rollBack();
