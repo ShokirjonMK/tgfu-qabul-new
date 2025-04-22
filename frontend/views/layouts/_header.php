@@ -133,19 +133,14 @@ $flagMap = [
                             <h5><?= Yii::t("app", "a6") ?></h5>
                             <ul>
                                 <li><p><?= Yii::t("app", "a7") ?></p></li>
-                                <li><a href="tel:+998557047070">+998 55 704-70-70</a></li>
+                                <li><a href="tel:+998788886666">+998 78 888-66-66</a></li>
                             </ul>
-
-<!--                            <ul>-->
-<!--                                <li><p>--><?php //= Yii::t("app", "a8") ?><!--</p></li>-->
-<!--                                <li><a href="tel:+998945055250">+998 (94) 505-52-50</a></li>-->
-<!--                            </ul>-->
 
                             <ul>
                                 <li><p><?= Yii::t("app", "a9") ?></p></li>
                                 <li>
-                                    <a href="https://bit.ly/samlokatsiya">
-                                        Samarqand kampusi: Samarqand viloyati, Samarqand shahar, Xo'ja Ahror Valiy ko'chasi, 23-uy
+                                    <a href="#">
+                                        Toshkent shahri, Yangixayot tumani, Choshtepa MFY, Choshtepa ko’chasi, 381-uy
                                     </a>
                                 </li>
                             </ul>
@@ -153,8 +148,8 @@ $flagMap = [
                             <ul>
                                 <li><p><?= Yii::t("app", "a9") ?></p></li>
                                 <li>
-                                    <a href="https://bit.ly/buxlokatsiya">
-                                        Buxoro kampusi: Buxoro viloyati, Buxoro shahar, Qayum Murtazoyev ko'chasi, 13A-uy
+                                    <a href="#">
+                                        Qoraqalpogʻiston Respublikasi, Toʻrtkoʻl tumani, Guliston MFY, Beruniy tup koʻchasi 146-uy
                                     </a>
                                 </li>
                             </ul>
