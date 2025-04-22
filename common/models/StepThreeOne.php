@@ -20,7 +20,7 @@ class StepThreeOne extends Model
     public function rules()
     {
         return [
-            [['filial_id', 'lang_id', 'edu_form_id', 'edu_direction_id', 'edu_type_id', 'exam_type'], 'required'],
+            [['filial_id', 'lang_id', 'edu_form_id', 'edu_direction_id', 'edu_type_id',], 'required'],
             [['filial_id', 'lang_id', 'edu_form_id', 'edu_direction_id', 'edu_type_id', 'exam_type' , 'exam_date_id'], 'integer'],
 
             [['filial_id'], function ($attribute) {
@@ -86,42 +86,42 @@ class StepThreeOne extends Model
             return ['is_ok' => false, 'errors' => $errors];
         }
 
-        if ($this->exam_type == 1) {
-
-            if ($this->exam_date_id == null) {
-                $errors[] = ['Imtixon sanasi tanlang.'];
-                $transaction->rollBack();
-                return ['is_ok' => false , 'errors' => $errors];
-            }
-
-            if ($student->exam_date_id != $this->exam_date_id) {
-                $examDate = ExamDate::findOne([
-                    'id' => $this->exam_date_id,
-                    'branch_id' => $this->filial_id,
-                    'status' => 1,
-                    'is_deleted' => 0
-                ]);
-                if (!$examDate) {
-                    $errors[] = ['Imtixon sanasi o\'zgarganligi uchun boshqa sanani tanlang.'];
-                    $transaction->rollBack();
-                    return ['is_ok' => false , 'errors' => $errors];
-                }
-
-                $studentExamDateCount = Student::find()
-                    ->joinWith('user')
-                    ->where([
-                        'student.exam_date_id' => $examDate->id,
-                    ])
-                    ->andWhere(['user.status' => [9, 10]])
-                    ->count();
-                if ($studentExamDateCount >= $examDate->limit) {
-                    $examDate->status = 0;
-                    $examDate->save(false);
-                }
-            }
-        } else {
-            $this->exam_date_id = null;
-        }
+//        if ($this->exam_type == 1) {
+//
+//            if ($this->exam_date_id == null) {
+//                $errors[] = ['Imtixon sanasi tanlang.'];
+//                $transaction->rollBack();
+//                return ['is_ok' => false , 'errors' => $errors];
+//            }
+//
+//            if ($student->exam_date_id != $this->exam_date_id) {
+//                $examDate = ExamDate::findOne([
+//                    'id' => $this->exam_date_id,
+//                    'branch_id' => $this->filial_id,
+//                    'status' => 1,
+//                    'is_deleted' => 0
+//                ]);
+//                if (!$examDate) {
+//                    $errors[] = ['Imtixon sanasi o\'zgarganligi uchun boshqa sanani tanlang.'];
+//                    $transaction->rollBack();
+//                    return ['is_ok' => false , 'errors' => $errors];
+//                }
+//
+//                $studentExamDateCount = Student::find()
+//                    ->joinWith('user')
+//                    ->where([
+//                        'student.exam_date_id' => $examDate->id,
+//                    ])
+//                    ->andWhere(['user.status' => [9, 10]])
+//                    ->count();
+//                if ($studentExamDateCount >= $examDate->limit) {
+//                    $examDate->status = 0;
+//                    $examDate->save(false);
+//                }
+//            }
+//        } else {
+//            $this->exam_date_id = null;
+//        }
 
         $student->setAttributes([
             'branch_id' => $this->filial_id,
