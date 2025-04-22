@@ -128,7 +128,7 @@ $flagMap = [
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modalBody">
-                        <img src="/frontend/web/images/logo_new.svg" alt="" width="200px">
+                        <img src="/frontend/web/images/logo_new.svg" alt="" width="100px">
                         <div class="ik_connection">
                             <h5><?= Yii::t("app", "a6") ?></h5>
                             <ul>
