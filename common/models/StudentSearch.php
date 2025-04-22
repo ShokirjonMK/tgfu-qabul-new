@@ -294,22 +294,22 @@ class StudentSearch extends Student
             $dateConditions = [];
 
             if ($this->start_date && $this->end_date) {
-                $start = $this->start_date . ' 00:00:00';
-                $end = $this->end_date . ' 23:59:59';
+                $start = strtotime($this->start_date . ' 00:00:00');
+                $end = strtotime($this->end_date . ' 23:59:59');
 
                 $dateConditions[] = ['and', ['not', ['e.student_id' => null]], ['between', 'e.confirm_date', $start, $end]];
                 $dateConditions[] = ['and', ['not', ['sp.student_id' => null]], ['between', 'sp.confirm_date', $start, $end]];
                 $dateConditions[] = ['and', ['not', ['sd.student_id' => null]], ['between', 'sd.confirm_date', $start, $end]];
                 $dateConditions[] = ['and', ['not', ['sm.student_id' => null]], ['between', 'sm.confirm_date', $start, $end]];
             } elseif ($this->start_date) {
-                $start = $this->start_date . ' 00:00:00';
+                $start = strtotime($this->start_date . ' 00:00:00');
 
                 $dateConditions[] = ['and', ['not', ['e.student_id' => null]], ['>=', 'e.confirm_date', $start]];
                 $dateConditions[] = ['and', ['not', ['sp.student_id' => null]], ['>=', 'sp.confirm_date', $start]];
                 $dateConditions[] = ['and', ['not', ['sd.student_id' => null]], ['>=', 'sd.confirm_date', $start]];
                 $dateConditions[] = ['and', ['not', ['sm.student_id' => null]], ['>=', 'sm.confirm_date', $start]];
             } elseif ($this->end_date) {
-                $end = $this->end_date . ' 23:59:59';
+                $end = strtotime($this->end_date . ' 23:59:59');
 
                 $dateConditions[] = ['and', ['not', ['e.student_id' => null]], ['<=', 'e.confirm_date', $end]];
                 $dateConditions[] = ['and', ['not', ['sp.student_id' => null]], ['<=', 'sp.confirm_date', $end]];
