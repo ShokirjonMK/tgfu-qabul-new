@@ -49,11 +49,19 @@ $breadcrumbs['item'][] = [
             },
         ],
         [
-            'attribute' => 'Pasport ma\'lumoti',
+            'attribute' => 'Pasport seriya raqam',
             'contentOptions' => ['date-label' => 'Pasport ma\'lumoti' ,'class' => 'wid250'],
             'format' => 'raw',
             'value' => function($model) {
-                return $model->passport_serial.' '.$model->passport_number.' | '.$model->passport_pin;
+                return $model->passport_serial.' '.$model->passport_number;
+            },
+        ],
+        [
+            'attribute' => 'JSHSHIR',
+            'contentOptions' => ['date-label' => 'Pasport ma\'lumoti' ,'class' => 'wid250'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->passport_pin;
             },
         ],
         [
@@ -140,7 +148,7 @@ $breadcrumbs['item'][] = [
             'value' => function($model) {
                 $cons = $model->user->cons;
                 $branch = $model->branch->name_uz ?? '- - - -';
-                return "<a href='https://{$cons->domen}' class='badge-table-div active'>".$cons->domen."</a><br><div class='badge-table-div active mt-2'>".$branch."</div>";
+                return "<a href='https://{$cons->domen}' class='badge-table-div active'>".$cons->name."</a><br><div class='badge-table-div active mt-2'>".$branch."</div>";
             },
         ],
         [
