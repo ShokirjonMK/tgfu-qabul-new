@@ -290,6 +290,20 @@ class StudentSearch extends Student
             $query->andFilterWhere(['like', 'u.username', $this->username]);
         }
 
+        if ($this->start_date || $this->end_date) {
+            $start = strtotime($this->start_date . ' 00:00:00');
+            $end = strtotime($this->end_date . ' 23:59:59');
+
+            $query->andWhere([
+                'or',
+                ['and', ['not', ['e.student_id' => null]], ['between', 'e.confirm_date', $start, $end]],
+                ['and', ['not', ['sp.student_id' => null]], ['between', 'sp.confirm_date', $start, $end]],
+                ['and', ['not', ['sd.student_id' => null]], ['between', 'sd.confirm_date', $start, $end]],
+                ['and', ['not', ['sm.student_id' => null]], ['between', 'sm.confirm_date', $start, $end]],
+            ]);
+        }
+
+
         $query->andFilterWhere([
             's.id' => $this->id,
             's.user_id' => $this->user_id,
