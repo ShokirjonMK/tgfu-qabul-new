@@ -73,9 +73,9 @@ $model->number = $student->passport_number;
         </div>
     </div>
 
-    <div class="step_btn_block">
+    <div class="step_btn_block top40">
         <button type="button" class="step_right_btn step_btn" data-bs-toggle="modal" data-bs-target="#perOfertaModal">
-            <?= Yii::t("app" , "a37") ?>
+            <?= Yii::t("app" , "a52") ?>
         </button>
     </div>
 
