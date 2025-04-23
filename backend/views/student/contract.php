@@ -164,6 +164,128 @@ $breadcrumbs['item'][] = [
         ],
     ]; ?>
 
+    <?php $data2 = [
+        ['class' => 'yii\grid\SerialColumn'],
+        [
+            'attribute' => 'F.I.O',
+            'contentOptions' => ['date-label' => 'F.I.O' ,'class' => 'wid250'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->fullName;
+            },
+        ],
+        [
+            'attribute' => 'Pasport seriya raqam',
+            'contentOptions' => ['date-label' => 'Pasport ma\'lumoti' ,'class' => 'wid250'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->passport_serial.' '.$model->passport_number;
+            },
+        ],
+        [
+            'attribute' => 'JSHSHIR',
+            'contentOptions' => ['date-label' => 'Pasport ma\'lumoti' ,'class' => 'wid250'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->passport_pin;
+            },
+        ],
+        [
+            'attribute' => 'Yo\'nalishi',
+            'contentOptions' => ['date-label' => 'Yo\'nalishi' ,'class' => 'wid250'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->direction->name ?? '----';
+            },
+        ],
+        [
+            'attribute' => 'Ta\'lim turi',
+            'contentOptions' => ['date-label' => 'Ta\'lim turi'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->eduType->name_uz ?? '----';
+            },
+        ],
+        [
+            'attribute' => 'Ta\'lim shakli',
+            'contentOptions' => ['date-label' => 'Ta\'lim shakli'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->eduForm->name_uz ?? '----';
+            },
+        ],
+        [
+            'attribute' => 'Ta\'lim tili',
+            'contentOptions' => ['date-label' => 'Ta\'lim tili'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->lang->name_uz ?? '----';
+            },
+        ],
+        [
+            'attribute' => 'Shartnoma summasi',
+            'contentOptions' => ['date-label' => 'Shartnoma summasi'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->contractPrice;
+            },
+        ],
+        [
+            'attribute' => 'Shartnoma sanasi',
+            'contentOptions' => ['date-label' => 'Shartnoma sanasi'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->contractConfirmDate;
+            },
+        ],
+        [
+            'attribute' => 'Bosqich',
+            'contentOptions' => ['date-label' => 'F.I.O' ,'class' => 'Ta\'lim shakli'],
+            'format' => 'raw',
+            'value' => function($model) {
+                if ($model->edu_type_id == 2 && $model->course_id != null) {
+                    $courseId = $model->course_id + 1;
+                    return Course::findOne($courseId)->name_uz;
+                }
+                return "1 - bosqich";
+            },
+        ],
+        [
+            'attribute' => 'Telefon raqami',
+            'contentOptions' => ['date-label' => 'Telefon raqami'],
+            'format' => 'raw',
+            'value' => function($model) {
+                $user = $model->user;
+                return $user->username ?? null;
+            },
+        ],
+        [
+            'attribute' => 'Status',
+            'contentOptions' => ['date-label' => 'Status'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->contractStatus;
+            },
+        ],
+        [
+            'attribute' => 'CONSULTING',
+            'contentOptions' => ['date-label' => 'CONSULTING'],
+            'format' => 'raw',
+            'value' => function($model) {
+                $cons = $model->user->cons;
+                return $cons->name;
+            },
+        ],
+        [
+            'attribute' => 'Filial',
+            'contentOptions' => ['date-label' => 'Filial'],
+            'format' => 'raw',
+            'value' => function($model) {
+                return $model->branch->name_uz ?? '- - - -';
+            },
+        ],
+    ]; ?>
+
     <div class="form-section">
         <div class="form-section_item">
             <div class="d-flex justify-content-between align-items-center">
@@ -172,7 +294,7 @@ $breadcrumbs['item'][] = [
                     <div>
                         <?php echo ExportMenu::widget([
                             'dataProvider' => $dataProvider,
-                            'columns' => $data,
+                            'columns' => $data2,
                             'asDropdown' => false,
                         ]); ?>
                     </div>
