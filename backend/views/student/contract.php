@@ -156,10 +156,15 @@ $breadcrumbs['item'][] = [
             'contentOptions' => ['date-label' => 'Status'],
             'format' => 'raw',
             'value' => function($model) {
+                $readMore = '';
+                $contract = '';
                 if (permission('student', 'view')) {
-                    $readMore = "<a href='".Url::to(['student/view' , 'id' => $model->id])."' class='badge-table-div active mt-2'>Batafsil</a>";
-                    return $readMore;
+                    $readMore = "<a href='".Url::to(['student/view' , 'id' => $model->id])."' class='badge-table-div active'>Batafsil</a>";
                 }
+                if (permission('student', 'contract-load')) {
+                    $contract = "<a href='".Url::to(['student/contract-load' , 'id' => $model->id, 'type' => 2])."' class='badge-table-div active mt-2'>Shartnoma yuklash</a>";
+                }
+                return $readMore.$contract;
             },
         ],
     ]; ?>
