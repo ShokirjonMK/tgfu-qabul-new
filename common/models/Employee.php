@@ -55,18 +55,23 @@ class Employee extends \yii\db\ActiveRecord
             // Username
             ['username', 'trim'],
             ['username', 'required', 'message' => 'Foydalanuvchi nomi majburiy.'],
-            ['username', 'unique',
-                'targetClass' => User::class,
-                'message' => 'Bu username avval ro\'yhatdan o\'tgan.',
-                'when' => function ($model) {
-                    return User::find()
-                        ->where(['username' => $model->username])
-                        ->andWhere(['<>', 'id', $model->user_id])
-                        ->exists();
-                }
-            ],
-            ['username', 'string', 'min' => 5, 'max' => 20, 'message' => 'Username 5 dan 20 tagacha belgidan iborat bo\'lishi kerak.'],
 
+            // Employee jadvalidagi unikal tekshiruv
+            ['username', 'unique', 'message' => 'Bu username xodimlar ro‘yxatida allaqachon mavjud.'],
+
+            // User jadvalidagi mavjudligini tekshiruvchi qo‘shimcha qoidani custom validator bilan qilamiz
+            ['username', function ($attribute, $params, $validator) {
+                $exists = User::find()
+                    ->where(['username' => $this->$attribute])
+                    ->andWhere(['<>', 'id', $this->user_id]) // o‘zingizga tegishli bo‘lmasin
+                    ->exists();
+
+                if ($exists) {
+                    $this->addError($attribute, 'Bu username avval foydalanuvchilar ro‘yxatida mavjud.');
+                }
+            }],
+
+            ['username', 'string', 'min' => 5, 'max' => 20, 'message' => 'Username 5 dan 20 tagacha belgidan iborat bo‘lishi kerak.'],
             // Role
             ['role', 'required', 'message' => 'Rol tanlanishi kerak.'],
             ['role', 'string', 'message' => 'Rol matn bo\'lishi kerak.'],
