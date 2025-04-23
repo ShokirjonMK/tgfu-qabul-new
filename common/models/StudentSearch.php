@@ -57,7 +57,7 @@ class StudentSearch extends Student
                 'u.status' => 10,
                 'u.user_role' => 'student',
             ])
-            ->andWhere(getConsIk());
+            ->andWhere(getConsIk())->orderBy('s.id desc');
 
         // Ma'lumotlarni chiqarish uchun ActiveDataProvider
         $dataProvider = new ActiveDataProvider([
@@ -175,7 +175,7 @@ class StudentSearch extends Student
                 'u.user_role' => 'student',
             ])
             ->andWhere(getConsIk())
-            ->andWhere(['<', 'step' ,5]);
+            ->andWhere(['<', 'step' ,5])->orderBy('s.id desc');
 
         // Ma'lumotlarni chiqarish uchun ActiveDataProvider
         $dataProvider = new ActiveDataProvider([
@@ -274,7 +274,7 @@ class StudentSearch extends Student
                 ['not', ['sp.student_id' => null]],
                 ['not', ['sd.student_id' => null]],
                 ['not', ['sm.student_id' => null]]
-            ]);
+            ])->orderBy('s.id desc');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -369,7 +369,8 @@ class StudentSearch extends Student
                 'u.status' => [5, 9, 10],
                 'u.user_role' => 'student',
             ])
-            ->andWhere(getConsIk());
+            ->andWhere(getConsIk())
+            ->orderBy('s.id desc');
 
         // Ma'lumotlarni chiqarish uchun ActiveDataProvider
         $dataProvider = new ActiveDataProvider([
