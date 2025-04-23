@@ -43,10 +43,7 @@ $model->jshshr = $student->passport_pin;
                             </div>
                         </div>
                         <p style="text-transform: unset">
-                            <?= Yii::t("app" , "a71") ?>
-                        </p>
-                        <p>
-                            <?= Yii::t("app" , "a72") ?>
+                            <?= Yii::t("app" , "a165") ?>
                         </p>
                     </div>
                     <div class="d-flex justify-content-around align-items-center top30">
