@@ -120,7 +120,14 @@ class Employee extends \yii\db\ActiveRecord
 
     public function validateUsernameUniqueness($attribute, $params)
     {
-        if (User::find()->where(['username' => $this->$attribute])->exists()) {
+        $query = User::find()->where(['username' => $this->$attribute]);
+
+        if ($this->user_id) {
+            // O‘zidan tashqari boshqa username bo‘lishini tekshiradi
+            $query->andWhere(['<>', 'id', $this->user_id]);
+        }
+
+        if ($query->exists()) {
             $this->addError($attribute, 'Bu username avval ro\'yhatdan o\'tgan.');
         }
     }
