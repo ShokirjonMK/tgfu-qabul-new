@@ -93,7 +93,7 @@ $breadcrumbs['item'][] = [
             'contentOptions' => ['date-label' => 'Shartnoma summasi'],
             'format' => 'raw',
             'value' => function($model) {
-                return $model->contractPrice;
+                return $model->contractPrice."<br>".$model->contractStatus;
             },
         ],
         [
@@ -103,14 +103,6 @@ $breadcrumbs['item'][] = [
             'value' => function($model) {
                 $user = $model->user;
                 return $user->username ?? null;
-            },
-        ],
-        [
-            'attribute' => 'Status',
-            'contentOptions' => ['date-label' => 'Status'],
-            'format' => 'raw',
-            'value' => function($model) {
-                return $model->contractStatus;
             },
         ],
         [
