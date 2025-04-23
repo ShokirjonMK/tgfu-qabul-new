@@ -80,6 +80,19 @@ class StepOneTwo extends Model
                     $errors[] = $this->simple_errors($student->errors);
                 }
 
+                if (in_array(null, [
+                    $student->first_name,
+                    $student->last_name,
+                    $student->middle_name,
+                    $student->passport_number,
+                    $student->passport_serial,
+                    $student->passport_pin,
+                    $student->birthday,
+                    $student->gender,
+                ], true)) {
+                    $errors[] = ['Pasport ma\'lumot yuklashda xatolik'];
+                }
+
                 $query = Student::find()
                     ->joinWith('user')
                     ->where(['passport_pin' => $student->passport_pin])
