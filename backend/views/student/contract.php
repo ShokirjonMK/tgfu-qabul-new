@@ -49,19 +49,11 @@ $breadcrumbs['item'][] = [
             },
         ],
         [
-            'attribute' => 'Pasport seriya raqam',
+            'attribute' => 'S/R & JSHSHIR',
             'contentOptions' => ['date-label' => 'Pasport ma\'lumoti' ,'class' => 'wid250'],
             'format' => 'raw',
             'value' => function($model) {
-                return $model->passport_serial.' '.$model->passport_number;
-            },
-        ],
-        [
-            'attribute' => 'JSHSHIR',
-            'contentOptions' => ['date-label' => 'Pasport ma\'lumoti' ,'class' => 'wid250'],
-            'format' => 'raw',
-            'value' => function($model) {
-                return $model->passport_pin;
+                return $model->passport_serial.' '.$model->passport_number." | ".$model->passport_pin;
             },
         ],
         [
@@ -110,18 +102,6 @@ $breadcrumbs['item'][] = [
             'format' => 'raw',
             'value' => function($model) {
                 return $model->contractConfirmDate;
-            },
-        ],
-        [
-            'attribute' => 'Bosqich',
-            'contentOptions' => ['date-label' => 'F.I.O' ,'class' => 'Ta\'lim shakli'],
-            'format' => 'raw',
-            'value' => function($model) {
-                if ($model->edu_type_id == 2 && $model->course_id != null) {
-                    $courseId = $model->course_id + 1;
-                    return Course::findOne($courseId)->name_uz;
-                }
-                return "1 - bosqich";
             },
         ],
         [
