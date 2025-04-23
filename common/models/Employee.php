@@ -55,25 +55,10 @@ class Employee extends \yii\db\ActiveRecord
             // Username
             ['username', 'trim'],
             ['username', 'required', 'message' => 'Foydalanuvchi nomi majburiy.'],
+            ['username', 'string', 'min' => 5, 'max' => 20],
 
-            // 1. User jadvalda username unikal bo'lishi kerak
-            ['username', 'unique',
-                'targetClass' => User::class,
-                'targetAttribute' => 'username',
-                'filter' => function ($query) {
-                    // Agar update bo'lsa, o'zini chiqarib tashlaymiz
-                    if ($this->user_id) {
-                        $query->andWhere(['<>', 'id', $this->user_id]);
-                    }
-                },
-                'message' => 'Bu username avval ro\'yhatdan o\'tgan.',
-            ],
+            ['username', 'validateUsernameUniqueness'],
 
-            // 2. Employee jadvalda ham unikal bo'lishi kerak
-            ['username', 'unique', 'message' => 'Bu username xodimlar ro‘yxatida allaqachon mavjud.'],
-
-            ['username', 'string', 'min' => 5, 'max' => 20, 'tooShort' => 'Username 5 belgidan kam bo‘lmasligi kerak.', 'tooLong' => 'Username 20 belgidan oshmasligi kerak.'],
-            
             // Role
             ['role', 'required', 'message' => 'Rol tanlanishi kerak.'],
             ['role', 'string', 'message' => 'Rol matn bo\'lishi kerak.'],
@@ -131,6 +116,13 @@ class Employee extends \yii\db\ActiveRecord
                 'message' => 'Konsultatsiya topilmadi.'
             ],
         ];
+    }
+
+    public function validateUsernameUniqueness($attribute, $params)
+    {
+        if (User::find()->where(['username' => $this->$attribute])->exists()) {
+            $this->addError($attribute, 'Bu username avval ro\'yhatdan o\'tgan.');
+        }
     }
 
     public function attributeLabels()
