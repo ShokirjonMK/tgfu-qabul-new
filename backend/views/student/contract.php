@@ -97,14 +97,6 @@ $breadcrumbs['item'][] = [
             },
         ],
         [
-            'attribute' => 'Shartnoma sanasi',
-            'contentOptions' => ['date-label' => 'Shartnoma sanasi'],
-            'format' => 'raw',
-            'value' => function($model) {
-                return $model->contractConfirmDate;
-            },
-        ],
-        [
             'attribute' => 'Telefon raqami',
             'contentOptions' => ['date-label' => 'Telefon raqami'],
             'format' => 'raw',
