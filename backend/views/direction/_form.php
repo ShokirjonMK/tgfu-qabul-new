@@ -46,6 +46,9 @@ $branchs = Branch::find()
                 <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="form-group">
+                <?= $form->field($model, 'is_deleted')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="form-group">
                 <?= $form->field($model, 'status')->widget(Select2::classname(), [
                     'data' => Status::accessStatus(),
                     'options' => ['placeholder' => 'Status tanlang ...'],
