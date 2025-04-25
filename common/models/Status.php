@@ -59,7 +59,7 @@ class Status
     {
         $statuses = [
             1 => 'Shartnoma olganlar',
-            2 => 'Shartnoma olmaganlar',
+            0 => 'Shartnoma olmaganlar',
         ];
 
         return $id === null ? $statuses : ($statuses[$id] ?? null);
