@@ -164,7 +164,7 @@ $cons = Consulting::find()
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <div class="form-group">
-                        <?= $form->field($model, 'status')->widget(Select2::classname(), [
+                        <?= $form->field($model, 'is_down')->widget(Select2::classname(), [
                             'data' => Status::contractStatus(),
                             'options' => ['placeholder' => 'Status tanlang ...'],
                             'pluginOptions' => [
