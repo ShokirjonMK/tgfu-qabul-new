@@ -55,7 +55,6 @@ if ($student->edu_type_id == 1) {
 }
 ?>
 
-
 <div class="ika_page_box">
     <div class="ika_page_box_item">
         <div class="ikpage">
@@ -64,7 +63,11 @@ if ($student->edu_type_id == 1) {
                 <span></span>
             </div>
             <?php if ($t && $online) : ?>
-                <?= $this->render('_contract') ; ?>
+                <?php if ($student->edu_type_id == 1) : ?>
+                    <?= $this->render('_contract'); ?>
+                <?php else: ?>
+                    <?= $this->render('_no-contract'); ?>
+                <?php endif; ?>
             <?php else: ?>
                 <div class="down_box top30">
                     <div class="page_notfound">
