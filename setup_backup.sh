@@ -2,7 +2,7 @@
 
 # === Sozlamalar ===
 SOURCE_FILE="mk.sh"
-TARGET_DIR="/home/backup"
+TARGET_DIR="/apps"
 ENV_FILE=".env"
 REPO_VAR_LINE="REPO_DIR_API=\"$(pwd)\""
 
