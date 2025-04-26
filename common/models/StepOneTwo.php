@@ -60,7 +60,7 @@ class StepOneTwo extends Model
 
             self::deleteNull($student->id);
 
-            $birthday = date("Y-m-d" , strtotime($this->birthday));
+            $birthday = date("d-m-Y" , strtotime($this->birthday));
 
 //            $integration = new Integration();
 //            $integration->birthDate = date("d-m-Y" , strtotime($this->birthday));
@@ -74,7 +74,7 @@ class StepOneTwo extends Model
             $params = [
                 'series' => $this->seria,
                 'number' => $this->number,
-                'birth_date' => $birthday,
+                'birth_date' => date("Y-m-d" , strtotime($this->birthday)),
             ];
             $response = $client->createRequest()
                 ->setMethod('GET')
