@@ -61,7 +61,7 @@ $model->number = $student->passport_number;
                             </div>
                         </div>
                         <p style="text-transform: unset">
-                            <?= Yii::t("app" , "a165") ?> 1
+                            <?= Yii::t("app" , "a165") ?>
                         </p>
                     </div>
                     <div class="d-flex justify-content-around align-items-center top30">

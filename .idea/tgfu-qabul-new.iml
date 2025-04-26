@@ -6,10 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/backend/tests/_support" isTestSource="true" packagePrefix="backend\tests\" />
       <sourceFolder url="file://$MODULE_DIR$/common/tests" isTestSource="true" packagePrefix="common\tests\" />
       <sourceFolder url="file://$MODULE_DIR$/common/tests/_support" isTestSource="true" packagePrefix="common\tests\" />
-      <sourceFolder url="file://$MODULE_DIR$/frontend" isTestSource="false" packagePrefix="app" />
       <sourceFolder url="file://$MODULE_DIR$/frontend/tests" isTestSource="true" packagePrefix="frontend\tests\" />
       <sourceFolder url="file://$MODULE_DIR$/frontend/tests/_support" isTestSource="true" packagePrefix="frontend\tests\" />
-      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/2amigos/qrcode-library" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/aki/yii2-bot-telegram" />
