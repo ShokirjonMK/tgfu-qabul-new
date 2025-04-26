@@ -113,11 +113,15 @@ class StudentSearch extends Student
         }
 
         if ($this->start_date != null) {
-            $query->andWhere(['>=', 'u.created_at', strtotime($this->start_date)]);
+            $start = $this->start_date.' 00:00:00';
+            $query->andWhere(['>=', 'u.created_at', strtotime($start)]);
         }
         if ($this->end_date != null) {
-            $query->andWhere(['<=', 'u.created_at', strtotime($this->end_date)]);
+            $end = $this->start_date.' 23:59:59';
+            $query->andWhere(['<=', 'u.created_at', strtotime($end)]);
         }
+
+
         if ($this->user_status != null) {
             $query->andWhere(['u.status' => $this->user_status]);
         }
@@ -200,11 +204,14 @@ class StudentSearch extends Student
         }
 
         if ($this->start_date != null) {
-            $query->andWhere(['>=', 'u.created_at', strtotime($this->start_date)]);
+            $start = $this->start_date.' 00:00:00';
+            $query->andWhere(['>=', 'u.created_at', strtotime($start)]);
         }
         if ($this->end_date != null) {
-            $query->andWhere(['<=', 'u.created_at', strtotime($this->end_date)]);
+            $end = $this->start_date.' 23:59:59';
+            $query->andWhere(['<=', 'u.created_at', strtotime($end)]);
         }
+
         if ($this->user_status != null) {
             $query->andWhere(['u.status' => $this->user_status]);
         }
@@ -455,12 +462,12 @@ class StudentSearch extends Student
 
         if ($this->exam_date_status != null) {
             $query->innerJoin(Exam::tableName() . ' e', 's.id = e.student_id');
-            if ($this->status <= 4) {
+            if ($this->exam_date_status <= 4) {
                 $query->andWhere(['e.status' => $this->exam_date_status]);
-            } elseif ($this->status == 5) {
-                $query->andWhere(['e.status' => 3])->andWhere(['>', 'e.down_time', 0]);
-            } elseif ($this->status == 6) {
-                $query->andWhere(['e.status' => 3, 'e.down_time' => null]);
+            } elseif ($this->exam_date_status == 5) {
+                $query->andWhere(['e.status' => 3, 's.is_down' => 1]);
+            } elseif ($this->exam_date_status == 6) {
+                $query->andWhere(['e.status' => 3, 's.is_down' => 0]);
             }
         }
 
@@ -535,12 +542,12 @@ class StudentSearch extends Student
 
         if ($this->exam_date_status != null) {
             $query->innerJoin(Exam::tableName() . ' e', 's.id = e.student_id');
-            if ($this->status <= 4) {
+            if ($this->exam_date_status <= 4) {
                 $query->andWhere(['e.status' => $this->exam_date_status]);
-            } elseif ($this->status == 5) {
-                $query->andWhere(['e.status' => 3])->andWhere(['>', 'e.down_time', 0]);
-            } elseif ($this->status == 6) {
-                $query->andWhere(['e.status' => 3, 'e.down_time' => null]);
+            } elseif ($this->exam_date_status == 5) {
+                $query->andWhere(['e.status' => 3, 's.is_down' => 1]);
+            } elseif ($this->exam_date_status == 6) {
+                $query->andWhere(['e.status' => 3, 's.is_down' => 0]);
             }
         }
 
