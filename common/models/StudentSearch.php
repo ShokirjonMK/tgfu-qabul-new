@@ -193,7 +193,7 @@ class StudentSearch extends Student
         }
 
         if ($this->step != null) {
-            $step = $this->step - 1;
+            $step = $this->step;
             if ($this->step < 5) {
                 $query->andWhere(['u.step' => $step]);
             } elseif ($this->step == 5) {

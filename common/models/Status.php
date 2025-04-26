@@ -263,7 +263,7 @@ class Status
             2 => 'Qabul turini tanlamagan',
             3 => 'Yo\'nalish tanlamagan',
             4 => 'Tasdiqdalamagan',
-            5 => 'To\'liq ro\'yhatdan o\'gan',
+            5 => 'To\'liq ro\'yhatdan o\'tmagan',
             6 => 'Parol tiklash sms kod kiritmagan',
         ];
         if ($id == null) {
