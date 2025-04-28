@@ -75,8 +75,8 @@ $menu = Menu::find()
                     $activeClass = "";
                     $activeStyle = "";
                     $drop = false;
+                    $isPermission = false;
                     if ($item->action_id == null) {
-                        $drop = true;
                         $subMenus = Menu::find()
                             ->where([
                                 'parent_id' => $item->id,
@@ -88,10 +88,14 @@ $menu = Menu::find()
                             foreach ($subMenus as $style) {
                                 $activeClass = $activeClass . getActive($style->action->controller, $style->action->action)['class']. " ";
                                 $activeStyle = $activeStyle . getActive($style->action->controller, $style->action->action)['style']. " ";
+                                $result = Permission::isPermission($style->action_id, $user);
+                                if ($result) {
+                                    $drop = true;
+                                    $isPermission = true;
+                                }
                             }
                         }
-                    }
-                    if (!$drop) {
+                    } else {
                         $isPermission = Permission::isPermission($item->action_id, $user);
                     }
                     ?>
