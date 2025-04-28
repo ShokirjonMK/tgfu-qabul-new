@@ -92,7 +92,7 @@ class StepOneTwo extends Model
                 $student->passport_number = $this->number;
                 $student->passport_serial = $this->seria;
                 $student->passport_pin = (string)$passport['pinfl'];
-                $student->birthday = $birthday;
+                $student->birthday = date("Y-m-d" , strtotime($this->birthday));
                 $student->gender = $passport['gender'];
 
                 if (!$student->validate()){
