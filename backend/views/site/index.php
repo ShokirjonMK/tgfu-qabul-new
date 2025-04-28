@@ -8,9 +8,7 @@ use common\models\ExamDate;
 use common\models\EduType;
 
 /** @var yii\web\View $this */
-/** @var User $currentUser */
 
-$currentUser = Yii::$app->user->identity;
 $baseQuery = Student::find()
     ->alias('s')
     ->innerJoin('user u', 's.user_id = u.id')
