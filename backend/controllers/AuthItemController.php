@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\UserUpdate;
 use common\models\AuthItem;
 use common\models\AuthItemSearch;
+use common\models\Branch;
 use common\models\CrmPush;
 use common\models\Direction;
 use common\models\EduDirection;
@@ -33,6 +34,35 @@ class AuthItemController extends Controller
      */
     public function actionIndex()
     {
+        $students = Student::find()
+            ->alias('s')
+            ->innerJoin(User::tableName() . ' u', 's.user_id = u.id')
+            ->where([
+                'u.status' => [9,10],
+                'u.user_role' => 'student',
+            ])->all();
+
+        foreach ($students as $student) {
+            if ($student->branch_id != null) {
+                $user = $student->user;
+                $branch = $student->branch;
+                $cons = $user->cons;
+
+                $consIds = Branch::find()
+                    ->select('cons_id')
+                    ->where([
+                        'is_deleted' => 0
+                    ])->column();
+
+                if (in_array($cons->id, $consIds)) {
+                    $user->cons_id = $branch->cons_id;
+                }
+                $user->save(false);
+            }
+        }
+
+        dd(223232323);
+
         $searchModel = new AuthItemSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
