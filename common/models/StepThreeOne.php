@@ -153,6 +153,19 @@ class StepThreeOne extends Model
             }
         }
 
+        $filial = Branch::findOne($this->filial_id);
+        $cons = Consulting::findOne($user->cons_id);
+
+        $consIds = Branch::find()
+            ->select('cons_id')
+            ->where([
+                'is_deleted' => 0
+            ])->column();
+
+        if (in_array($cons->id, $consIds)) {
+            $user->cons_id = $filial->cons_id;
+        }
+
         if (!$student->save(false)) {
             $errors[] = ['Student maʼlumotlarini yangilashda xatolik yuz berdi.'];
         }
