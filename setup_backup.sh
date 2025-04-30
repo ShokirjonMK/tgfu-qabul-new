@@ -2,9 +2,10 @@
 
 # === Sozlamalar ===
 SOURCE_FILE="mk.sh"
-TARGET_DIR="~/apps/backup"
 ENV_FILE=".env"
-REPO_VAR_LINE="REPO_DIR_API=\"$(pwd)\""
+HOME_DIR="$HOME"
+TARGET_DIR="$HOME_DIR/apps/backup"
+REPO_DIR_API="$(pwd)"
 
 # === PROJECT_NAME ni aniqlash ===
 if [ -f "$ENV_FILE" ]; then
@@ -12,7 +13,7 @@ if [ -f "$ENV_FILE" ]; then
 fi
 
 if [ -z "$PROJECT_NAME" ]; then
-    PROJECT_NAME=$(basename "$(pwd)")
+    PROJECT_NAME=$(basename "$REPO_DIR_API")
     echo "[INFO] .env topilmadi yoki bo‘sh. PROJECT_NAME: $PROJECT_NAME"
 else
     echo "[INFO] .env dan PROJECT_NAME: $PROJECT_NAME"
@@ -27,11 +28,13 @@ if [ ! -f "$SOURCE_FILE" ]; then
     exit 1
 fi
 
-# === REPO_DIR_API va BACKUP_DIR ni commentga olish va yangilarini kiritish ===
+# === REPO_DIR_API va BACKUP_DIR ni commentga olib, boshiga yangisini yozish ===
 sed -i '/^REPO_DIR_API=/s/^/#/' "$SOURCE_FILE"
 sed -i '/^BACKUP_DIR=/s/^/#/' "$SOURCE_FILE"
-sed -i "1iREPO_DIR_API=\"$(pwd)\"" "$SOURCE_FILE"
-sed -i "2iBACKUP_DIR=\"$BACKUP_DIR_PATH\"" "$SOURCE_FILE"
+
+# Fayl boshiga yangi qiymatlarni qo‘shish
+sed -i "1iBACKUP_DIR=\"$BACKUP_DIR_PATH\"" "$SOURCE_FILE"
+sed -i "1iREPO_DIR_API=\"$REPO_DIR_API\"" "$SOURCE_FILE"
 
 # === Target katalogini yaratish ===
 mkdir -p "$BACKUP_DIR_PATH"
