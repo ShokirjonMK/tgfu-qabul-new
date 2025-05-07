@@ -188,7 +188,7 @@ $limg = $lqr->writeDataUri();
                 </tr>
                 <tr>
                     <td colspan="4" style="text-align: justify">
-                        Ta’lim yo‘nalishi: <b><?= $direction->code . ' ' . $direction->name_uz ?></b> Mazkur Shartnoma bo‘yicha to‘lov amalga oshirilgach, bank to‘lov topshiriqnomasi yoki kvitansiya nusхasi Ta’lim tashkilotiga taqdim etilganidan so‘ng to‘lovning Ta’lim tashkilotining hisob raqamiga kеlib tushganligi tasdiqlanishi bilan Talabaning o‘qishga qabul qilinganligi to‘g‘risida Ta’lim tashkiloti tomonidan buyruq chiqariladi.
+                        Ta’lim yo‘nalishi: <b><?= $direction->code . ' ' . $direction->name_uz ?></b> <br>Mazkur Shartnoma bo‘yicha to‘lov amalga oshirilgach, bank to‘lov topshiriqnomasi yoki kvitansiya nusхasi Ta’lim tashkilotiga taqdim etilganidan so‘ng to‘lovning Ta’lim tashkilotining hisob raqamiga kеlib tushganligi tasdiqlanishi bilan Talabaning o‘qishga qabul qilinganligi to‘g‘risida Ta’lim tashkiloti tomonidan buyruq chiqariladi.
                     </td>
                 </tr>
             </table>
@@ -770,9 +770,9 @@ $limg = $lqr->writeDataUri();
                             <b>Rеktor:</b> ______________ <?= $filial->rector_uz ?> <br>
                         </td>
                         <td colspan="2" style="vertical-align: top">
-                            <b>Talabaning F.I.O.:</b> <?= $full_name ?> <br>
+                            <b>Talabaning F. I. O. :</b> <?= $full_name ?> <br>
                             <b>Pasport ma’lumotlari:</b> <?= $student->passport_serial . ' ' . $student->passport_number ?> <br>
-                            <b>JShShIR raqami:</b> <?= $student->passport_pin ?> <br>
+                            <b>JSHSHIR raqami:</b> <?= $student->passport_pin ?> <br>
                             <b>Tеlefon raqami: </b> <?= $student->user->username ?> <br>
                             <b>Talaba imzosi: </b> ______________ <br>
                         </td>
@@ -824,12 +824,12 @@ $limg = $lqr->writeDataUri();
                             <b>Pasport sеriyasi va raqami/ID karta raqami:</b> <br>
                             ___________________________________________________________ <br>
                             ___________________________________________________________ <br>
-                            <b>JShShIR:</b> ____________________________________________ <br>
+                            <b>JSHSHIR:</b> ____________________________________________ <br>
                             <b>Doimiy yashash joyi: </b> ____________________________________ <br>
                             ___________________________________________________________ <br>
                             <b>To‘lovchi imzosi: </b> _____________________________________________ <br>
                             <span style="font-style: italic; text-align: center;">
-                                “Shartnomaning mazmuni bilan to‘liq tanishib chiqdim va uning barcha bandlarini e’tirof etgan holda tuzishga roziman”
+                                “Shartnomaning mazmuni bilan to‘liq tanishib chiqdim va uning barcha bandlarini e’tirof etgan holda tuzishga roziman”.
                             </span>
                             ____________________________________________________________ <br>
                         </td>
@@ -856,7 +856,7 @@ $limg = $lqr->writeDataUri();
 
                     <tr>
                         <td colspan="4" style="text-align: center">
-                            <b>Yurist: _______________________ B.A.Nurmuxamedov</b>
+                            <b>Yurist: _______________________ B.A. Nurmuxamedov</b>
                         </td>
                     </tr>
 
