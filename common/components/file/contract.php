@@ -760,7 +760,7 @@ $limg = $lqr->writeDataUri();
 
                     <tr>
                         <td colspan="2" style="vertical-align: top">
-                            <b>TOSHKENT GUMANITAR FANLAR UNIVERSITETI <?= $filial->name_uz ?></b> <br>
+                            <b>TOSHKENT GUMANITAR FANLAR UNIVERSITETI <br><?= $filial->name_uz ?></b> <br>
                             <b>Manzili:</b> <?= $filial->address_uz ?> <br>
                             <b>H/R:</b> <?= $cons->hr ?> <br>
                             <b>Bank:</b> <?= $cons->bank_name_uz ?> <br>
