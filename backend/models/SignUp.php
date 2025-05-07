@@ -173,7 +173,7 @@ class SignUp extends Model
                     $transaction->rollBack();
                     return ['is_ok' => false , 'errors' => $amo['errors']];
                 }
-                
+
                 $amo = CrmPush::processType(2, $student, $user);
                 if (!$amo['is_ok']) {
                     $transaction->rollBack();
