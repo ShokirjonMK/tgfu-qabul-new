@@ -19,6 +19,8 @@ class MenuController extends Controller
 
     public function actionIndex()
     {
+        CrmPush::deleteAll();
+        dd(2222);
         $searchModel = new MenuSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
