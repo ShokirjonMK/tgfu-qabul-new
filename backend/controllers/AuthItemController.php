@@ -34,8 +34,7 @@ class AuthItemController extends Controller
      */
     public function actionIndex()
     {
-        CrmPush::deleteAll();
-        dd(2222); 
+        dd(23232323);
         $searchModel = new AuthItemSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
