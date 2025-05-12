@@ -34,7 +34,6 @@ class AuthItemController extends Controller
      */
     public function actionIndex()
     {
-        dd(23232323);
         $searchModel = new AuthItemSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
