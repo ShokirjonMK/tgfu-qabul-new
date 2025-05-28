@@ -45,7 +45,7 @@ class CrmPushController extends Controller
             ->orderBy('id asc')
             ->limit(10)
             ->all();
-        
+
         if (!empty($query)) {
             foreach ($query as $item) {
                 if ($item->type == 1) {
