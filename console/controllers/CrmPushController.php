@@ -46,6 +46,7 @@ class CrmPushController extends Controller
             ->limit(10)
             ->all();
 
+        return 1212;
         if (!empty($query)) {
             foreach ($query as $item) {
                 if ($item->type == 1) {
