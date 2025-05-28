@@ -155,4 +155,18 @@ class CrmPushController extends Controller
             return ['is_ok' => false];
         }
     }
+
+
+
+
+    public function actionStd()
+    {
+        $students = Student::find()
+            ->orderBy('id asc')
+            ->all();
+
+        foreach ($students as $student) {
+
+        }
+    }
 }
