@@ -20,14 +20,21 @@ class MenuController extends Controller
 
     public function actionIndex()
     {
-        $count = Student::find()
-            ->where(['not in', 'id', CrmPush::find()
-                ->select('student_id')
-                ->where(['type' => 1])
-            ])
-            ->count();
+//        $students = Student::find()
+//            ->where(['not in', 'id', CrmPush::find()
+//                ->select('student_id')
+//                ->where(['type' => 1])
+//            ])
+//            ->all();
+//
+//        foreach ($students as $student) {
+//
+//        }
 
-        dd($count);
+        $crm = CrmPush::find()
+            ->orderBy('created_at asc')
+            ->one();
+        dd($crm);
 
         $searchModel = new MenuSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
