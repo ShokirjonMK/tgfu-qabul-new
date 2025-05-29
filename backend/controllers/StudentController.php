@@ -730,8 +730,8 @@ class StudentController extends Controller
     protected function findModel($id)
     {
         if (($model = Student::findOne(['id' => $id])) !== null) {
-            $user = $model->student->user;
-            if ($user->status == 10) {
+            $user = $model->user;
+            if ($user->status != 0) {
                 return $model;
             }
         }
@@ -742,10 +742,7 @@ class StudentController extends Controller
     protected function findModelView($id)
     {
         if (($model = Student::findOne(['id' => $id])) !== null) {
-            $user = $model->student->user;
-            if ($user->status == 10) {
-                return $model;
-            }
+            return $model;
         }
 
         throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
