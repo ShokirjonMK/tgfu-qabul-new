@@ -160,25 +160,34 @@ class CrmPushController extends Controller
 
     public function actionGet()
     {
-        $students = Student::find()
-            ->joinWith('user')
-            ->where(['user.status' => [5,9,10]])
+        $pushes = CrmPush::find()
+            ->select(['id', 'student_id'])
+            ->where(['type' => 1])
+            ->orderBy(['id' => SORT_ASC])
+            ->asArray()
             ->all();
-        $i = 0;
-        $b = 0;
-        foreach ($students as $student) {
-            $crm1 = CrmPush::find()
-                ->where(['type' => 1, 'student_id' => $student->id])
-                ->count();
-            if ($crm1 > 1) {
-                $crm2 = CrmPush::find()
-                    ->where(['type' => 1, 'status' => 0, 'student_id' => $student->id])
-                    ->count();
-                if ($crm1 == $crm2) {
-                    $b++;
-                }
+
+        $toDelete = [];
+        $seen = [];
+
+        foreach ($pushes as $push) {
+            $studentId = $push['student_id'];
+            if (isset($seen[$studentId])) {
+                // Ikkinchi va undan keyingi yozuvlar
+                $toDelete[] = $push['id'];
+            } else {
+                // Birinchi ko‘rilganini saqlab qolamiz
+                $seen[$studentId] = true;
             }
         }
-        dd($i."----".$b);
+
+        dd(count($toDelete));
+
+//        if (!empty($toDelete)) {
+//            CrmPush::updateAll(
+//                ['is_deleted' => 10],
+//                ['id' => $toDelete]
+//            );
+//        }
     }
 }
