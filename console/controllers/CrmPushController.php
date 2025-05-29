@@ -165,14 +165,20 @@ class CrmPushController extends Controller
             ->where(['user.status' => [5,9,10]])
             ->all();
         $i = 0;
+        $b = 0;
         foreach ($students as $student) {
             $crm = CrmPush::find()
-                ->where(['type' => 1])
+                ->where(['type' => 1, 'student_id' => $student->id])
                 ->count();
-            if ($crm > 2) {
-                $i++;
+            if ($crm > 1) {
+                $crm = CrmPush::find()
+                    ->where(['type' => 1, 'status' => 0, 'student_id' => $student->id])
+                    ->count();
+                if ($crm > 0) {
+                    $b++;
+                }
             }
         }
-        dd($i);
+        dd($i."----".$b);
     }
 }
