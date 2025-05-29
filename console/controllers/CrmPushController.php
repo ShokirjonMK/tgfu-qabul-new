@@ -171,6 +171,7 @@ class CrmPushController extends Controller
                 ->where(['type' => 1, 'student_id' => $student->id])
                 ->count();
             if ($crm > 1) {
+                $i++;
                 $crm = CrmPush::find()
                     ->where(['type' => 1, 'status' => 0, 'student_id' => $student->id])
                     ->count();
