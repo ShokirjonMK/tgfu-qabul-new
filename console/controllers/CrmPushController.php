@@ -165,7 +165,7 @@ class CrmPushController extends Controller
             ->where([
                 'user_role' => 'student',
                 'lead_id' => null,
-                'status' => [5,9,10]
+                'status' => [9,10]
             ])->all();
         dd(count($users));
     }
