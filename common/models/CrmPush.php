@@ -48,6 +48,7 @@ class CrmPush extends \yii\db\ActiveRecord
     const TRANSKRIPT_XOLATI = 1964191;
     const DTM_XOLATI = 1964193;
     const MASTER_XOLATI = 1964195;
+    const DOMEN = 1964631;
 
     /**
      * {@inheritdoc}
@@ -193,7 +194,8 @@ class CrmPush extends \yii\db\ActiveRecord
         $new->lead_id = $user->lead_id;
         $new->data = json_encode([
             self::TEL => (string)preg_replace('/[^\d+]/', '', $student->username),
-            self::FILIAL => $student->branch->name_uz
+            self::FILIAL => $student->branch->name_uz,
+            self::DOMEN => $user->cons->domen ?? '-'
         ], JSON_UNESCAPED_UNICODE);
         $new->save(false);
         return ['is_ok' => true];
