@@ -181,13 +181,11 @@ class CrmPushController extends Controller
             }
         }
 
-        dd(count($toDelete));
-
-//        if (!empty($toDelete)) {
-//            CrmPush::updateAll(
-//                ['is_deleted' => 10],
-//                ['id' => $toDelete]
-//            );
-//        }
+        if (!empty($toDelete)) {
+            CrmPush::updateAll(
+                ['is_deleted' => 10],
+                ['id' => $toDelete]
+            );
+        }
     }
 }
