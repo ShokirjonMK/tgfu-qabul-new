@@ -43,7 +43,7 @@ class CrmPushController extends Controller
                 ['and', ['<>', 'type', 1], ['is not', 'lead_id', null]]  // boshqalar uchun lead_id null emas
             ])
             ->orderBy('id asc')
-            ->limit(10)
+            ->limit(6)
             ->all();
 
         if (!empty($query)) {
