@@ -46,7 +46,6 @@ class CrmPushController extends Controller
             ->limit(6)
             ->all();
 
-        dd(21212121);
 
         if (!empty($query)) {
             foreach ($query as $item) {
