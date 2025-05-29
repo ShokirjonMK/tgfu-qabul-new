@@ -46,9 +46,6 @@ class CrmPushController extends Controller
             ->limit(10)
             ->all();
 
-        dd(1212121);
-
-
         if (!empty($query)) {
             foreach ($query as $item) {
                 if ($item->type == 1) {
@@ -169,41 +166,41 @@ class CrmPushController extends Controller
                 'lead_id' => null,
                 'status' => [5,9,10]
             ])->all();
-        foreach ($users as $user) {
-            $student = $user->student;
-            if ($user->step == 0) {
-                CrmPush::processType(1, $student, $user);
-            } elseif ($user->step == 1) {
-                CrmPush::processType(1, $student, $user);
-                CrmPush::processType(2, $student, $user);
-            } elseif ($user->step == 2) {
-                CrmPush::processType(1, $student, $user);
-                CrmPush::processType(2, $student, $user);
-                CrmPush::processType(3, $student, $user);
-            } elseif ($user->step == 3) {
-                CrmPush::processType(1, $student, $user);
-                CrmPush::processType(2, $student, $user);
-                CrmPush::processType(3, $student, $user);
-                CrmPush::processType(4, $student, $user);
-            } elseif ($user->step == 4) {
-                CrmPush::processType(1, $student, $user);
-                CrmPush::processType(2, $student, $user);
-                CrmPush::processType(3, $student, $user);
-                CrmPush::processType(4, $student, $user);
-                CrmPush::processType(5, $student, $user);
-            } elseif ($user->step == 5) {
-                CrmPush::processType(1, $student, $user);
-                CrmPush::processType(2, $student, $user);
-                CrmPush::processType(3, $student, $user);
-                CrmPush::processType(4, $student, $user);
-                CrmPush::processType(5, $student, $user);
-                CrmPush::processType(6, $student, $user);
-
-                if ($student->is_down == 1) {
-                    CrmPush::processType(9, $student, $user);
-                }
-            }
-        }
+//        foreach ($users as $user) {
+//            $student = $user->student;
+//            if ($user->step == 0) {
+//                CrmPush::processType(1, $student, $user);
+//            } elseif ($user->step == 1) {
+//                CrmPush::processType(1, $student, $user);
+//                CrmPush::processType(2, $student, $user);
+//            } elseif ($user->step == 2) {
+//                CrmPush::processType(1, $student, $user);
+//                CrmPush::processType(2, $student, $user);
+//                CrmPush::processType(3, $student, $user);
+//            } elseif ($user->step == 3) {
+//                CrmPush::processType(1, $student, $user);
+//                CrmPush::processType(2, $student, $user);
+//                CrmPush::processType(3, $student, $user);
+//                CrmPush::processType(4, $student, $user);
+//            } elseif ($user->step == 4) {
+//                CrmPush::processType(1, $student, $user);
+//                CrmPush::processType(2, $student, $user);
+//                CrmPush::processType(3, $student, $user);
+//                CrmPush::processType(4, $student, $user);
+//                CrmPush::processType(5, $student, $user);
+//            } elseif ($user->step == 5) {
+//                CrmPush::processType(1, $student, $user);
+//                CrmPush::processType(2, $student, $user);
+//                CrmPush::processType(3, $student, $user);
+//                CrmPush::processType(4, $student, $user);
+//                CrmPush::processType(5, $student, $user);
+//                CrmPush::processType(6, $student, $user);
+//
+//                if ($student->is_down == 1) {
+//                    CrmPush::processType(9, $student, $user);
+//                }
+//            }
+//        }
 
         dd(count($users));
     }
