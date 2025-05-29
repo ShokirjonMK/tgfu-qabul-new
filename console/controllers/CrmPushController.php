@@ -161,12 +161,12 @@ class CrmPushController extends Controller
 
     public function actionStd()
     {
-        $students = Student::find()
-            ->orderBy('id asc')
-            ->all();
-
-        foreach ($students as $student) {
-
-        }
+        $users = User::find()
+            ->where([
+                'user_role' => 'student',
+                'lead_id' => null,
+                'status' => [5,9,10]
+            ])->all();
+        dd(count($users));
     }
 }
