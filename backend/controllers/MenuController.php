@@ -22,52 +22,6 @@ class MenuController extends Controller
 
     public function actionIndex()
     {
-        $transaction = \Yii::$app->db->beginTransaction();
-        $errors = [];
-
-        $eduDirections = EduDirection::find()
-            ->where([
-                'is_oferta' => 1,
-                'status' => 1,
-                'is_deleted' => 0
-            ])
-            ->all();
-        foreach ($eduDirections as $direction) {
-            $students = Student::find()
-                ->where([
-                    'edu_direction_id' => $direction->id,
-                    'is_deleted' => 0
-                ])
-                ->all();
-
-            foreach ($students as $student) {
-                $query = StudentOferta::findOne([
-                    'student_id' => $student->id,
-                    'is_deleted' => 0
-                ]);
-                if (!$query) {
-                    $oferta = new StudentOferta();
-                    $oferta->setAttributes([
-                        'user_id' => $student->user_id,
-                        'student_id' => $student->id,
-                        'edu_type_id' => $student->edu_type_id,
-                        'edu_form_id' => $student->edu_form_id,
-                        'language_id' => $student->lang_id,
-                        'edu_direction_id' => $student->edu_direction_id,
-                        'direction_id' => $student->eduDirection->direction_id,
-                    ]);
-                    $oferta->save(false);
-                }
-            }
-        }
-
-
-        if (count($errors) == 0) {
-            $transaction->commit();
-            dd(231232323111111111);
-        }
-
-
         $searchModel = new MenuSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
