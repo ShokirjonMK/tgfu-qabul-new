@@ -32,34 +32,33 @@ class MenuController extends Controller
                 'is_deleted' => 0
             ])
             ->all();
-        dd($eduDirections);
         foreach ($eduDirections as $direction) {
-//            $students = Student::find()
-//                ->where([
-//                    'edu_direction_id' => $direction->id,
-//                    'is_deleted' => 0
-//                ])
-//                ->all();
-//
-//            foreach ($students as $student) {
-//                $query = StudentOferta::findOne([
-//                    'student_id' => $student->id,
-//                    'is_deleted' => 0
-//                ]);
-//                if (!$query) {
-//                    $oferta = new StudentOferta();
-//                    $oferta->setAttributes([
-//                        'user_id' => $student->user_id,
-//                        'student_id' => $student->id,
-//                        'edu_type_id' => $student->edu_type_id,
-//                        'edu_form_id' => $student->edu_form_id,
-//                        'language_id' => $student->lang_id,
-//                        'edu_direction_id' => $student->edu_direction_id,
-//                        'direction_id' => $student->eduDirection->direction_id,
-//                    ]);
-//                    $oferta->save(false);
-//                }
-//            }
+            $students = Student::find()
+                ->where([
+                    'edu_direction_id' => $direction->id,
+                    'is_deleted' => 0
+                ])
+                ->all();
+
+            foreach ($students as $student) {
+                $query = StudentOferta::findOne([
+                    'student_id' => $student->id,
+                    'is_deleted' => 0
+                ]);
+                if (!$query) {
+                    $oferta = new StudentOferta();
+                    $oferta->setAttributes([
+                        'user_id' => $student->user_id,
+                        'student_id' => $student->id,
+                        'edu_type_id' => $student->edu_type_id,
+                        'edu_form_id' => $student->edu_form_id,
+                        'language_id' => $student->lang_id,
+                        'edu_direction_id' => $student->edu_direction_id,
+                        'direction_id' => $student->eduDirection->direction_id,
+                    ]);
+                    $oferta->save(false);
+                }
+            }
         }
 
 
