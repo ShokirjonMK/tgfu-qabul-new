@@ -32,7 +32,7 @@ class MenuController extends Controller
                 'is_deleted' => 0
             ])
             ->all();
-        dd(count($eduDirections));
+        dd($eduDirections);
         foreach ($eduDirections as $direction) {
 //            $students = Student::find()
 //                ->where([
