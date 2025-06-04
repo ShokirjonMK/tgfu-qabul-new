@@ -4,9 +4,11 @@ namespace backend\controllers;
 
 use common\models\AuthItem;
 use common\models\CrmPush;
+use common\models\EduDirection;
 use common\models\Menu;
 use common\models\MenuSearch;
 use common\models\Student;
+use common\models\StudentOferta;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,8 +22,53 @@ class MenuController extends Controller
 
     public function actionIndex()
     {
-        CrmPush::updateAll(['is_deleted' => 0], ['is_deleted' => 1]);
-        dd(1222);
+        $transaction = \Yii::$app->db->beginTransaction();
+        $errors = [];
+
+        $eduDirections = EduDirection::find()
+            ->where([
+                'is_oferta' => 1,
+                'status' => 1,
+                'is_deleted' => 0
+            ])
+            ->all();
+        dd(count($eduDirections));
+        foreach ($eduDirections as $direction) {
+//            $students = Student::find()
+//                ->where([
+//                    'edu_direction_id' => $direction->id,
+//                    'is_deleted' => 0
+//                ])
+//                ->all();
+//
+//            foreach ($students as $student) {
+//                $query = StudentOferta::findOne([
+//                    'student_id' => $student->id,
+//                    'is_deleted' => 0
+//                ]);
+//                if (!$query) {
+//                    $oferta = new StudentOferta();
+//                    $oferta->setAttributes([
+//                        'user_id' => $student->user_id,
+//                        'student_id' => $student->id,
+//                        'edu_type_id' => $student->edu_type_id,
+//                        'edu_form_id' => $student->edu_form_id,
+//                        'language_id' => $student->lang_id,
+//                        'edu_direction_id' => $student->edu_direction_id,
+//                        'direction_id' => $student->eduDirection->direction_id,
+//                    ]);
+//                    $oferta->save(false);
+//                }
+//            }
+        }
+
+
+        if (count($errors) == 0) {
+            $transaction->commit();
+            dd(231232323111111111);
+        }
+
+
         $searchModel = new MenuSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
