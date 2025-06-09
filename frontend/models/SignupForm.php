@@ -119,8 +119,22 @@ class SignupForm extends Model
                 $errors[] = ['Raqamingiz tizim tomonidan blocklangan.'];
             }
         } else {
+
+            $username = $this->username;
+            $digits = preg_replace('/\D+/', '', $username);
+
+            // Raqamlar 12 ta bo'lishi kerak: 998918189851
+            if (strlen($digits) == 12 && substr($digits, 0, 3) == '998') {
+                $code = substr($digits, 3, 2);   // 91
+                $part1 = substr($digits, 5, 3);  // 818
+                $part2 = substr($digits, 8, 2);  // 98
+                $part3 = substr($digits, 10, 2); // 51
+
+                $username = "+998 ($code) $part1-$part2-$part3";
+            }
+
             $user = new User();
-            $user->username = $this->username;
+            $user->username = $username;
             $user->user_role = 'student';
 
             $user->setPassword($this->password);
