@@ -49,25 +49,31 @@ class CrmPushController extends Controller
 
         if (!empty($query)) {
             foreach ($query as $item) {
-                if ($item->type == 1) {
-                    $result = self::createItem($item);
-                } else {
-                    $result = self::updateItem($item);
-                }
-                if ($result !== null && $result['is_ok']) {
-                    $amo = $result['data'];
-                    $item->status = 1;
-                    if ($item->type == 1) {
-                        $item->lead_id = $amo->id;
-                        $student = Student::findOne($item->student_id);
-                        $user = $student->user;
-                        CrmPush::updateAll(['lead_id' => $amo->id], ['student_id' => $item->student_id]);
-                        $user->lead_id = $item->lead_id;
-                        $user->save(false);
+                $student = Student::findOne($item->student_id);
+                $user = $student->user;
+                $domen = $user->cons->domen ?? 'ik';
+                if ($domen == 'qabul.tgfu.uz') {
+                    $result = $item->type == 1 ? self::createItem($item) : self::updateItem($item);
+
+                    if ($result !== null && $result['is_ok']) {
+                        $amo = $result['data'];
+                        $item->status = 1;
+
+                        if ($item->type == 1) {
+                            $item->lead_id = $amo->id;
+
+                            CrmPush::updateAll(['lead_id' => $amo->id], ['student_id' => $item->student_id]);
+
+                            $user->lead_id = $amo->id;
+                            $user->save(false);
+                        }
+                    } else {
+                        $item->is_deleted = 1;
                     }
                 } else {
-                    $item->is_deleted = 1;
+                    $item->is_deleted = 3;
                 }
+
                 $item->push_time = time();
                 $item->save(false);
             }

@@ -40,7 +40,7 @@ use yii\web\IdentityInterface;
  * @property string $lead_id
  * @property integer $step_confirm_time
  * @property AuthItem $authItem
- * @property Constalting $cons
+ * @property Consulting $cons
  * @property string $employeeFullName
  * @property  $student
  * @property string $password write-only password
