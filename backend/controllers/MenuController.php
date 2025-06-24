@@ -9,6 +9,7 @@ use common\models\Menu;
 use common\models\MenuSearch;
 use common\models\Student;
 use common\models\StudentOferta;
+use common\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,8 +23,21 @@ class MenuController extends Controller
 
     public function actionIndex()
     {
-        CrmPush::updateAll(['is_deleted' => 0, 'pipeline_id' => 9496498, 'lead_status' => 142], ['type' => 9, 'is_deleted' => [0,1], 'status' => 0]);
-        dd(21212);
+        $transaction = \Yii::$app->db->beginTransaction();
+
+        $users = User::find()
+            ->where([
+                'user_role' => 'student'
+            ])
+            ->all();
+        foreach ($users as $user) {
+            $student = $user->student;
+            if ($student) {
+                CrmPush::updateAll(['lead_id' => $user->lead_id], ['student_id' => $student->id]);
+            }
+        }
+        $transaction->commit();
+        dd(232323);
         $searchModel = new MenuSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
