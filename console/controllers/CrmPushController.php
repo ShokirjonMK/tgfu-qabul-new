@@ -168,32 +168,20 @@ class CrmPushController extends Controller
 
     public function actionGet()
     {
-        $pushes = CrmPush::find()
-            ->select(['id', 'student_id'])
-            ->where(['type' => 1])
-            ->orderBy(['id' => SORT_ASC])
-            ->asArray()
+        $transaction = \Yii::$app->db->beginTransaction();
+
+        $users = User::find()
+            ->where([
+                'user_role' => 'student'
+            ])
             ->all();
-
-        $toDelete = [];
-        $seen = [];
-
-        foreach ($pushes as $push) {
-            $studentId = $push['student_id'];
-            if (isset($seen[$studentId])) {
-                // Ikkinchi va undan keyingi yozuvlar
-                $toDelete[] = $push['id'];
-            } else {
-                // Birinchi ko‘rilganini saqlab qolamiz
-                $seen[$studentId] = true;
+        foreach ($users as $user) {
+            $student = $user->student;
+            if ($student) {
+                CrmPush::updateAll(['lead_id' => $user->lead_id], ['student_id' => $student->id]);
             }
         }
-
-        if (!empty($toDelete)) {
-            CrmPush::updateAll(
-                ['is_deleted' => 10],
-                ['id' => $toDelete]
-            );
-        }
+        $transaction->commit();
+        dd(232323);
     }
 }
