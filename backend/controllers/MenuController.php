@@ -23,6 +23,7 @@ class MenuController extends Controller
 
     public function actionIndex()
     {
+        
         $searchModel = new MenuSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
